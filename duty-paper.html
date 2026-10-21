@@ -5,6 +5,248 @@
 if(top){location.replace("./#"+id);}else{document.documentElement.classList.add("embedded");}
 function fix(root){if(!window.matchMedia("(max-width: 900px)").matches)return;(root.querySelectorAll?root:document).querySelectorAll("input,select,textarea").forEach(function(el){if(el.type==="checkbox"||el.type==="radio"||el.type==="file")return;if(parseFloat(getComputedStyle(el).fontSize)<16)el.style.fontSize="16px";});}
 document.addEventListener("DOMContentLoaded",function(){fix(document);try{new MutationObserver(function(m){m.forEach(function(r){r.addedNodes.forEach(function(n){if(n.nodeType===1)fix(n);});});}).observe(document.body,{childList:true,subtree:true});}catch(e){}});})();</script>
+<script id="zTrJs">(function(){
+"use strict";
+var D={
+"Vehicle List":"قائمة المركبات","Search plate, door or model":"ابحث برقم اللوحة أو الباب أو الطراز","Search vehicles":"بحث في المركبات","Close vehicle list":"إغلاق قائمة المركبات","Show more":"عرض المزيد","Open job":"فتح العمل","+ Job card":"+ بطاقة عمل","Year":"السنة","No vehicle list":"لا توجد قائمة مركبات",
+"Actros":"أكتروس","Pick Up":"بيك أب","Howo":"هاوو","Tanker":"صهريج","MC Bulker":"ناقلة إسمنت","Hino":"هينو","Man":"مان","MAN":"مان",
+"Print now":"اطبع الآن","View":"عرض","Print again":"اطبع مرة أخرى","Retry":"إعادة المحاولة",
+"Clear the search or pick “All sections”.":"امسح البحث أو اختر «كل الأقسام».","Summary":"الملخص","page →":"صفحة ←","S: (old list)":"S: (القائمة القديمة)","U: (old list)":"U: (القائمة القديمة)","Al-Zoman Workshop":"ورشة الزومان",
+"Choose a section.":"اختر القسم.","No internet, or the link is wrong.":"لا يوجد إنترنت أو الرابط غير صحيح.","Stop sharing data on this device? The data already here stays here.":"إيقاف مشاركة البيانات على هذا الجهاز؟ البيانات الموجودة هنا تبقى.",
+"The shared data password needs at least 6 characters.":"كلمة مرور البيانات المشتركة يجب أن تكون 6 أحرف على الأقل.","Paste the database link. It starts with https:// and ends with firebaseio.com or firebasedatabase.app.":"الصق رابط قاعدة البيانات. يبدأ بـ https:// وينتهي بـ firebaseio.com أو firebasedatabase.app.",
+"This paper is now full. Next pass will start a new paper.":"هذه الورقة ممتلئة الآن. الإذن التالي سيبدأ ورقة جديدة.",
+/* hub */
+"Zoman Mohd Al-Hajri & Partners Co":"شركة زومان محمد الهاجري وشركاه","Workshop system":"نظام الورشة","Lock all":"قفل الكل","Lock all sections":"قفل جميع الأقسام","Passwords":"كلمات المرور","Home":"الرئيسية",
+"Workshop · Dammam":"الورشة · الدمام","Everything for the workshop,":"كل ما تحتاجه الورشة،","in one place":"في مكان واحد","Choose a section. Each one has its own password.":"اختر قسماً. لكل قسم كلمة مرور خاصة.",
+"Password needed":"كلمة المرور مطلوبة","Open":"مفتوح","No password":"بدون كلمة مرور","Password":"كلمة المرور","Enter the password for this section":"أدخل كلمة المرور لهذا القسم","Show password":"إظهار كلمة المرور","Hide password":"إخفاء كلمة المرور",
+"Stays open until you press “Lock all” or close the browser.":"يبقى مفتوحاً حتى تضغط «قفل الكل» أو تغلق المتصفح.","Wrong password. Try again.":"كلمة المرور غير صحيحة. حاول مرة أخرى.","Type the password.":"اكتب كلمة المرور.",
+"Enter the admin password":"أدخل كلمة مرور المسؤول","Admin password":"كلمة مرور المسؤول","Open settings":"فتح الإعدادات","Wrong admin password.":"كلمة مرور المسؤول غير صحيحة.","Change passwords":"تغيير كلمات المرور","Close":"إغلاق",
+"Default password":"كلمة المرور الافتراضية","Changed on this device":"تم تغييرها على هذا الجهاز","No password now":"بدون كلمة مرور حالياً","New password":"كلمة مرور جديدة","Admin (this page)":"المسؤول (هذه الصفحة)","Reset to default":"إعادة الافتراضي","Save passwords":"حفظ كلمات المرور",
+"Passwords saved on this device":"تم حفظ كلمات المرور على هذا الجهاز","Nothing changed":"لا يوجد تغيير","Default passwords restored":"تمت استعادة كلمات المرور الافتراضية","All sections locked":"تم قفل جميع الأقسام","Passwords need at least 4 characters.":"كلمة المرور يجب أن تكون 4 أحرف على الأقل.",
+"Use the default passwords again on this device?":"استخدام كلمات المرور الافتراضية مرة أخرى على هذا الجهاز؟",
+"Leave a box empty to keep that password. When shared data is connected, new passwords reach every connected device. Otherwise they work on":"اترك الخانة فارغة للإبقاء على كلمة المرور. عند ربط البيانات المشتركة تصل كلمات المرور الجديدة إلى كل الأجهزة المتصلة، وإلا فإنها تعمل على",
+"this computer or phone only":"هذا الكمبيوتر أو الهاتف فقط",". To change them on every device, send the new passwords to the person who updates the website.":". لتغييرها على كل الأجهزة أرسل كلمات المرور الجديدة إلى من يحدّث الموقع.",
+"Not shared":"غير مشترك","Synced":"متزامن","Saving…":"جارٍ الحفظ…","Offline":"غير متصل","Sync problem":"مشكلة في المزامنة","Connecting…":"جارٍ الاتصال…","Shared data":"البيانات المشتركة",
+"Shared data (phone + computer)":"البيانات المشتركة (الهاتف + الكمبيوتر)","Database link":"رابط قاعدة البيانات","Shared data password (same on every device)":"كلمة مرور البيانات المشتركة (نفسها على كل جهاز)","Shared data password":"كلمة مرور البيانات المشتركة",
+"Show database rules":"عرض قواعد قاعدة البيانات","Connect this device":"ربط هذا الجهاز","Connect this device to shared data":"ربط هذا الجهاز بالبيانات المشتركة","Then phone and computer show the same data.":"عندها يعرض الهاتف والكمبيوتر نفس البيانات.","Connect":"ربط",
+"Disconnect this device":"فصل هذا الجهاز","Send everything now":"إرسال كل البيانات الآن","This device is connected. Everything saved here is shared with your other devices.":"هذا الجهاز متصل. كل ما يُحفظ هنا يُشارك مع أجهزتك الأخرى.","Connected":"متصل","Off":"متوقف",
+"Updated on another device":"تم التحديث من جهاز آخر","Show it":"عرض","Later":"لاحقاً","This device is now sharing data":"هذا الجهاز يشارك البيانات الآن","Sending all data":"جارٍ إرسال كل البيانات","Rules copied":"تم نسخ القواعد","Copy rules":"نسخ القواعد",
+"Daily breakdown report of vehicles in the workshop, with Excel and PDF.":"تقرير يومي لأعطال المركبات في الورشة مع Excel وPDF.","Hand a vehicle to a driver and print the issue form.":"تسليم مركبة لسائق وطباعة نموذج التسليم.","Take a vehicle back from a driver and print the return form.":"استلام مركبة من سائق وطباعة نموذج الإرجاع.",
+"Gate passes, 3 on one A4 page, and blank passes.":"أذونات خروج، 3 في صفحة A4، وأذونات فارغة.","Daily duty papers for drivers, 2 on one A4 page.":"أوراق الدوام اليومية للسائقين، ورقتان في صفحة A4.","Uniform and shoe sizes, order lists and what was given.":"مقاسات الزي والأحذية وقوائم الطلب وما تم تسليمه.",
+"Vehicle maintenance process: tasks, technicians, spare parts and the Maintenance Order print.":"عملية صيانة المركبة: المهام والفنيون وقطع الغيار وطباعة أمر الصيانة.",
+"Daily report":"التقرير اليومي","Vehicle issued":"تسليم مركبة","Vehicle return":"إرجاع مركبة","Gate pass":"إذن خروج","Duty paper":"ورقة الدوام","Uniform":"الزي","Job card":"بطاقة العمل",
+"Daily report opened":"تم فتح التقرير اليومي","Vehicle issued opened":"تم فتح تسليم مركبة","Vehicle return opened":"تم فتح إرجاع مركبة","Gate pass opened":"تم فتح إذن الخروج","Duty paper opened":"تم فتح ورقة الدوام","Uniform opened":"تم فتح الزي","Job card opened":"تم فتح بطاقة العمل",
+/* common */
+"Save":"حفظ","Print":"طباعة","New":"جديد","Cancel":"إلغاء","Clear":"مسح","Search":"بحث","Today":"اليوم","Previous day":"اليوم السابق","Next day":"اليوم التالي","History":"السجل","Remarks":"ملاحظات","Optional":"اختياري","Date":"التاريخ","Status":"الحالة","Excel":"Excel","PDF":"PDF",
+"Saved on this device":"محفوظ على هذا الجهاز","Saved on this device only.":"محفوظ على هذا الجهاز فقط.","Nothing matches":"لا توجد نتائج","Menu":"القائمة","Now":"الآن","Remove":"حذف","Update":"تحديث","From":"من","To":"إلى","Later.":"لاحقاً.",
+"PDF downloaded":"تم تنزيل PDF","PDF saved":"تم حفظ PDF","Download cancelled":"تم إلغاء التنزيل","Excel downloaded":"تم تنزيل Excel","Excel saved":"تم حفظ Excel","Changes saved":"تم حفظ التغييرات","Save changes":"حفظ التغييرات","Entry deleted":"تم حذف السجل","Undo":"تراجع",
+"PDF downloaded — print on A4 at 100%":"تم تنزيل PDF — اطبع على A4 بحجم 100%","PDF downloaded — print it on A4 and cut on the dotted lines":"تم تنزيل PDF — اطبعه على A4 وقصّه على الخطوط المنقطة","Making PDF…":"جارٍ إنشاء PDF…","Making Excel file…":"جارٍ إنشاء ملف Excel…",
+"Could not save on this device. Storage may be full or blocked.":"تعذّر الحفظ على هذا الجهاز. قد تكون الذاكرة ممتلئة أو محظورة.","Could not save on this device.":"تعذّر الحفظ على هذا الجهاز.","Select the text and copy it":"حدد النص وانسخه","Wait a moment and try again.":"انتظر قليلاً وحاول مرة أخرى.",
+"Name":"الاسم","Driver":"السائق","Driver name":"اسم السائق","Site":"الموقع","Section":"القسم","Sections":"الأقسام","Branch":"الفرع","Model":"الطراز","Brand":"الماركة","Colour":"اللون","Color":"اللون","Type":"النوع","Shift":"الوردية","Designation":"المسمى الوظيفي",
+"Plate no.":"رقم اللوحة","Plate No":"رقم اللوحة","Door no.":"رقم الباب","Door No":"رقم الباب","Door #":"رقم الباب","Car #":"رقم السيارة","Emp code":"الرقم الوظيفي","Emp no.":"الرقم الوظيفي","Emp code no.":"الرقم الوظيفي","EM no.":"رقم المعدة","Mobile no.":"رقم الجوال","Issue no.":"رقم الإذن","Serial no.":"الرقم التسلسلي",
+"Issued by":"صادر من","Received by":"استلمه","Prepared by":"أعده","Approved by":"اعتمده","Signatures":"التوقيعات","Your name":"اسمك","Pick or type":"اختر أو اكتب","Department":"الإدارة","Project / site":"المشروع / الموقع","Ref no.":"الرقم المرجعي",
+"Vehicle":"المركبة","Vehicles":"المركبات","Hand over":"التسليم","Issue":"الإصدار","Truck":"شاحنة","Trailer":"مقطورة","Pickup":"بيك أب","Car":"سيارة","Bus":"حافلة","Van":"فان","Crane":"رافعة","Forklift":"رافعة شوكية","Loader":"لودر","Equipment":"معدة",
+"Dammam":"الدمام","Al-Khobar":"الخبر","Jubail":"الجبيل","Riyadh":"الرياض","White":"أبيض","Mercedes Actros":"مرسيدس أكتروس","Actros 2013":"أكتروس 2013","Site / project":"الموقع / المشروع","Driver name or emp code":"اسم السائق أو الرقم الوظيفي",
+/* sections */
+"All sections":"كل الأقسام","Mechanical":"الميكانيكا","Engine":"المحركات","Electrical":"الكهرباء","Small car":"السيارات الصغيرة","Painting":"الدهان","Denter":"السمكرة","Welding":"اللحام","Maintenance":"الصيانة","Trailer Section":"قسم المقطورات","Car Mechanic":"ميكانيكا السيارات","Tyre":"الإطارات","Turner":"الخراطة","Other":"أخرى",
+"Mechanical Section":"قسم الميكانيكا","Engine Section":"قسم المحركات","Electrical Section":"قسم الكهرباء","Denter Section":"قسم السمكرة","Painting Section":"قسم الدهان","Car Mechanic Section":"قسم ميكانيكا السيارات","Tyre Section":"قسم الإطارات","Welding Section":"قسم اللحام","Turner Section":"قسم الخراطة","Tire Section":"قسم الإطارات",
+/* daily report */
+"Daily breakdown report":"تقرير الأعطال اليومي","Report date":"تاريخ التقرير","Carry forward":"ترحيل","Bring vehicles that are not completed from the last report":"نقل المركبات غير المكتملة من آخر تقرير","WhatsApp text":"نص واتساب","Text summary for WhatsApp":"ملخص نصي للواتساب","Print / PDF":"طباعة / PDF","Print or save as PDF":"طباعة أو حفظ PDF",
+"Vehicles in workshop":"المركبات في الورشة","Under repair":"تحت الإصلاح","Spare parts waiting":"بانتظار قطع الغيار","Completed":"مكتمل","Add vehicle":"إضافة مركبة","+ Add vehicle":"+ إضافة مركبة","Choose section":"اختر القسم","Vehicle":"المركبة",
+"Problem / work type":"المشكلة / نوع العمل","Details (optional)":"التفاصيل (اختياري)","e.g. gear box housing crack":"مثال: شرخ في جسم القير","Add to report":"إضافة إلى التقرير","Search plate, vehicle or problem":"ابحث برقم اللوحة أو المركبة أو المشكلة","Filter by section":"تصفية حسب القسم",
+"Accident work":"أعمال حادث","Gear box problem":"مشكلة القير","Gear box housing crack":"شرخ في جسم القير","Engine work":"أعمال المحرك","Engine head open":"فتح رأس المحرك","Engine wiring work":"أعمال توصيلات المحرك","Electrical work":"أعمال كهرباء","AC problem":"مشكلة المكيف","Denter work":"أعمال سمكرة",
+"Painting work":"أعمال دهان","MVPI test":"الفحص الدوري","Welding work":"أعمال لحام","Maintenance / service":"صيانة / خدمة","Oil change":"تغيير زيت","Brake work":"أعمال الفرامل","Suspension work":"أعمال المساعدات","Tyre work":"أعمال الإطارات",
+"No vehicles in this report yet":"لا توجد مركبات في هذا التقرير بعد","Add vehicles with the form, or bring forward the unfinished ones from the last report.":"أضف المركبات من النموذج أو انقل غير المكتملة من آخر تقرير.","Carry forward unfinished vehicles":"ترحيل المركبات غير المكتملة",
+"Report text":"نص التقرير","Copy text":"نسخ النص","Pick a problem or write details.":"اختر مشكلة أو اكتب التفاصيل.","Enter the plate number.":"أدخل رقم اللوحة.","Add vehicles first.":"أضف مركبات أولاً.","Known vehicle, details filled in.":"مركبة معروفة، تم تعبئة البيانات.",
+"No earlier report found.":"لا يوجد تقرير سابق.","Could not read the last report. Try again.":"تعذّرت قراءة آخر تقرير. حاول مرة أخرى.","You can view this report but not change it.":"يمكنك عرض هذا التقرير دون تعديله.","Not saved. Check your internet and try again.":"لم يتم الحفظ. تحقق من الإنترنت وحاول مرة أخرى.",
+"Could not load this report. Reopen the page to try again.":"تعذّر تحميل التقرير. أعد فتح الصفحة.","Downloads are blocked here. Open the report from its published link.":"التنزيل محظور هنا. افتح التقرير من رابطه المنشور.",
+/* vehicle issued / return */
+"Vehicle issued form":"نموذج تسليم مركبة","Vehicle return form":"نموذج إرجاع مركبة","New issue":"تسليم جديد","New return":"إرجاع جديد","New vehicle issue":"تسليم مركبة جديد","New vehicle return":"إرجاع مركبة جديد","Issue history":"سجل التسليم",
+"Issue date":"تاريخ التسليم","Issue time":"وقت التسليم","Hand over date":"تاريخ التسليم","Hand over time":"وقت التسليم","KM / HRS reading":"قراءة العداد كم / ساعات","KM":"كم","HRS":"ساعات","Unit":"الوحدة","New form":"نموذج جديد","Save & PDF":"حفظ و PDF","PDF preview":"معاينة PDF",
+"Condition at issue, items given, fuel…":"الحالة عند التسليم، الأغراض المسلّمة، الوقود…","Condition of vehicle, missing items, damage…":"حالة المركبة، الأغراض الناقصة، الأضرار…",
+"Vehicle in good condition":"المركبة بحالة جيدة","Full fuel tank":"خزان الوقود ممتلئ","Tools complete":"العدة كاملة","Spare tyre OK":"الإطار الاحتياطي سليم","Spare tyre missing":"الإطار الاحتياطي مفقود","Jack given":"تم تسليم الجك","Jack missing":"الجك مفقود","Istimara handed over":"تم تسليم الاستمارة",
+"Keys handed over":"تم تسليم المفاتيح","Driving licence checked":"تم التحقق من رخصة القيادة","Body scratches noted":"تم تسجيل خدوش الهيكل","Body scratches / dents":"خدوش / صدمات في الهيكل","Fire extinguisher OK":"طفاية الحريق سليمة","Fuel low":"الوقود منخفض","Needs service":"تحتاج صيانة","AC not working":"المكيف لا يعمل",
+"No vehicles issued yet":"لم يتم تسليم مركبات بعد","Fill the form and press “Save & PDF”. Every issued vehicle shows here.":"املأ النموذج واضغط «حفظ و PDF». كل مركبة مسلّمة تظهر هنا.","No returns saved yet":"لا توجد عمليات إرجاع محفوظة","Fill the form and press “Save & PDF”. Every saved return shows here.":"املأ النموذج واضغط «حفظ و PDF». كل إرجاع محفوظ يظهر هنا.",
+"Search issue no, plate, driver or site":"ابحث برقم الإذن أو اللوحة أو السائق أو الموقع","Search issue no, plate, driver, emp code or site":"ابحث برقم الإذن أو اللوحة أو السائق أو الرقم الوظيفي أو الموقع","Issued on":"تاريخ التسليم","Saudi mobile is 10 digits starting with 05 (e.g. 0558650012).":"رقم الجوال السعودي 10 أرقام ويبدأ بـ 05 (مثال: 0558650012).",
+"Enter the driver name or emp code.":"أدخل اسم السائق أو الرقم الوظيفي.","Enter the issue number.":"أدخل رقم الإذن.","Choose the issue date.":"اختر تاريخ التسليم.","Choose the hand over date.":"اختر تاريخ التسليم.",
+/* gate pass */
+"New pass":"إذن جديد","New gate pass":"إذن خروج جديد","Model":"الطراز","G.pass date":"تاريخ الإذن","G.pass time":"وقت الإذن","Gate pass":"إذن خروج","Add to sheet":"إضافة إلى الورقة","Print sheet":"طباعة الورقة","Print on same paper":"طباعة على نفس الورقة","Blank passes":"أذونات فارغة",
+"Ready to leave today":"جاهزة للخروج اليوم","Print empty places as blank passes (fill by hand)":"طباعة الأماكن الفارغة كأذونات فارغة (تُعبأ يدوياً)","Start new paper":"بدء ورقة جديدة","Reprint whole page":"إعادة طباعة الصفحة كاملة","On the paper now:":"على الورقة الآن:","Nothing printed":"لا شيء مطبوع",
+"Blank form printed":"نموذج فارغ مطبوع","This pass printed":"تمت طباعة هذا الإذن","Used / cut off":"مستخدم / مقصوص","Empty":"فارغ","Stays empty":"يبقى فارغاً","Will print":"سيُطبع","Will fill into blank form":"سيُعبأ في النموذج الفارغ","✓ Printed":"✓ مطبوع","Blank form on paper":"نموذج فارغ على الورقة","Blank form will print":"سيُطبع نموذج فارغ",
+"This form goes here when you press “Add to sheet”":"هذا النموذج يوضع هنا عند الضغط على «إضافة إلى الورقة»","Print blank gate passes":"طباعة أذونات خروج فارغة","How many pages? (3 passes on each page)":"كم صفحة؟ (3 أذونات في كل صفحة)","Pages":"الصفحات","Fewer pages":"صفحات أقل","More pages":"صفحات أكثر",
+"Print serial numbers on them":"طباعة الأرقام التسلسلية عليها","Start from":"البدء من","Print blank passes":"طباعة الأذونات الفارغة","Serial no. left empty, to write by hand.":"الرقم التسلسلي فارغ ليُكتب يدوياً.","blank gate passes":"أذونات خروج فارغة",
+"No gate passes yet":"لا توجد أذونات خروج بعد","Fill the form and press “Add to sheet”. Every pass shows here.":"املأ النموذج واضغط «إضافة إلى الورقة». كل إذن يظهر هنا.","Print selected":"طباعة المحدد","Search serial, plate, driver, emp code or branch":"ابحث بالرقم التسلسلي أو اللوحة أو السائق أو الرقم الوظيفي أو الفرع",
+"Nothing new to print. Add a pass first.":"لا جديد للطباعة. أضف إذناً أولاً.","This paper is fully used.":"هذه الورقة مستخدمة بالكامل.","This paper has no free place left.":"لا يوجد مكان فارغ في هذه الورقة.","This paper has no free place.":"لا يوجد مكان فارغ في هذه الورقة.","New paper started":"تم بدء ورقة جديدة",
+"3 passes ready to print":"3 أذونات جاهزة للطباعة","Removed from paper (still in history)":"أُزيل من الورقة (ما زال في السجل)","Enter the serial number.":"أدخل الرقم التسلسلي.","Enter the driver name.":"أدخل اسم السائق.",
+/* duty paper */
+"Daily duty paper":"ورقة الدوام اليومية","Duty date":"تاريخ الدوام","Add driver":"إضافة سائق","Driver name":"اسم السائق","Work type":"نوع العمل","Asphalt":"إسفلت","Milling":"قشط","Day shift":"وردية نهارية","Night shift":"وردية ليلية","Night":"ليلي","Paper preview":"معاينة الورقة",
+"Duty list —":"قائمة الدوام —","All":"الكل","All on duty":"الكل في الدوام","Door / Car":"الباب / السيارة","Paper":"الورقة","Trips":"الرحلات","On duty":"في الدوام","Papers returned":"الأوراق المستلمة","Not returned yet":"لم تُسلّم بعد","Absent":"غائب","Not returned":"لم تُسلّم","✓ Returned":"✓ مستلمة",
+"Off today":"إجازة اليوم","Tap to change":"اضغط للتغيير","2 per page":"ورقتان في الصفحة","1 per page":"ورقة في الصفحة","Papers per page":"الأوراق في الصفحة","Blank paper":"ورقة فارغة","Search name, emp code, car or site":"ابحث بالاسم أو الرقم الوظيفي أو السيارة أو الموقع",
+"Everyone marked on duty":"تم تسجيل الجميع في الدوام","No driver is on duty for this day.":"لا يوجد سائق في الدوام هذا اليوم.","Enter the door # or car #.":"أدخل رقم الباب أو السيارة.","● NIGHT":"● ليلي","No site":"بدون موقع",
+/* uniform */
+"Uniform & shoe record":"سجل الزي والأحذية","Employees":"الموظفون","Give uniform / shoes":"تسليم زي / حذاء","Enter emp no.":"أدخل الرقم الوظيفي","Emp no. / name":"الرقم الوظيفي / الاسم","e.g. 758":"مثال: 758","Shoe size (EU)":"مقاس الحذاء (EU)","Uniform size":"مقاس الزي","Other":"أخرى",
+"Uniform given now":"الزي المسلّم الآن","Shoes given now":"الأحذية المسلّمة الآن","Less uniform":"زي أقل","More uniform":"زي أكثر","Less shoes":"أحذية أقل","More shoes":"أحذية أكثر","Save sizes":"حفظ المقاسات","Given before":"سُلّم سابقاً","Edit employee details":"تعديل بيانات الموظف","Hide details":"إخفاء التفاصيل",
+"+ Add to order list":"+ إضافة إلى قائمة الطلب","✓ In order list":"✓ في قائمة الطلب","Employee name":"اسم الموظف","Sizes recorded":"المقاسات المسجلة","Size missing":"مقاس ناقص","Items given this month":"المسلّم هذا الشهر","Never given":"لم يُسلّم أبداً","Order list":"قائمة الطلب","Update from Excel":"تحديث من Excel",
+"Shoe":"الحذاء","Shoes":"الأحذية","Last given":"آخر تسليم","Not given yet":"لم يُسلّم بعد","Order":"الطلب","Clear list":"مسح القائمة","Mark as given":"تسجيل كمسلّم","Print order":"طباعة الطلب","Size totals":"إجمالي المقاسات","Print / Excel":"طباعة / Excel","Copy for order":"نسخ للطلب",
+"Order list is empty. Tick the box next to each employee you want to order for — from any section.":"قائمة الطلب فارغة. ضع علامة بجانب كل موظف تريد الطلب له — من أي قسم.","Order list cleared":"تم مسح قائمة الطلب","Size record":"سجل المقاسات","Issue list":"قائمة التسليم","Blank form":"نموذج فارغ",
+"Given items":"المواد المسلّمة","Orders":"الطلبات","This month":"هذا الشهر","Last month":"الشهر الماضي","This year":"هذا العام","Search name or emp no.":"ابحث بالاسم أو الرقم الوظيفي","Search name, emp no. or designation":"ابحث بالاسم أو الرقم الوظيفي أو المسمى",
+"Nothing given in this period":"لم يُسلّم شيء في هذه الفترة","Enter an emp no. on the Employees page and press “Save & give”.":"أدخل الرقم الوظيفي في صفحة الموظفين واضغط «حفظ وتسليم».","No orders in this period":"لا توجد طلبات في هذه الفترة",
+"Tick employees on the Employees page, then press “Print order”. Every printed order is saved here.":"حدد الموظفين في صفحة الموظفين ثم اضغط «طباعة الطلب». كل طلب مطبوع يُحفظ هنا.","View names":"عرض الأسماء","Hide names":"إخفاء الأسماء","Change list":"تعديل القائمة","Delete":"حذف",
+"Ordered — not given yet":"تم الطلب — لم يُسلّم بعد","Open in list":"مفتوح في القائمة","Which sheet?":"أي ورقة؟","Missing sizes stay empty on the paper, to fill by hand.":"المقاسات الناقصة تبقى فارغة على الورقة لتُعبأ يدوياً.","Select all shown":"تحديد كل المعروض",
+"Add the missing sizes first":"أضف المقاسات الناقصة أولاً","Choose the uniform size before giving uniform.":"اختر مقاس الزي قبل التسليم.","Choose the shoe size before giving shoes.":"اختر مقاس الحذاء قبل التسليم.","Enter an emp no. first.":"أدخل الرقم الوظيفي أولاً.","Enter the employee name.":"أدخل اسم الموظف.","Enter the emp no.":"أدخل الرقم الوظيفي.",
+"Add employee":"إضافة موظف","Could not read this Excel file.":"تعذّرت قراءة ملف Excel.","No employee list found in this file. It needs columns NAME and EMP NO.":"لا توجد قائمة موظفين في هذا الملف. يجب أن يحتوي على عمودي الاسم والرقم الوظيفي.","Report type":"نوع التقرير","Report":"التقرير",
+"Name filled from earlier forms.":"تم تعبئة الاسم من النماذج السابقة.","Date these items were given (DD.MM.YYYY)":"تاريخ تسليم هذه المواد (يوم.شهر.سنة)","History type":"نوع السجل","Search history":"بحث في السجل",
+/* job card */
+"Workshops":"الورش","Warehouses":"المستودعات","Vehicle Job Card":"بطاقة عمل المركبة","Vehicle Maintenance Process":"عملية صيانة المركبة","Navigator":"المتصفح","Close menu":"إغلاق القائمة","Close job":"إغلاق العمل",
+"General":"عام","Maintenance Tasks":"مهام الصيانة","Spare Parts Orders":"طلبات قطع الغيار","Last Vehicle History":"سجل المركبة السابق","Reference":"المرجع","Action List":"قائمة الإجراءات",
+"Job Order No.":"رقم أمر العمل","Date In":"تاريخ الدخول","Date Out":"تاريخ الخروج","Chassis No":"رقم الشاصي","Machinery Site":"موقع المعدة","User (Driver / Operator) No.":"رقم المستخدم (السائق / المشغل)","Main Division":"القسم الرئيسي","Place Of Repair":"مكان الإصلاح",
+"Equipment Type":"نوع المعدة","Defect Type":"نوع العطل","Operator Mobile":"جوال المشغل","Model Name":"اسم الطراز","Mileage (Km)":"العداد (كم)","Model Number / Year":"رقم الطراز / السنة","Priority":"الأولوية","Problems Summary":"ملخص المشاكل","Repair Description":"وصف الإصلاح",
+"Workshop Section":"قسم الورشة","Reference No.":"الرقم المرجعي","Purchase Order No.":"رقم أمر الشراء","Previous Reading (Km)":"القراءة السابقة (كم)","Names on the printed signature boxes (optional)":"الأسماء في خانات التوقيع المطبوعة (اختياري)","Operator":"المشغل","Mechanic":"الميكانيكي","Supervisor":"المشرف","Verified By":"تحقق منه",
+"Open":"مفتوح","In Workshop":"في الورشة","Waiting Spare Parts":"بانتظار قطع الغيار","Closed":"مغلق","Not closed":"غير مغلق","+ New job card":"+ بطاقة عمل جديدة","Search job no., plate, door, problem or driver":"ابحث برقم العمل أو اللوحة أو الباب أو المشكلة أو السائق",
+"Job Order No":"رقم أمر العمل","Problems":"المشاكل","Total":"الإجمالي","Division":"القسم","+ Add task":"+ إضافة مهمة","Job total":"إجمالي العمل","Service code":"رمز الخدمة","Work done":"العمل المنجز","Technician":"الفني","Task start":"بداية المهمة","Task end":"نهاية المهمة",
+"Spare Part":"قطعة الغيار","Qty":"الكمية","Price":"السعر","+ Spare part":"+ قطعة غيار","End time = now":"وقت الانتهاء = الآن","Delete task":"حذف المهمة","Hide":"إخفاء","Edit":"تعديل","Service":"الخدمة","Task":"المهمة","Km":"كم",
+"Save And Close":"حفظ وإغلاق","Close Without Save":"إغلاق بدون حفظ","Mark: In Workshop":"تعيين: في الورشة","Mark: Waiting Spare Parts":"تعيين: بانتظار قطع الغيار","Close job (vehicle out)":"إغلاق العمل (خروج المركبة)","Reopen job":"إعادة فتح العمل","Copy to a new job card":"نسخ إلى بطاقة عمل جديدة","Delete this job card":"حذف بطاقة العمل",
+"No job cards yet":"لا توجد بطاقات عمل بعد","Press “New” to open the first vehicle maintenance process.":"اضغط «جديد» لفتح أول عملية صيانة.","No tasks yet":"لا توجد مهام بعد","Add each repair job: service, technician, time and the spare parts used.":"أضف كل عمل إصلاح: الخدمة والفني والوقت وقطع الغيار المستخدمة.",
+"No spare parts on this job":"لا توجد قطع غيار في هذا العمل","Add parts inside each task on “Maintenance Tasks”.":"أضف القطع داخل كل مهمة في «مهام الصيانة».","Enter a plate number":"أدخل رقم اللوحة","Earlier job cards of the same vehicle show here.":"تظهر هنا بطاقات العمل السابقة لنفس المركبة.",
+"Clear plate no":"مسح رقم اللوحة","Change machinery site":"تغيير موقع المعدة","Change driver":"تغيير السائق","Change division":"تغيير القسم","Change place of repair":"تغيير مكان الإصلاح","Change equipment type":"تغيير نوع المعدة","Change defect type":"تغيير نوع العطل","Change priority":"تغيير الأولوية",
+"Remove part":"حذف القطعة","Part name / number":"اسم / رقم القطعة","Name or emp no.":"الاسم أو الرقم الوظيفي","Hydraulic cylinder change":"تغيير سلندر هيدروليك","Minor Defect":"عطل بسيط","Major Defect":"عطل كبير","Breakdown":"عطل مفاجئ","Accident":"حادث","Preventive Maintenance":"صيانة وقائية",
+"Main Workshop":"الورشة الرئيسية","On Site":"في الموقع","Outside Workshop":"ورشة خارجية","Agency":"الوكالة","Breakdown on Road":"عطل على الطريق","Server :":"الخادم :","User :":"المستخدم :","Version :":"الإصدار :",
+"Enter the job order number.":"أدخل رقم أمر العمل.","Delete this task and its spare parts?":"حذف هذه المهمة وقطع غيارها؟","Close without saving the changes?":"الإغلاق بدون حفظ التغييرات؟","This job card has changes that are not saved. Leave without saving?":"في بطاقة العمل تغييرات غير محفوظة. المغادرة بدون حفظ؟"
+};
+var T={
+"{n} vehicles":"{n} مركبة","Showing {n} of {n}":"عرض {n} من {n}",
+"{n} shown":"{n} معروض","{n} drivers":"{n} سائق","{n} on duty":"{n} في الدوام","{n} orders":"{n} طلبات","{n} order":"{n} طلب","{n} uniform · {n} shoes":"{n} زي · {n} حذاء","Paper: {n} of {n} places filled":"الورقة: {n} من {n} أماكن ممتلئة",
+"Print papers ({n})":"طباعة الأوراق ({n})","= {n} passes":"= {n} أذونات","{n} page":"{n} صفحة","{n} pages":"{n} صفحات","{n} per page":"{n} في الصفحة","Date: {n}.{n}.{n}":"التاريخ: {n}.{n}.{n}","Size missing: {n} uniform, {n} shoes":"مقاسات ناقصة: {n} زي، {n} حذاء",
+"· {n} employees":"· {n} موظف","Print selected ({n})":"طباعة المحدد ({n})","History ({n})":"السجل ({n})","Order list {n}":"قائمة الطلب {n}","{n} people · {n} uniform · {n} shoes":"{n} أشخاص · {n} زي · {n} حذاء","{n} drivers":"{n} سائق",
+"Paper: {n} of {n} places filled":"الورقة: {n} من {n} أماكن ممتلئة","Sheet: {n} of {n} saved":"الورقة: {n} من {n} محفوظة","{n} employees":"{n} موظف","Page {n} of {n}":"صفحة {n} من {n}","Too many tries. Wait {n} seconds.":"محاولات كثيرة. انتظر {n} ثانية.",
+"{n} uniform":"{n} زي","{n} shoes":"{n} حذاء","{n} people":"{n} أشخاص","{n} on duty":"{n} في الدوام","{n} order":"{n} طلب","Last: in old list (no date)":"آخر مرة: في القائمة القديمة (بدون تاريخ)","Last: never given":"آخر مرة: لم يُسلّم أبداً"
+};
+var P=[
+[/^Did you mean (.+)\? Tap it in the list\.$/,function(m){return "هل تقصد "+m[1]+"؟ اختره من القائمة.";}],
+[/^(\d+) vehicles have these numbers: (.+)$/,function(m){return m[1]+" مركبات بهذه الأرقام: "+m[2];}],
+[/^Last job: (.+) on (.+)\.$/,function(m){return "آخر عمل: "+m[1]+" بتاريخ "+m[2]+".";}],
+[/^(.+): ((?:\d+ uniform \(.+?\))?(?: \+ )?(?:\d+ shoes \(.+?\))?) given$/,function(m){return m[1]+": تم تسليم "+m[2].replace(/(\d+) uniform/,"$1 زي").replace(/(\d+) shoes/,"$1 حذاء");}],
+[/^(\S+) added — place (\d) of 3\. Print now, or add more\.$/,function(m){return "تمت إضافة "+m[1]+" — المكان "+m[2]+" من 3. اطبع الآن أو أضف المزيد.";}],
+[/^(\S+) goes on place (\d) of the same paper$/,function(m){return m[1]+" يوضع في المكان "+m[2]+" من نفس الورقة";}],
+[/^(\S+) put on place (\d)$/,function(m){return m[1]+" وُضع في المكان "+m[2];}],
+[/^New paper started — unprinted passes moved to it$/,function(){return "تم بدء ورقة جديدة — نُقلت إليها الأذونات غير المطبوعة";}],
+[/^(\d+) vehicles? brought from (.+)$/,function(m){return "تم نقل "+m[1]+" مركبة من "+m[2];}],
+[/^Could not make the Excel file \((.+)\)\.$/,function(m){return "تعذّر إنشاء ملف Excel ("+m[1]+").";}],
+[/^Could not save \((.+)\)\. Try again\.$/,function(m){return "تعذّر الحفظ ("+m[1]+"). حاول مرة أخرى.";}],
+[/^(\S+): (\d+) people marked as given on (.+)$/,function(m){return m[1]+": تم تسجيل "+m[2]+" أشخاص كمسلّم بتاريخ "+m[3];}],
+[/^Order list cleared \(printed order stays in history\)$/,function(){return "تم مسح قائمة الطلب (الطلب المطبوع يبقى في السجل)";}],
+[/^Add the missing sizes first \((\d+) people\)\.$/,function(m){return "أضف المقاسات الناقصة أولاً ("+m[1]+" أشخاص).";}],
+[/^(.+) added to order list \((\d+)\)$/,function(m){return "تمت إضافة "+m[1]+" إلى قائمة الطلب ("+m[2]+")";}],
+[/^(.+) removed from order list$/,function(m){return "تم حذف "+m[1]+" من قائمة الطلب";}],
+[/^(\S+) deleted \(given items stay in history\)$/,function(m){return "تم حذف "+m[1]+" (المواد المسلّمة تبقى في السجل)";}],
+[/^Updated from “(.+)”: (\d+) added(?:, (\d+) checked)?(?:, (\d+) sizes)?$/,function(m){return "تم التحديث من «"+m[1]+"»: أُضيف "+m[2]+(m[3]?"، تم فحص "+m[3]:"")+(m[4]?"، "+m[4]+" مقاسات":"");}],
+[/^(Emp code|Emp no\.) (.+) already belongs to (.+)\.$/,function(m){return "الرقم الوظيفي "+m[2]+" مسجل باسم "+m[3]+".";}],
+[/^Note: (.+) was issued to (.+) on (.+) \((.+)\) and no return is saved after that\.$/,function(m){return "ملاحظة: "+m[1]+" سُلّمت إلى "+m[2]+" بتاريخ "+m[3]+" ("+m[4]+") ولا يوجد إرجاع محفوظ بعدها.";}],
+[/^Mileage is lower than the previous reading \((.+) km\)\. Please check\.$/,function(m){return "العداد أقل من القراءة السابقة ("+m[1]+" كم). يرجى التحقق.";}],
+[/^Could not reach the database \((.+)\)\. Check the link\.$/,function(m){return "تعذّر الوصول إلى قاعدة البيانات ("+m[1]+"). تحقق من الرابط.";}],
+[/^A gate pass for (.+) already exists today \((.+)\)\.$/,function(m){return "يوجد إذن خروج لـ "+m[1]+" اليوم ("+m[2]+").";}],
+[/^All unfinished vehicles from (.+) are already here\.$/,function(m){return "كل المركبات غير المكتملة من "+m[1]+" موجودة هنا.";}],
+[/^Could not make the PDF \((.+)\)\.$/,function(m){return "تعذّر إنشاء PDF ("+m[1]+").";}],
+[/^Job order no\. (.+) is already used\.$/,function(m){return "رقم أمر العمل "+m[1]+" مستخدم.";}],
+[/^Last reading: (.+) (KM|HRS)$/,function(m){return "آخر قراءة: "+m[1]+" "+(m[2]==="KM"?"كم":"ساعات");}],
+[/^New day — on-duty list copied from (.+)$/,function(m){return "يوم جديد — نُسخت قائمة الدوام من "+m[1];}],
+[/^New job card made from (.+)\. Press Save to keep it\.$/,function(m){return "تم إنشاء بطاقة عمل جديدة من "+m[1]+". اضغط حفظ لتثبيتها.";}],
+[/^Printed on place (.+)\. Use the same half-used paper\.$/,function(m){return "طُبع في المكان "+m[1].replace(/&/g,"و")+". استخدم نفس الورقة المستخدمة جزئياً.";}],
+[/^Saved as (.+) in Issue history → Orders$/,function(m){return "حُفظ باسم "+m[1]+" في سجل التسليم ← الطلبات";}],
+[/^Saved (\d.*)$/,function(m){return "حُفظ "+m[1];}],
+[/^(Serial|Issue no\.) (.+) is already used \((.+)\)\.$/,function(m){return (m[1]==="Serial"?"الرقم التسلسلي ":"رقم الإذن ")+m[2]+" مستخدم ("+m[3]+").";}],
+[/^employees · (.+)$/,function(m){return "موظفون · "+tr(m[1]);}],
+[/^Add (.+) to order list$/,function(m){return "إضافة "+m[1]+" إلى قائمة الطلب";}],
+[/^Edit (.+)$/,function(m){return "تعديل "+m[1];}],
+[/^Editing (.+)$/,function(m){return "تعديل "+m[1];}],
+[/^Print paper for (.+)$/,function(m){return "طباعة ورقة "+m[1];}],
+[/^Trips for (.+)$/,function(m){return "رحلات "+m[1];}],
+[/^(.+) on duty$/,function(m){return m[1]+" في الدوام";}],
+[/^Door (.+) · Car (.+)$/,function(m){return "باب "+m[1]+" · سيارة "+m[2];}],
+[/^Emp (\S+)$/,function(m){return "رقم "+m[1];}],
+[/^Last: (\d\d\.\d\d\.\d{4}) · (\d+) days ago$/,function(m){return "آخر مرة: "+m[1]+" · منذ "+m[2]+" يوم";}],
+[/^Last: (\d\d\.\d\d\.\d{4}) · today$/,function(m){return "آخر مرة: "+m[1]+" · اليوم";}],
+[/^Sizes updated (.+)$/,function(m){return "تم تحديث المقاسات "+m[1];}],
+[/^No sizes recorded yet$/,function(){return "لا توجد مقاسات مسجلة بعد";}],
+[/^Save & give (.+)$/,function(m){return "حفظ وتسليم "+tr(m[1]);}],
+[/^(.+) saved$/,function(m){return "تم حفظ "+m[1];}],
+[/^(.+) deleted$/,function(m){return "تم حذف "+m[1];}],
+[/^(.+) added$/,function(m){return "تمت إضافة "+m[1];}],
+[/^(.+) updated$/,function(m){return "تم تحديث "+m[1];}],
+[/^Known vehicle — details filled (?:in|from) (.+?)\.?(?: Check and change if needed\.)?$/,function(){return "مركبة معروفة — تم تعبئة البيانات. تحقق وعدّل إذا لزم.";}],
+[/^Known vehicle — details filled in\. Check and change if needed\.$/,function(){return "مركبة معروفة — تم تعبئة البيانات. تحقق وعدّل إذا لزم.";}],
+[/^Known driver — details filled from (.+)\.$/,function(){return "سائق معروف — تم تعبئة البيانات.";}],
+[/^Status: (.+)\. Press Save to keep it\.$/,function(m){return "الحالة: "+tr(m[1])+". اضغط حفظ لتثبيتها.";}],
+[/^This vehicle already has an open job card: (.+) \((.+)\)\.$/,function(m){return "لهذه المركبة بطاقة عمل مفتوحة: "+m[1]+" ("+tr(m[2])+").";}],
+[/^Delete job card (.+)\?$/,function(m){return "حذف بطاقة العمل "+m[1]+"؟";}],
+[/^(.+) is already used/,function(m){return m[0];}],
+[/^Wrong password/,function(){return "كلمة المرور غير صحيحة. حاول مرة أخرى.";}]
+];
+var SEP=[" · "," — "," | ",": "];
+function tr(s){
+  if(s==null)return s;var t=String(s),lead=t.match(/^\s*/)[0],trail=t.match(/\s*$/)[0],k=t.trim();if(!k)return t;
+  if(Object.prototype.hasOwnProperty.call(D,k))return lead+D[k]+trail;
+  var nums=[];var key=k.replace(/\d+(?:,\d{3})*(?:\.\d+)?/g,function(x){nums.push(x);return "{n}";});
+  if(nums.length&&Object.prototype.hasOwnProperty.call(T,key)){var i=0;return lead+T[key].replace(/\{n\}/g,function(){return nums[i++];})+trail;}
+  for(var p=0;p<P.length;p++){var m=k.match(P[p][0]);if(m){var r=P[p][1](m);if(r!==k)return lead+r+trail;}}
+  for(var s2=0;s2<SEP.length;s2++){var sep=SEP[s2];if(k.indexOf(sep)>0){var parts=k.split(sep),changed=false,out=parts.map(function(x){var y=tr(x);if(y!==x)changed=true;return y;});if(changed)return lead+out.join(sep)+trail;}}
+  var sent=k.split(/(?<=[.!?])\s+/);if(sent.length>1){var ch=false,o=sent.map(function(x){var y=tr(x);if(y!==x)ch=true;return y;});if(ch)return lead+o.join(" ")+trail;}
+  return t;
+}
+window.zTr=tr;
+var SKIP=".sheet,.paperpv,.gp,.letterhead,svg,script,style,textarea,datalist,pre,[data-notr],.wm";
+var orig=new WeakMap(),last=new WeakMap(),ATTRS=["placeholder","aria-label","title"],on=false;
+function lang(){try{return localStorage.getItem("hub:lang")==="ar";}catch(e){return false;}}
+function doText(n){
+  var el=n.parentElement;if(!el||el.closest(SKIP))return;
+  var cur=n.nodeValue;if(on){if(last.get(n)===cur)return;orig.set(n,cur);var t=tr(cur);last.set(n,t);if(t!==cur)n.nodeValue=t;}
+  else if(orig.has(n)&&last.get(n)===cur){n.nodeValue=orig.get(n);orig.delete(n);last.delete(n);}
+}
+function doEl(el){
+  if(el.closest&&el.closest(SKIP))return;
+  if(el.tagName==="OPTION"&&!el.hasAttribute("value")&&on)el.setAttribute("value",el.textContent);
+  ATTRS.forEach(function(a){if(!el.hasAttribute(a))return;var v=el.getAttribute(a),ok="data-o-"+a;
+    if(on){if(el.getAttribute("data-t-"+a)===v)return;el.setAttribute(ok,v);var t=tr(v);el.setAttribute("data-t-"+a,t);if(t!==v)el.setAttribute(a,t);}
+    else if(el.hasAttribute(ok)&&el.getAttribute("data-t-"+a)===v){el.setAttribute(a,el.getAttribute(ok));el.removeAttribute(ok);el.removeAttribute("data-t-"+a);}});
+}
+function walk(root){
+  if(!root)return;
+  if(root.nodeType===3){doText(root);return;}
+  if(root.nodeType!==1)return;
+  doEl(root);
+  var w=document.createTreeWalker(root,NodeFilter.SHOW_TEXT|NodeFilter.SHOW_ELEMENT),n;
+  while((n=w.nextNode())){if(n.nodeType===3)doText(n);else doEl(n);}
+}
+function applyDir(){
+  var h=document.documentElement;
+  if(on){h.setAttribute("lang","ar");h.setAttribute("dir","rtl");h.classList.add("lang-ar");}
+  else{h.setAttribute("lang","en");h.removeAttribute("dir");h.classList.remove("lang-ar");}
+}
+function setLang(v){on=v;applyDir();walk(document.body);if(document.title){var dt=document.title;document.title=on?tr(dt):dt;}}
+var mo=new MutationObserver(function(list){
+  if(!on)return;mo.disconnect();
+  list.forEach(function(m){
+    if(m.type==="characterData")doText(m.target);
+    else if(m.type==="attributes")doEl(m.target);
+    else m.addedNodes.forEach(function(n){walk(n);});
+  });
+  observe();
+});
+function observe(){mo.observe(document.body,{childList:true,subtree:true,characterData:true,attributes:true,attributeFilter:ATTRS});}
+var oc=window.confirm,op=window.prompt,oa=window.alert;
+window.confirm=function(m){return oc.call(window,on?tr(m):m);};
+window.prompt=function(m,d){return op.call(window,on?tr(m):m,d);};
+window.alert=function(m){return oa.call(window,on?tr(m):m);};
+var st=document.createElement("style");
+st.textContent='html.lang-ar body{font-family:"Segoe UI",Tahoma,"Noto Sans Arabic","Noto Naskh Arabic",Arial,sans-serif}html.lang-ar .brand small,html.lang-ar .sub,html.lang-ar .lab,html.lang-ar label{letter-spacing:0!important;text-transform:none!important}html.lang-ar textarea{text-align:start}:where(html.lang-ar) input:not([type=checkbox]):not([type=radio]),:where(html.lang-ar) td,:where(html.lang-ar) .plate,:where(html.lang-ar) .pl,:where(html.lang-ar) .c-no{unicode-bidi:plaintext;text-align:right}html.lang-ar label>span:has(+ .ar),html.lang-ar .brand small>span:has(+ .ar){display:none}';
+document.head.appendChild(st);
+function start(){on=lang();applyDir();if(on)walk(document.body);observe();}
+if(document.readyState==="loading")document.addEventListener("DOMContentLoaded",start);else start();
+window.addEventListener("storage",function(e){if(e.key==="hub:lang"){var v=e.newValue==="ar";if(v!==on){mo.disconnect();setLang(v);observe();}}});
+window.zSetLang=function(v){try{localStorage.setItem("hub:lang",v?"ar":"en");}catch(e){}mo.disconnect();setLang(v);observe();};
+window.zLangIsAr=function(){return on;};
+})();
+</script>
 <style>.embedded .letterhead,.embedded .navlink{display:none!important}.embedded .bar{margin-top:10px}.embedded header.top{padding-top:8px}
 input[type=date],input[type=time]{min-width:0;max-width:100%}
 .inline{min-width:0}.inline input{min-width:0;width:0;flex:1 1 auto}
