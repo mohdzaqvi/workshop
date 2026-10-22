@@ -8,6 +8,12 @@ document.addEventListener("DOMContentLoaded",function(){fix(document);try{new Mu
 <script id="zTrJs">(function(){
 "use strict";
 var D={
+"Monthly report":"التقرير الشهري","Monthly report opened":"تم فتح التقرير الشهري","Monthly workshop report":"تقرير الورشة الشهري","Month report made by itself from the daily reports, with charts, PDF and Excel.":"تقرير شهري يُعدّ تلقائياً من التقارير اليومية مع رسوم بيانية وPDF وExcel.",
+"Previous month":"الشهر السابق","Next month":"الشهر التالي","Vehicles in the workshop each day":"المركبات في الورشة كل يوم","Vehicles by section":"المركبات حسب القسم","Most common problems":"أكثر المشاكل تكراراً","Status at month end":"الحالة في نهاية الشهر","Longest in the workshop":"الأطول بقاءً في الورشة",
+"All vehicles this month":"كل مركبات هذا الشهر","Search plate, door, vehicle or problem":"ابحث برقم اللوحة أو الباب أو المركبة أو المشكلة","Days = number of daily reports the vehicle was in. Vehicles that are not in the last report of the month count as completed.":"الأيام = عدد التقارير اليومية التي ظهرت فيها المركبة. المركبات غير الموجودة في آخر تقرير للشهر تُحسب مكتملة.",
+"No daily reports this month":"لا توجد تقارير يومية هذا الشهر","Make daily reports in “Daily report”. This page builds the month report from them by itself.":"أنشئ التقارير اليومية في «التقرير اليومي». هذه الصفحة تُعدّ التقرير الشهري منها تلقائياً.",
+"✓ Month complete — report ready":"✓ اكتمل الشهر — التقرير جاهز","Same as last month":"مثل الشهر الماضي","Completed / out":"مكتمل / خرج","Still under repair at month end":"تحت الإصلاح في نهاية الشهر","Under repair now":"تحت الإصلاح الآن","Waiting spare parts at month end":"بانتظار قطع الغيار في نهاية الشهر","Waiting spare parts now":"بانتظار قطع الغيار الآن",
+"Average days in workshop":"متوسط الأيام في الورشة","Busiest day":"أكثر يوم ازدحاماً","days":"يوم","Day of month":"يوم الشهر","First day":"أول يوم","Last day":"آخر يوم","Days":"الأيام","Problem":"المشكلة","Vehicles in workshop":"المركبات في الورشة",
 "Vehicle List":"قائمة المركبات","Search plate, door or model":"ابحث برقم اللوحة أو الباب أو الطراز","Search vehicles":"بحث في المركبات","Close vehicle list":"إغلاق قائمة المركبات","Show more":"عرض المزيد","Open job":"فتح العمل","+ Job card":"+ بطاقة عمل","Year":"السنة","No vehicle list":"لا توجد قائمة مركبات",
 "Actros":"أكتروس","Pick Up":"بيك أب","Howo":"هاوو","Tanker":"صهريج","MC Bulker":"ناقلة إسمنت","Hino":"هينو","Man":"مان","MAN":"مان",
 "Print now":"اطبع الآن","View":"عرض","Print again":"اطبع مرة أخرى","Retry":"إعادة المحاولة",
@@ -114,6 +120,7 @@ var D={
 "Enter the job order number.":"أدخل رقم أمر العمل.","Delete this task and its spare parts?":"حذف هذه المهمة وقطع غيارها؟","Close without saving the changes?":"الإغلاق بدون حفظ التغييرات؟","This job card has changes that are not saved. Leave without saving?":"في بطاقة العمل تغييرات غير محفوظة. المغادرة بدون حفظ؟"
 };
 var T={
+"{n} daily reports":"{n} تقارير يومية","▲ {n} more than last month":"▲ {n} أكثر من الشهر الماضي","▼ {n} fewer than last month":"▼ {n} أقل من الشهر الماضي",
 "{n} vehicles":"{n} مركبة","Showing {n} of {n}":"عرض {n} من {n}",
 "{n} shown":"{n} معروض","{n} drivers":"{n} سائق","{n} on duty":"{n} في الدوام","{n} orders":"{n} طلبات","{n} order":"{n} طلب","{n} uniform · {n} shoes":"{n} زي · {n} حذاء","Paper: {n} of {n} places filled":"الورقة: {n} من {n} أماكن ممتلئة",
 "Print papers ({n})":"طباعة الأوراق ({n})","= {n} passes":"= {n} أذونات","{n} page":"{n} صفحة","{n} pages":"{n} صفحات","{n} per page":"{n} في الصفحة","Date: {n}.{n}.{n}":"التاريخ: {n}.{n}.{n}","Size missing: {n} uniform, {n} shoes":"مقاسات ناقصة: {n} زي، {n} حذاء",
@@ -122,6 +129,10 @@ var T={
 "{n} uniform":"{n} زي","{n} shoes":"{n} حذاء","{n} people":"{n} أشخاص","{n} on duty":"{n} في الدوام","{n} order":"{n} طلب","Last: in old list (no date)":"آخر مرة: في القائمة القديمة (بدون تاريخ)","Last: never given":"آخر مرة: لم يُسلّم أبداً"
 };
 var P=[
+[/^(January|February|March|April|May|June|July|August|September|October|November|December) (\d{4})$/,function(m){return {January:"يناير",February:"فبراير",March:"مارس",April:"أبريل",May:"مايو",June:"يونيو",July:"يوليو",August:"أغسطس",September:"سبتمبر",October:"أكتوبر",November:"نوفمبر",December:"ديسمبر"}[m[1]]+" "+m[2];}],
+[/^No daily reports in (.+)$/,function(m){return "لا توجد تقارير يومية في "+tr(m[1]);}],
+[/^Month so far — up to (.+)$/,function(m){return "الشهر حتى الآن — حتى "+m[1];}],
+[/^Busiest day — (.+)$/,function(m){return "أكثر يوم ازدحاماً — "+m[1];}],
 [/^Did you mean (.+)\? Tap it in the list\.$/,function(m){return "هل تقصد "+m[1]+"؟ اختره من القائمة.";}],
 [/^(\d+) vehicles have these numbers: (.+)$/,function(m){return m[1]+" مركبات بهذه الأرقام: "+m[2];}],
 [/^Last job: (.+) on (.+)\.$/,function(m){return "آخر عمل: "+m[1]+" بتاريخ "+m[2]+".";}],
