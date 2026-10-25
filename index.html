@@ -658,8 +658,10 @@ let pending=new Set(lsGet("hub:pending",[])||[]);
 let remote={},lastApplied={},es=null,flushTimer=null,retryTimer=null,syncState="off",syncMsg="";
 const saveMeta=()=>lsSet("hub:syncmeta",meta);
 const savePending=()=>lsSet("hub:pending",[...pending]);
-const enc=k=>encodeURIComponent(k).replace(/\./g,"%2E");
-const dec=k=>{try{return decodeURIComponent(k);}catch(e){return k;}};
+const fbKey=k=>String(k).replace(/[.$#\[\]\/%~]/g,c=>"~"+c.charCodeAt(0).toString(16).toUpperCase().padStart(2,"0"));
+const enc=k=>encodeURIComponent(fbKey(k));
+const dec=k=>String(k).replace(/~([0-9A-F]{2})/g,(m,h)=>String.fromCharCode(parseInt(h,16)));
+const isRec=r=>!!r&&typeof r==="object"&&("t" in r||"v" in r||"d" in r);
 const dbUrl=()=>(syncCfg&&syncCfg.url)||DEFAULT_DB||"";
 const baseUrl=()=>dbUrl().replace(/\/+$/,"")+"/ws/"+syncCfg.space+"/k";
 const spaceFor=pw=>sha256("zoman-sync|"+String(pw).trim()).slice(0,40);
@@ -715,7 +717,7 @@ $("syncLater").addEventListener("click",()=>{$("syncBanner").hidden=true;});
 
 /* a record arrived from the database */
 function onRemote(key,rec){
-  if(!isSyncKey(key)||!rec||typeof rec!=="object")return;
+  if(!isSyncKey(key)||!isRec(rec))return;
   const t=+rec.t||0;remote[key]=rec;
   if(rec.d===devId){if(t>(meta[key]||0)){meta[key]=t;saveMeta();}return;}
   if(t<=(meta[key]||0))return;
@@ -767,7 +769,9 @@ async function initialSync(){
   const all=(await res.json())||{};
   const seen=new Set();
   Object.keys(all).forEach(ek=>{
-    const key=dec(ek),rec=all[ek];seen.add(key);if(!isSyncKey(key)||!rec)return;remote[key]=rec;
+    const key=dec(ek),rec=all[ek];
+    if(!isRec(rec)){if(rec&&typeof rec==="object"&&/^(wr|vi|vr|gp|dp|uf|jc):/.test(ek))fetch(baseUrl()+"/"+encodeURIComponent(ek)+".json",{method:"DELETE"}).catch(()=>{});return;}
+    seen.add(key);if(!isSyncKey(key))return;remote[key]=rec;
     const lv=localStorage.getItem(key),rv=rec.v==null?null:rec.v,t=+rec.t||0;
     if(!(key in meta)){
       if(lv!=null&&rv!=null&&lv!==rv){const m=mergeStr(rv,lv);if(m!==lv)applyLocal(key,m);pending.add(key);}
@@ -791,7 +795,7 @@ function listen(){
     if(path==="/"){if(data&&typeof data==="object")Object.keys(data).forEach(ek=>onRemote(dec(ek),data[ek]));}
     else{const parts=path.split("/").filter(Boolean);const key=dec(parts[0]);
       if(parts.length===1)onRemote(key,data);
-      else fetch(baseUrl()+"/"+parts[0]+".json").then(r=>r.json()).then(rec=>onRemote(key,rec)).catch(()=>{});}
+      else fetch(baseUrl()+"/"+encodeURIComponent(parts[0])+".json").then(r=>r.json()).then(rec=>onRemote(key,rec)).catch(()=>{});}
     if(syncState!=="busy")setSync("ok");
   };
   es.addEventListener("put",handle);es.addEventListener("patch",handle);
@@ -802,6 +806,7 @@ function listen(){
 }
 async function startSync(){
   if(!syncCfg||!dbUrl()){setSync("off");return;}
+  if(lsGet("hub:syncver",0)<2){meta={};saveMeta();lsSet("hub:syncver",2);}
   try{await initialSync();listen();}
   catch(e){
     if(e.message==="denied")setSync("err","The database refused access. Check the shared data password and the database rules.");
