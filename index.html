@@ -655,6 +655,7 @@ let syncCfg=lsGet("hub:sync",null);
 const devId=(()=>{let d=lsGet("hub:dev",null);if(!d){d=Math.random().toString(36).slice(2,10);lsSet("hub:dev",d);}return d;})();
 let meta=lsGet("hub:syncmeta",{})||{};
 let pending=new Set(lsGet("hub:pending",[])||[]);
+const APP_VERSION="25.10.2026-2";let lastRecv=0,lastSent=0,lastErr="";
 let remote={},lastApplied={},es=null,flushTimer=null,retryTimer=null,syncState="off",syncMsg="";
 const saveMeta=()=>lsSet("hub:syncmeta",meta);
 const savePending=()=>lsSet("hub:pending",[...pending]);
@@ -666,7 +667,7 @@ const dbUrl=()=>(syncCfg&&syncCfg.url)||DEFAULT_DB||"";
 const baseUrl=()=>dbUrl().replace(/\/+$/,"")+"/ws/"+syncCfg.space+"/k";
 const spaceFor=pw=>sha256("zoman-sync|"+String(pw).trim()).slice(0,40);
 
-function setSync(state,msg){syncState=state;syncMsg=msg||"";renderSyncPill();}
+function setSync(state,msg){syncState=state;syncMsg=msg||"";if(state==="err"||state==="offline")lastErr=msg||state;renderSyncPill();renderSyncInfo();}
 function renderSyncPill(){
   const p=$("syncPill");if(!p)return;
   const M={off:["#C9D1E6","Not shared"],ok:["#8FE3AE","Synced"],busy:["#FFD27A","Saving…"],offline:["#FFB4A8","Offline"],err:["#FFB4A8","Sync problem"],connecting:["#FFD27A","Connecting…"]};
@@ -723,6 +724,7 @@ function onRemote(key,rec){
   if(t<=(meta[key]||0))return;
   if(pending.has(key))return;
   const lv=localStorage.getItem(key),rv=rec.v==null?null:rec.v;
+  lastRecv=Date.now();
   if(lv!==rv)applyLocal(key,rv);
   meta[key]=t;saveMeta();
 }
@@ -737,6 +739,7 @@ async function pushKey(key){
   }
   const res=await fetch(baseUrl()+"/"+enc(key)+".json",{method:"PUT",headers:{"Content-Type":"application/json"},body:JSON.stringify({v:lv,t:{".sv":"timestamp"},d:devId})});
   if(!res.ok)throw new Error(res.status===401||res.status===403?"denied":"http "+res.status);
+  lastSent=Date.now();
   try{const back=await res.json();if(back&&typeof back.t==="number"){remote[key]={v:lv,t:back.t,d:devId};meta[key]=back.t;saveMeta();}}catch(e){}
 }
 function queueKey(key){if(!syncCfg)return;pending.add(key);savePending();clearTimeout(flushTimer);flushTimer=setTimeout(flush,1200);}
@@ -783,6 +786,7 @@ async function initialSync(){
   });
   for(let i=0;i<localStorage.length;i++){const k=localStorage.key(i);if(isSyncKey(k)&&!seen.has(k))pending.add(k);}
   saveMeta();savePending();
+  lastRecv=Date.now();
   if(pending.size)await flush();else setSync("ok");
 }
 function listen(){
@@ -838,7 +842,8 @@ function renderSyncCard(){
     <div style="padding:14px 16px;display:grid;gap:10px">
       ${on?`<div class="sline">This device is connected. Everything saved here is shared with your other devices.</div>
         <div class="sline" style="color:var(--muted);font-size:13px">Database: ${esc(syncCfg.url)}</div>
-        <div class="afoot" style="padding:0"><button type="button" class="btn" id="syncOff">Disconnect this device</button><button type="button" class="btn navy" id="syncNow">Send everything now</button></div>`
+        <div class="sline" id="syncInfo" style="font-size:13px;background:#F4F6FB;border-radius:8px;padding:10px 12px;line-height:1.6"></div>
+        <div class="afoot" style="padding:0;flex-wrap:wrap"><button type="button" class="btn" id="syncOff">Disconnect this device</button><button type="button" class="btn" id="syncGet">Get everything again</button><button type="button" class="btn navy" id="syncNow">Send everything now</button></div>`
       :`<label class="slab" for="dbUrl">Database link</label><input class="sin" id="dbUrl" placeholder="https://your-project-default-rtdb.firebaseio.com" value="${esc(dbUrl())}">
         <label class="slab" for="dbPw">Shared data password (same on every device)</label><input class="sin" id="dbPw" type="password" autocomplete="off">
         <div class="err" id="dbErr"></div>
@@ -846,6 +851,8 @@ function renderSyncCard(){
     </div></div>`;
   if(on){
     $("syncOff").addEventListener("click",()=>{if(!confirm("Stop sharing data on this device? The data already here stays here."))return;stopSync();renderSyncCard();renderHomeBanner();});
+    $("syncGet").addEventListener("click",async()=>{meta={};saveMeta();toast("Getting all data");try{await initialSync();listen();renderSyncInfo();setTimeout(()=>{document.querySelectorAll("iframe[data-id]").forEach(f=>{try{f.contentWindow.location.reload();}catch(e){}});},400);}catch(e){setSync("err",e.message==="denied"?"The database refused access. Check the shared data password and the database rules.":"Could not reach the database: "+e.message);}});
+    renderSyncInfo();
     $("syncNow").addEventListener("click",()=>{for(let i=0;i<localStorage.length;i++){const k=localStorage.key(i);if(isSyncKey(k))pending.add(k);}savePending();flush();toast("Sending all data");});
   }else{
     $("dbRules").addEventListener("click",()=>{const pw=$("dbPw").value;if(String(pw).trim().length<6){$("dbErr").textContent="Type the shared data password first (6 characters or more).";return;}
@@ -854,6 +861,14 @@ function renderSyncCard(){
     $("dbGo").addEventListener("click",async()=>{const ok=await connect($("dbUrl").value,$("dbPw").value,$("dbErr"));if(ok){toast("This device is now sharing data");renderSyncCard();renderHomeBanner();}});
   }
 }
+function renderSyncInfo(){
+  const el=$("syncInfo");if(!el)return;
+  const t=x=>x?new Date(x).toLocaleTimeString([], {hour:"2-digit",minute:"2-digit",second:"2-digit"}):"—";
+  let local=0;try{for(let i=0;i<localStorage.length;i++)if(isSyncKey(localStorage.key(i)))local++;}catch(e){}
+  const live=es&&es.readyState===1?"on":"off";
+  el.innerHTML=`Status: <b>${esc(syncState)}</b> · Live updates: <b>${live}</b><br>Items on this device: <b>${local}</b> · Items online: <b>${Object.keys(remote).length}</b> · Waiting to send: <b>${pending.size}</b><br>Last sent: <b>${t(lastSent)}</b> · Last received: <b>${t(lastRecv)}</b>`+(lastErr?`<br><span style="color:#C8372D">Last problem: ${esc(lastErr)}</span>`:"")+`<br><span style="color:var(--muted)">Website version ${APP_VERSION} · Device ${esc(devId)}</span>`;
+}
+setInterval(()=>{if(document.getElementById("syncInfo"))renderSyncInfo();},3000);
 function renderHomeBanner(){
   const b=$("homeSync");if(!b)return;
   if(syncCfg||!DEFAULT_DB){b.hidden=true;return;}
@@ -863,6 +878,7 @@ $("homeSyncGo").addEventListener("click",async()=>{const ok=await connect(DEFAUL
 $("syncPill").addEventListener("click",()=>{location.hash="passwords";});
 renderSyncPill();renderHomeBanner();
 if(syncCfg)startSync();
+{const g=$("grid");if(g){const v=document.createElement("p");v.setAttribute("data-notr","");v.style.cssText="text-align:center;color:rgba(255,255,255,.65);font-size:12px;margin:18px 0 0;font-weight:700";v.textContent="Version "+APP_VERSION;g.after(v);}}
 
 route();
 })();
