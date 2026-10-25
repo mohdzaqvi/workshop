@@ -507,7 +507,6 @@ const I={
  duty:'<rect x="4" y="3" width="16" height="18" rx="2"/><path d="M8 8h8M8 12h8M8 16h5"/><path d="m15 16 1.5 1.5L19 15"/>',
  uni:'<path d="M8 3 4 6l2 4 2-1v12h8V9l2 1 2-4-4-3c-.6 1.7-2.2 3-4 3S8.6 4.7 8 3z"/>',
  chart:'<path d="M3 3v18h18"/><rect x="7" y="12" width="3" height="6"/><rect x="12" y="8" width="3" height="10"/><rect x="17" y="5" width="3" height="13"/>',
- ot:'<circle cx="12" cy="13" r="8"/><path d="M12 9v4l2.5 2.5"/><path d="M9 2h6"/>',
  job:'<path d="M14.7 6.3a4 4 0 0 0-5.4 5.4L3 18v3h3l6.3-6.3a4 4 0 0 0 5.4-5.4l-2.5 2.5-2.4-.6-.6-2.4z"/>'
 };
 const ic=k=>`<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">${I[k]}</svg>`;
@@ -521,11 +520,10 @@ const APPS=[
  {id:"duty-paper",file:"duty-paper.html",name:"Duty paper",icon:"duty",desc:"Daily duty papers for drivers, 2 on one A4 page."},
  {id:"uniform-record",file:"uniform-record.html",name:"Uniform",icon:"uni",desc:"Uniform and shoe sizes, order lists and what was given."},
  {id:"job-card",file:"job-card.html",name:"Job card",icon:"job",desc:"Vehicle maintenance process: tasks, technicians, spare parts and the Maintenance Order print."},
-    {id:"monthly-report",file:"monthly-report.html",name:"Monthly report",icon:"chart",desc:"Month report made by itself from the daily reports, with charts, PDF and Excel."},
- {id:"friday-ot",file:"friday-ot.html",name:"Friday OT",icon:"ot",desc:"Who works which section on Friday, work done, OT amount and the signature paper in Excel."}
+    {id:"monthly-report",file:"monthly-report.html",name:"Monthly report",icon:"chart",desc:"Month report made by itself from the daily reports, with charts, PDF and Excel."}
 ];
 /* default passwords (stored as SHA-256 hashes, never as plain text) */
-const DEFAULT_HASH={"daily-report": "4d068637d1b8fdb711a9d2ab4d6ccd3e7a4516cf072e2694bd819d65dbbf15a5", "vehicle-issued": "b3967a7b1cb233aa1c25cec6dfcd69bb58a964bd94bf1008dbff7e66ca8b4984", "vehicle-return": "01cc2c10b5c976f4a35f63229cff374b23d2c9240c5b55b57295e2b68a251a34", "gate-pass": "c954e0b5fa94893c0dcbc3aee93880e1d0444ca42cfd6e5e62ea49bf75961674", "duty-paper": "66e6ca16cfd3f4fa462bc8045ac31da03e899bf4e8607933c621aaabc915e33d", "uniform-record": "ebdb6a25368f573118a9b7be6d11da24f6c4b7a7b3078134c48cf8244b1a229a", "admin": "281ca050785b651fe5673576f80b80f21fed955b026b9c097ff827a97c259d92", "monthly-report": "6a8ee30aabb0dfbf32dfc5999d3ea4b04e869131b7bcd8798faef8eacf51f60a", "job-card": "816066fe01b49123910a9f2def50bac52cdbcf52eddf4263b7bb43d38412762a", "friday-ot": "off"};
+const DEFAULT_HASH={"daily-report": "4d068637d1b8fdb711a9d2ab4d6ccd3e7a4516cf072e2694bd819d65dbbf15a5", "vehicle-issued": "b3967a7b1cb233aa1c25cec6dfcd69bb58a964bd94bf1008dbff7e66ca8b4984", "vehicle-return": "01cc2c10b5c976f4a35f63229cff374b23d2c9240c5b55b57295e2b68a251a34", "gate-pass": "c954e0b5fa94893c0dcbc3aee93880e1d0444ca42cfd6e5e62ea49bf75961674", "duty-paper": "66e6ca16cfd3f4fa462bc8045ac31da03e899bf4e8607933c621aaabc915e33d", "uniform-record": "ebdb6a25368f573118a9b7be6d11da24f6c4b7a7b3078134c48cf8244b1a229a", "admin": "281ca050785b651fe5673576f80b80f21fed955b026b9c097ff827a97c259d92", "monthly-report": "6a8ee30aabb0dfbf32dfc5999d3ea4b04e869131b7bcd8798faef8eacf51f60a", "job-card": "816066fe01b49123910a9f2def50bac52cdbcf52eddf4263b7bb43d38412762a"};
 
 /* ---- SHA-256 (plain JS, works everywhere) ---- */
 function sha256(ascii){
@@ -648,7 +646,7 @@ const _renderAdmin=renderAdmin;renderAdmin=function(){_renderAdmin();if(adminOk&
 let tt=null;function toast(m){$("toast").textContent=m;$("toast").classList.add("show");clearTimeout(tt);tt=setTimeout(()=>$("toast").classList.remove("show"),2400);}
 
 /* ================= shared data: sync localStorage with a Firebase Realtime Database ================= */
-const DEFAULT_DB="";
+const DEFAULT_DB="https://zoman-workshop-default-rtdb.europe-west1.firebasedatabase.app";
 const SYNC_PREFIX=["wr:","vi:","vr:","gp:","dp:","uf:","jc:","hub:pw"];
 const KEY_APP={"wr:":"daily-report","vi:":"vehicle-issued","vr:":"vehicle-return","gp:":"gate-pass","dp:":"duty-paper","uf:":"uniform-record","jc:":"job-card"};
 const isSyncKey=k=>!!k&&SYNC_PREFIX.some(p=>k.indexOf(p)===0);
