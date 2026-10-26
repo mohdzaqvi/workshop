@@ -8,6 +8,8 @@ document.addEventListener("DOMContentLoaded",function(){fix(document);try{new Mu
 <script id="zTrJs">(function(){
 "use strict";
 var D={
+"Parts req. date":"تاريخ طلب القطع","today":"اليوم",
+"Spare parts request date":"تاريخ طلب قطع الغيار","Parts requested":"طلب القطع","Requested today":"طُلبت اليوم","Show all":"عرض الكل","Filter by status":"تصفية حسب الحالة","Status":"الحالة","Section":"القسم",
 "Monthly report":"التقرير الشهري","Monthly report opened":"تم فتح التقرير الشهري","Monthly workshop report":"تقرير الورشة الشهري","Month report made by itself from the daily reports, with charts, PDF and Excel.":"تقرير شهري يُعدّ تلقائياً من التقارير اليومية مع رسوم بيانية وPDF وExcel.",
 "Previous month":"الشهر السابق","Next month":"الشهر التالي","Vehicles in the workshop each day":"المركبات في الورشة كل يوم","Vehicles by section":"المركبات حسب القسم","Most common problems":"أكثر المشاكل تكراراً","Status at month end":"الحالة في نهاية الشهر","Longest in the workshop":"الأطول بقاءً في الورشة",
 "All vehicles this month":"كل مركبات هذا الشهر","Search plate, door, vehicle or problem":"ابحث برقم اللوحة أو الباب أو المركبة أو المشكلة","Days = number of daily reports the vehicle was in. Vehicles that are not in the last report of the month count as completed.":"الأيام = عدد التقارير اليومية التي ظهرت فيها المركبة. المركبات غير الموجودة في آخر تقرير للشهر تُحسب مكتملة.",
@@ -120,6 +122,8 @@ var D={
 "Enter the job order number.":"أدخل رقم أمر العمل.","Delete this task and its spare parts?":"حذف هذه المهمة وقطع غيارها؟","Close without saving the changes?":"الإغلاق بدون حفظ التغييرات؟","This job card has changes that are not saved. Leave without saving?":"في بطاقة العمل تغييرات غير محفوظة. المغادرة بدون حفظ؟"
 };
 var T={
+"{n} days":"{n} يوم","{n} day":"{n} يوم",
+"Waiting {n} day":"بانتظار {n} يوم","Waiting {n} days":"بانتظار {n} يوم","Showing {n} of {n} vehicles":"عرض {n} من {n} مركبة","All sections · {n}":"كل الأقسام · {n}","All · {n}":"الكل · {n}",
 "{n} daily reports":"{n} تقارير يومية","▲ {n} more than last month":"▲ {n} أكثر من الشهر الماضي","▼ {n} fewer than last month":"▼ {n} أقل من الشهر الماضي",
 "{n} vehicles":"{n} مركبة","Showing {n} of {n}":"عرض {n} من {n}",
 "{n} shown":"{n} معروض","{n} drivers":"{n} سائق","{n} on duty":"{n} في الدوام","{n} orders":"{n} طلبات","{n} order":"{n} طلب","{n} uniform · {n} shoes":"{n} زي · {n} حذاء","Paper: {n} of {n} places filled":"الورقة: {n} من {n} أماكن ممتلئة",
@@ -129,6 +133,7 @@ var T={
 "{n} uniform":"{n} زي","{n} shoes":"{n} حذاء","{n} people":"{n} أشخاص","{n} on duty":"{n} في الدوام","{n} order":"{n} طلب","Last: in old list (no date)":"آخر مرة: في القائمة القديمة (بدون تاريخ)","Last: never given":"آخر مرة: لم يُسلّم أبداً"
 };
 var P=[
+[/^Req\. (\d\d\.\d\d\.\d{4})(?: · (\d+) days?| · today)?$/,function(m){return "طُلبت "+m[1]+(m[2]?" · "+m[2]+" يوم":(/today$/.test(m[0])?" · اليوم":""));}],
 [/^(January|February|March|April|May|June|July|August|September|October|November|December) (\d{4})$/,function(m){return {January:"يناير",February:"فبراير",March:"مارس",April:"أبريل",May:"مايو",June:"يونيو",July:"يوليو",August:"أغسطس",September:"سبتمبر",October:"أكتوبر",November:"نوفمبر",December:"ديسمبر"}[m[1]]+" "+m[2];}],
 [/^No daily reports in (.+)$/,function(m){return "لا توجد تقارير يومية في "+tr(m[1]);}],
 [/^Month so far — up to (.+)$/,function(m){return "الشهر حتى الآن — حتى "+m[1];}],

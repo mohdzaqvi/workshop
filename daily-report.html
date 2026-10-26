@@ -8,6 +8,8 @@ document.addEventListener("DOMContentLoaded",function(){fix(document);try{new Mu
 <script id="zTrJs">(function(){
 "use strict";
 var D={
+"Parts req. date":"تاريخ طلب القطع","today":"اليوم",
+"Spare parts request date":"تاريخ طلب قطع الغيار","Parts requested":"طلب القطع","Requested today":"طُلبت اليوم","Show all":"عرض الكل","Filter by status":"تصفية حسب الحالة","Status":"الحالة","Section":"القسم",
 "Monthly report":"التقرير الشهري","Monthly report opened":"تم فتح التقرير الشهري","Monthly workshop report":"تقرير الورشة الشهري","Month report made by itself from the daily reports, with charts, PDF and Excel.":"تقرير شهري يُعدّ تلقائياً من التقارير اليومية مع رسوم بيانية وPDF وExcel.",
 "Previous month":"الشهر السابق","Next month":"الشهر التالي","Vehicles in the workshop each day":"المركبات في الورشة كل يوم","Vehicles by section":"المركبات حسب القسم","Most common problems":"أكثر المشاكل تكراراً","Status at month end":"الحالة في نهاية الشهر","Longest in the workshop":"الأطول بقاءً في الورشة",
 "All vehicles this month":"كل مركبات هذا الشهر","Search plate, door, vehicle or problem":"ابحث برقم اللوحة أو الباب أو المركبة أو المشكلة","Days = number of daily reports the vehicle was in. Vehicles that are not in the last report of the month count as completed.":"الأيام = عدد التقارير اليومية التي ظهرت فيها المركبة. المركبات غير الموجودة في آخر تقرير للشهر تُحسب مكتملة.",
@@ -120,6 +122,8 @@ var D={
 "Enter the job order number.":"أدخل رقم أمر العمل.","Delete this task and its spare parts?":"حذف هذه المهمة وقطع غيارها؟","Close without saving the changes?":"الإغلاق بدون حفظ التغييرات؟","This job card has changes that are not saved. Leave without saving?":"في بطاقة العمل تغييرات غير محفوظة. المغادرة بدون حفظ؟"
 };
 var T={
+"{n} days":"{n} يوم","{n} day":"{n} يوم",
+"Waiting {n} day":"بانتظار {n} يوم","Waiting {n} days":"بانتظار {n} يوم","Showing {n} of {n} vehicles":"عرض {n} من {n} مركبة","All sections · {n}":"كل الأقسام · {n}","All · {n}":"الكل · {n}",
 "{n} daily reports":"{n} تقارير يومية","▲ {n} more than last month":"▲ {n} أكثر من الشهر الماضي","▼ {n} fewer than last month":"▼ {n} أقل من الشهر الماضي",
 "{n} vehicles":"{n} مركبة","Showing {n} of {n}":"عرض {n} من {n}",
 "{n} shown":"{n} معروض","{n} drivers":"{n} سائق","{n} on duty":"{n} في الدوام","{n} orders":"{n} طلبات","{n} order":"{n} طلب","{n} uniform · {n} shoes":"{n} زي · {n} حذاء","Paper: {n} of {n} places filled":"الورقة: {n} من {n} أماكن ممتلئة",
@@ -129,6 +133,7 @@ var T={
 "{n} uniform":"{n} زي","{n} shoes":"{n} حذاء","{n} people":"{n} أشخاص","{n} on duty":"{n} في الدوام","{n} order":"{n} طلب","Last: in old list (no date)":"آخر مرة: في القائمة القديمة (بدون تاريخ)","Last: never given":"آخر مرة: لم يُسلّم أبداً"
 };
 var P=[
+[/^Req\. (\d\d\.\d\d\.\d{4})(?: · (\d+) days?| · today)?$/,function(m){return "طُلبت "+m[1]+(m[2]?" · "+m[2]+" يوم":(/today$/.test(m[0])?" · اليوم":""));}],
 [/^(January|February|March|April|May|June|July|August|September|October|November|December) (\d{4})$/,function(m){return {January:"يناير",February:"فبراير",March:"مارس",April:"أبريل",May:"مايو",June:"يونيو",July:"يوليو",August:"أغسطس",September:"سبتمبر",October:"أكتوبر",November:"نوفمبر",December:"ديسمبر"}[m[1]]+" "+m[2];}],
 [/^No daily reports in (.+)$/,function(m){return "لا توجد تقارير يومية في "+tr(m[1]);}],
 [/^Month so far — up to (.+)$/,function(m){return "الشهر حتى الآن — حتى "+m[1];}],
@@ -414,7 +419,7 @@ form{padding:14px 16px 16px;display:grid;gap:12px}
 .report-title span{color:var(--muted);font-weight:600}
 .band{background:var(--head);color:#fff;padding:8px 16px;font-weight:800;font-size:15px;text-transform:uppercase;letter-spacing:.3px;border-top:3px solid var(--gold);display:flex;justify-content:space-between;align-items:center}
 .band b{font-weight:800;font-size:13px;background:var(--gold);color:#13214B;border-radius:999px;padding:1px 10px}
-.cols,.row{display:grid;grid-template-columns:46px 110px 90px 66px minmax(110px,1fr) minmax(160px,1.6fr) 150px 84px;align-items:center}
+.cols,.row{display:grid;grid-template-columns:42px 104px 82px 58px minmax(100px,1fr) minmax(150px,1.5fr) 108px 146px 84px;align-items:center}
 .cols{background:var(--band);font-size:12.5px;font-weight:800;color:var(--band-ink);border-bottom:1px solid var(--line)}
 .cols span{padding:7px 8px}
 .row{border-bottom:1px solid var(--line);min-height:50px}
@@ -483,19 +488,33 @@ body:has(.form-panel.open) .fab{display:none !important}
   .summary{grid-template-columns:repeat(2,minmax(0,1fr));gap:8px}
   .stat .n{font-size:28px}
   .cols{display:none}
-  .row{grid-template-columns:auto 1fr auto;grid-template-areas:"sn plate acts" "sn veh veh" "sn prob prob" "sn status status";padding:8px 6px;row-gap:2px}
+  .row{grid-template-columns:auto 1fr auto;grid-template-areas:"sn plate acts" "sn veh veh" "sn prob prob" "sn preq preq" "sn status status";padding:8px 6px;row-gap:2px}
   .row .sn{grid-area:sn;align-self:start;padding-top:10px}
   .row .plate{grid-area:plate;font-size:21px}
   .row .door,.row .model{display:none}
   .row .veh{grid-area:veh;font-weight:500;color:var(--muted)}
   .row .prob{grid-area:prob;font-weight:600}
   .row .stcell{grid-area:status}
+  .row .preqc{grid-area:preq;padding-top:2px;padding-bottom:2px}
+  .row .preqc.none{display:none}
+  .row .preqc::before{content:"Parts req.: ";color:var(--muted);font-weight:600}
+  html[lang=ar] .row .preqc::before{content:"طلب القطع: "}
+  .row .preqc small{display:inline;margin-left:6px;margin-right:6px}
   .row .acts{grid-area:acts}
   .status{width:auto;display:inline-block;padding:7px 12px}
   .grid3{grid-template-columns:1fr 1fr}
   .grid3 .f-plate{grid-column:1 / -1}
 }
 @media (prefers-reduced-motion: reduce){*{transition:none !important}}
+.flab{font-size:12px;font-weight:800;color:var(--muted);text-transform:uppercase;letter-spacing:.3px;align-self:center;margin-right:2px}
+html[dir=rtl] .flab{margin-right:0;margin-left:2px;letter-spacing:0}
+.stfilter .chip.st-repair[aria-pressed=true]{background:var(--work);border-color:var(--work);color:#fff}
+.stfilter .chip.st-parts[aria-pressed=true]{background:var(--wait);border-color:var(--wait);color:#fff}
+.stfilter .chip.st-done[aria-pressed=true]{background:var(--done);border-color:var(--done);color:#fff}
+.preqc{font-weight:700;font-size:13.5px;color:var(--wait)}.preqc.none{color:var(--muted);font-weight:500}.preqc small{display:block;font-size:11.5px;font-weight:700;opacity:.85}
+.preq{display:block;font-size:11.5px;font-weight:700;color:var(--wait);margin-top:3px;line-height:1.2}
+.filtnote{padding:8px 16px;font-size:13px;font-weight:700;color:var(--muted);background:var(--surface2);border-bottom:1px solid var(--line)}
+.linkbtn{background:none;border:0;color:var(--accent);font-weight:800;text-decoration:underline;padding:0 4px;cursor:pointer}
 </style>
 </head>
 <body>
@@ -564,6 +583,11 @@ body:has(.form-panel.open) .fab{display:none !important}
             <input type="radio" name="status" id="stDone" value="done"><label for="stDone">Completed</label>
           </div>
         </div>
+        <div class="field" id="partsField" hidden>
+          <label for="fPartsDate">Spare parts request date</label>
+          <input id="fPartsDate" type="date">
+          <div class="hint" id="partsHint"></div>
+        </div>
         <div class="hint warn" id="formError" aria-live="assertive"></div>
         <div class="form-actions">
           <button type="button" class="btn" id="cancelEdit" hidden>Cancel</button>
@@ -579,6 +603,7 @@ body:has(.form-panel.open) .fab{display:none !important}
           <input id="searchInput" type="search" placeholder="Search plate, vehicle or problem" aria-label="Search">
         </div>
       </div>
+      <div class="stfilter chips" id="stFilter" role="group" aria-label="Filter by status" style="margin-bottom:8px"></div>
       <div class="secfilter chips" id="secFilter" role="group" aria-label="Filter by section" style="margin-bottom:12px"></div>
       <div class="report" id="report"></div>
       <p class="state-note" id="stateNote"></p>
@@ -1210,12 +1235,19 @@ $("fPlate").addEventListener("input",()=>{
 $("fModel").addEventListener("input",e=>{e.target.value=e.target.value.replace(/\D/g,"");});
 
 function secName(id){const s=SECTIONS.find(x=>x.id===id);return s?s.name:"Other";}
+const daysBetween=(a,b)=>Math.round((new Date(b+"T00:00")-new Date(a+"T00:00"))/864e5);
+function partsInfo(e,short){if((e.status||"repair")!=="parts"||!e.partsDate)return "";const d=daysBetween(e.partsDate,state.date);return (short?"Req. ":"Requested ")+dmy(e.partsDate)+(d>0?" · "+d+(d===1?" day":" days"):d===0?" · today":"");}
+function partsCell(e){if(!e.partsDate)return "–";const d=daysBetween(e.partsDate,state.date);return esc(dmy(e.partsDate))+((e.status||"repair")==="parts"?`<small>${d>0?d+(d===1?" day":" days"):d===0?"today":""}</small>`:"");}
+function partsTxt(e){if(!e.partsDate)return "";const d=daysBetween(e.partsDate,state.date);return dmy(e.partsDate)+((e.status||"repair")==="parts"&&d>=0?"\n"+(d===0?"TODAY":d+(d===1?" DAY":" DAYS")):"");}
+function syncPartsField(){const p=getStatus()==="parts";$("partsField").hidden=!p;if(p&&!$("fPartsDate").value)$("fPartsDate").value=state.date;updPartsHint();}
+function updPartsHint(){const v=$("fPartsDate").value,h=$("partsHint");if(!h)return;if(!v){h.textContent="";return;}const d=daysBetween(v,state.date);h.textContent=d>0?"Waiting "+d+(d===1?" day":" days"):d===0?"Requested today":"";}
+document.addEventListener("change",e=>{if(e.target&&e.target.name==="status")syncPartsField();if(e.target&&e.target.id==="fPartsDate")updPartsHint();});
 function getStatus(){const r=document.querySelector('input[name="status"]:checked');return r?r.value:"repair";}
 function setStatus(v){const r=document.querySelector(`input[name="status"][value="${v}"]`);if(r)r.checked=true;}
 
 function resetForm(keepSection){
   const sec=$("fSection").value;
-  $("entryForm").reset(); state.problem=""; renderProbChips();
+  $("entryForm").reset(); state.problem=""; renderProbChips(); $("fPartsDate").value=""; syncPartsField();
   if(keepSection)$("fSection").value=sec;
   state.editingId=null; $("formTitle").textContent="Add vehicle"; $("saveBtn").textContent="Add to report";
   $("cancelEdit").hidden=true; $("plateHint").textContent=""; $("formError").textContent="";
@@ -1228,6 +1260,8 @@ $("entryForm").addEventListener("submit",e=>{
     model:$("fModel").value.trim(), vehicle:$("fVehicle").value.trim(), problem:state.problem,
     note:$("fNote").value.trim(), status:getStatus()
   };
+  entry.partsDate=entry.status==="parts"?($("fPartsDate").value||state.date):($("fPartsDate").value||"");
+  if(entry.status!=="parts"&&!entry.partsDate)delete entry.partsDate;
   if(!entry.section){$("formError").textContent="Choose a section.";$("fSection").focus();return;}
   if(!entry.plate){$("formError").textContent="Enter the plate number.";$("fPlate").focus();return;}
   if(!entry.problem&&!entry.note){$("formError").textContent="Pick a problem or write details.";return;}
@@ -1250,6 +1284,7 @@ function startEdit(id){
   state.editingId=id;
   $("fSection").value=x.section; $("fPlate").value=x.plate; $("fDoor").value=x.door||""; $("fModel").value=x.model||"";
   $("fVehicle").value=x.vehicle||""; $("fNote").value=x.note||""; setStatus(x.status||"repair");
+  $("fPartsDate").value=x.partsDate||""; syncPartsField();
   state.problem=x.problem||""; renderProbChips();
   $("formTitle").textContent="Edit "+x.plate; $("saveBtn").textContent="Save changes"; $("cancelEdit").hidden=false;
   $("plateHint").textContent=""; $("formError").textContent="";
@@ -1274,11 +1309,15 @@ function render(){
   const c=counts(state.entries);
   $("summary").innerHTML=[["all","Vehicles in workshop"],["repair","Under repair"],["parts","Spare parts waiting"],["done","Completed"]]
     .map(([k,l])=>`<button type="button" class="stat ${k}" data-sf="${k}" aria-pressed="${state.statusFilter===k}"><span class="n">${c[k]}</span><span class="l">${l}</span></button>`).join("");
-  const secCount=id=>state.entries.filter(e=>e.section===id).length;
-  $("secFilter").innerHTML=`<button type="button" class="chip" data-sec="all" aria-pressed="${state.secFilter==="all"}">All sections</button>`+
+  const stOk=e=>state.statusFilter==="all"||(e.status||"repair")===state.statusFilter;
+  const secCount=id=>state.entries.filter(e=>e.section===id&&stOk(e)).length;
+  const cs=counts(state.entries.filter(e=>state.secFilter==="all"||e.section===state.secFilter));
+  $("stFilter").innerHTML=`<span class="flab">Status</span>`+[["all","All"],["repair","Under repair"],["parts","Spare parts waiting"],["done","Completed"]].map(([k,l])=>`<button type="button" class="chip st-${k}" data-sf="${k}" aria-pressed="${state.statusFilter===k}">${l} · ${cs[k]}</button>`).join("");
+  $("secFilter").innerHTML=`<span class="flab">Section</span><button type="button" class="chip" data-sec="all" aria-pressed="${state.secFilter==="all"}">All sections · ${state.entries.filter(stOk).length}</button>`+
     SECTIONS.map(s=>`<button type="button" class="chip" data-sec="${s.id}" aria-pressed="${state.secFilter===s.id}">${esc(s.name)} · ${secCount(s.id)}</button>`).join("");
   $("dateInput").value=state.date;
   const rep=$("report");
+  const filt=state.statusFilter!=="all"||state.secFilter!=="all"||state.q;
   const head=`<div class="report-title"><h2>Daily breakdown report</h2><span>Date: ${dmy(state.date)}</span></div>`;
   if(!state.loaded){rep.innerHTML=head+`<div class="empty">Loading report…</div>`;return;}
   const q=state.q.toLowerCase();
@@ -1295,7 +1334,7 @@ function render(){
     const items=visible.filter(e=>s.id==="__other"?!SECTIONS.find(x=>x.id===e.section):e.section===s.id);
     if(!items.length)return;
     html+=`<div class="band"><span>${esc(s.name)} section</span><b>${items.length}</b></div>`;
-    html+=`<div class="cols"><span style="text-align:center">S.No</span><span>Plate no.</span><span>Door no.</span><span>Model</span><span>Vehicle</span><span>Problem</span><span>Status</span><span></span></div>`;
+    html+=`<div class="cols"><span style="text-align:center">S.No</span><span>Plate no.</span><span>Door no.</span><span>Model</span><span>Vehicle</span><span>Problem</span><span>Parts req. date</span><span>Status</span><span></span></div>`;
     items.forEach(e=>{
       sn++; const st=e.status||"repair";
       html+=`<div class="row is-${st}" data-id="${esc(e.id)}">
@@ -1305,11 +1344,13 @@ function render(){
         <span class="model">${esc(e.model)||"–"}</span>
         <span class="veh">${esc(e.vehicle)||"–"}${e.model?`<span class="lbl"> · ${esc(e.model)}</span>`:""}</span>
         <span class="prob">${esc(e.problem||e.note)}${e.problem&&e.note?`<small>${esc(e.note)}</small>`:""}</span>
+        <span class="preqc${e.partsDate?"":" none"}">${partsCell(e)}</span>
         <span class="stcell"><button type="button" class="status s-${st}" data-act="cycle" title="Tap to change status">${STATUS[st]}</button></span>
         <span class="acts"><button type="button" class="icon" data-act="edit" aria-label="Edit ${esc(e.plate)}">${ICON_EDIT}</button><button type="button" class="icon" data-act="del" aria-label="Delete ${esc(e.plate)}">${ICON_DEL}</button></span>
       </div>`;
     });
   });
+  if(filt)html=html.replace('</div>','</div><div class="filtnote">Showing '+visible.length+' of '+state.entries.length+' vehicles'+(state.statusFilter!=="all"?" · "+STATUS[state.statusFilter]:"")+(state.secFilter!=="all"?" · "+secName(state.secFilter):"")+' <button type="button" class="linkbtn" data-act="clearf">Show all</button></div>');
   rep.innerHTML=html;
   $("stateNote").textContent=noteText();
 }
@@ -1318,16 +1359,18 @@ function noteText(){
   return db?"Saved online — the same report opens on your computer and phone.":"Saved on this device only.";
 }
 $("summary").addEventListener("click",e=>{const b=e.target.closest("[data-sf]");if(!b)return;state.statusFilter=state.statusFilter===b.dataset.sf?"all":b.dataset.sf;render();});
+$("stFilter").addEventListener("click",e=>{const b=e.target.closest("[data-sf]");if(!b)return;state.statusFilter=b.dataset.sf;render();});
 $("secFilter").addEventListener("click",e=>{const b=e.target.closest("[data-sec]");if(!b)return;state.secFilter=b.dataset.sec;render();});
 $("searchInput").addEventListener("input",e=>{state.q=e.target.value.trim();render();});
 $("report").addEventListener("click",e=>{
   const b=e.target.closest("[data-act]"); if(!b)return;
   if(b.dataset.act==="carry"){carryForward();return;}
+  if(b.dataset.act==="clearf"){state.statusFilter="all";state.secFilter="all";state.q="";$("searchInput").value="";render();return;}
   const row=b.closest(".row"); if(!row)return; const id=row.dataset.id;
   if(state.readOnly){toast("You can view this report but not change it.");return;}
   if(b.dataset.act==="edit")startEdit(id);
   else if(b.dataset.act==="cycle"){
-    state.entries=state.entries.map(x=>x.id===id?{...x,status:ORDER[(ORDER.indexOf(x.status||"repair")+1)%3],updatedAt:Date.now()}:x);
+    state.entries=state.entries.map(x=>{if(x.id!==id)return x;const ns=ORDER[(ORDER.indexOf(x.status||"repair")+1)%3];const o={...x,status:ns,updatedAt:Date.now()};if(ns==="parts"&&!o.partsDate)o.partsDate=state.date;return o;});
     saveDay(); render();
   }else if(b.dataset.act==="del"){
     const idx=state.entries.findIndex(x=>x.id===id); const removed=state.entries[idx];
@@ -1366,7 +1409,7 @@ function reportText(){
   SECTIONS.forEach(s=>{
     const items=state.entries.filter(e=>e.section===s.id); if(!items.length)return;
     t+=`\n*${s.name.toUpperCase()} SECTION* (${items.length})\n`;
-    items.forEach(e=>{sn++;t+=`${sn}. ${e.plate}${e.door?" / "+e.door:""}${e.vehicle?" – "+e.vehicle:""}${e.model?" ("+e.model+")":""}\n    ${[e.problem,e.note].filter(Boolean).join(": ")} — ${STATUS[e.status||"repair"]}\n`;});
+    items.forEach(e=>{sn++;t+=`${sn}. ${e.plate}${e.door?" / "+e.door:""}${e.vehicle?" – "+e.vehicle:""}${e.model?" ("+e.model+")":""}\n    ${[e.problem,e.note].filter(Boolean).join(": ")} — ${STATUS[e.status||"repair"]}${partsInfo(e)?" ("+partsInfo(e).toLowerCase()+")":""}\n`;});
   });
   return t;
 }
@@ -1393,7 +1436,7 @@ $("excelBtn").addEventListener("click",async()=>{
   try{
     await loadExcelJS();
     const wb=new ExcelJS.Workbook(); const ws=wb.addWorksheet("Daily report",{pageSetup:{paperSize:9,orientation:"portrait",fitToPage:true,fitToWidth:1,fitToHeight:0}});
-    ws.columns=[{width:7},{width:13},{width:11},{width:9},{width:22},{width:36},{width:21}];
+    ws.columns=[{width:7},{width:13},{width:11},{width:9},{width:20},{width:34},{width:15},{width:21}];
     const thin={style:"thin",color:{argb:"FF7F7F7F"}}, border={top:thin,left:thin,bottom:thin,right:thin};
     const fill=c=>({type:"pattern",pattern:"solid",fgColor:{argb:c}});
     const center={horizontal:"center",vertical:"middle",wrapText:true};
@@ -1402,33 +1445,33 @@ $("excelBtn").addEventListener("click",async()=>{
     ws.getRow(1).height=110;
     ws.addImage(lhId,{tl:{col:0.1,row:0.1},ext:{width:860,height:143}});
     try{const wmId=wb.addImage({base64:WATERMARK_XL,extension:"jpeg"});ws.addBackgroundImage(wmId);}catch(e){}
-    ws.mergeCells("A2:E2"); const t=ws.getCell("A2"); t.value="DAILY BREAKDOWN REPORT"; t.font={bold:true,size:16,color:{argb:"FFFFFFFF"}}; t.alignment={horizontal:"left",vertical:"middle",indent:1}; t.fill=fill(navy);
-    ws.mergeCells("F2:G2"); const dc=ws.getCell("F2"); dc.value="DATE: "+dmy(state.date); dc.font={bold:true,size:13,color:{argb:gold}}; dc.alignment={horizontal:"right",vertical:"middle",indent:1}; dc.fill=fill(navy);
+    ws.mergeCells("A2:F2"); const t=ws.getCell("A2"); t.value="DAILY BREAKDOWN REPORT"; t.font={bold:true,size:16,color:{argb:"FFFFFFFF"}}; t.alignment={horizontal:"left",vertical:"middle",indent:1}; t.fill=fill(navy);
+    ws.mergeCells("G2:H2"); const dc=ws.getCell("G2"); dc.value="DATE: "+dmy(state.date); dc.font={bold:true,size:13,color:{argb:gold}}; dc.alignment={horizontal:"right",vertical:"middle",indent:1}; dc.fill=fill(navy);
     ws.getRow(2).height=28;
-    ws.mergeCells("A3:G3"); const pb=ws.getCell("A3"); pb.value=state.preparedBy?"PREPARED BY: "+state.preparedBy:""; pb.font={bold:true,size:11,color:{argb:navy}}; pb.alignment={horizontal:"right",vertical:"middle",indent:1};
+    ws.mergeCells("A3:H3"); const pb=ws.getCell("A3"); pb.value=state.preparedBy?"PREPARED BY: "+state.preparedBy:""; pb.font={bold:true,size:11,color:{argb:navy}}; pb.alignment={horizontal:"right",vertical:"middle",indent:1};
     let r=4, sn=0;
-    const heads=["S.NO","PLATE NO","DOOR NO","MODEL","VEHICLE","PROBLEM","STATUS"];
+    const heads=["S.NO","PLATE NO","DOOR NO","MODEL","VEHICLE","PROBLEM","PARTS REQ. DATE","STATUS"];
     SECTIONS.forEach(s=>{
       const items=state.entries.filter(e=>e.section===s.id); if(!items.length)return;
-      ws.mergeCells(`A${r}:G${r}`); const b=ws.getCell(`A${r}`); b.value=s.name.toUpperCase()+" SECTION"; b.font={bold:true,size:12,color:{argb:"FFFFFFFF"}}; b.alignment=center; b.fill=fill(navy); b.border=border; ws.getRow(r).height=22; r++;
+      ws.mergeCells(`A${r}:H${r}`); const b=ws.getCell(`A${r}`); b.value=s.name.toUpperCase()+" SECTION"; b.font={bold:true,size:12,color:{argb:"FFFFFFFF"}}; b.alignment=center; b.fill=fill(navy); b.border=border; ws.getRow(r).height=22; r++;
       heads.forEach((h,i)=>{const c=ws.getRow(r).getCell(i+1);c.value=h;c.font={bold:true,color:{argb:navy}};c.alignment=center;c.fill=fill(cream);c.border=border;}); r++;
       items.forEach(e=>{
         sn++; const st=e.status||"repair";
-        const vals=[sn,e.plate,e.door||"",e.model?(isNaN(+e.model)?e.model:+e.model):"",(e.vehicle||"").toUpperCase(),[e.problem,e.note].filter(Boolean).join(" – ").toUpperCase(),STATUS[st].toUpperCase()];
+        const vals=[sn,e.plate,e.door||"",e.model?(isNaN(+e.model)?e.model:+e.model):"",(e.vehicle||"").toUpperCase(),[e.problem,e.note].filter(Boolean).join(" – ").toUpperCase(),partsTxt(e),STATUS[st].toUpperCase()];
         const row=ws.getRow(r);
         vals.forEach((v,i)=>{const c=row.getCell(i+1);c.value=v;c.alignment=center;c.border=border;
-          if(st==="parts"&&i>=5)c.font={color:{argb:"FFFF0000"},bold:i===6};
-          if(st==="done"&&i===6)c.font={color:{argb:"FF2B7A4B"},bold:true};
-          if(st==="repair"&&i===6)c.font={color:{argb:"FF9A5B00"},bold:true};
+          if(st==="parts"&&i>=5)c.font={color:{argb:"FFFF0000"},bold:i>=6};
+          if(st==="done"&&i===7)c.font={color:{argb:"FF2B7A4B"},bold:true};
+          if(st==="repair"&&i===7)c.font={color:{argb:"FF9A5B00"},bold:true};
         });
-        row.height=20; r++;
+        row.height=partsTxt(e).includes("\n")?32:20; r++;
       });
     });
     r++;
     const c=counts(state.entries);
     [["TOTAL VEHICLES",c.all],["UNDER REPAIR",c.repair],["SPARE PARTS WAITING",c.parts],["COMPLETED",c.done]].forEach(([l,v],i)=>{
-      ws.mergeCells(`E${r}:F${r}`); const lc=ws.getCell(`E${r}`); lc.value=l; lc.font={bold:true,size:i===0?14:12}; lc.alignment={horizontal:"right",vertical:"middle"}; lc.border=border;
-      const vc=ws.getCell(`G${r}`); vc.value=v; vc.font={bold:true,size:i===0?14:12,color:{argb:i===2?"FFFF0000":"FF000000"}}; vc.alignment=center; vc.border=border; r++;
+      ws.mergeCells(`F${r}:G${r}`); const lc=ws.getCell(`F${r}`); lc.value=l; lc.font={bold:true,size:i===0?14:12}; lc.alignment={horizontal:"right",vertical:"middle"}; lc.border=border;
+      const vc=ws.getCell(`H${r}`); vc.value=v; vc.font={bold:true,size:i===0?14:12,color:{argb:i===2?"FFFF0000":"FF000000"}}; vc.alignment=center; vc.border=border; r++;
     });
     const buf=await wb.xlsx.writeBuffer();
     const blob=new Blob([buf],{type:"application/vnd.openxmlformats-officedocument.spreadsheetml.sheet"});
@@ -1491,26 +1534,27 @@ $("printBtn").addEventListener("click",async()=>{
     const body=[]; let sn=0;
     SECTIONS.forEach(sec=>{
       const items=state.entries.filter(e=>e.section===sec.id); if(!items.length)return;
-      body.push([{content:sec.name.toUpperCase()+" SECTION  ("+items.length+")",colSpan:7,styles:{fillColor:navy,textColor:255,fontStyle:"bold",halign:"center",fontSize:9.5}}]);
+      body.push([{content:sec.name.toUpperCase()+" SECTION  ("+items.length+")",colSpan:8,styles:{fillColor:navy,textColor:255,fontStyle:"bold",halign:"center",fontSize:9.5}}]);
       items.forEach(e=>{sn++;const st=e.status||"repair";
-        body.push([sn,e.plate,e.door||"",e.model||"",(e.vehicle||"").toUpperCase(),[e.problem,e.note].filter(Boolean).join(" – ").toUpperCase(),{content:STATUS[st].toUpperCase(),_st:st}]);
+        body.push([sn,e.plate,e.door||"",e.model||"",(e.vehicle||"").toUpperCase(),[e.problem,e.note].filter(Boolean).join(" – ").toUpperCase(),partsTxt(e),{content:STATUS[st].toUpperCase(),_st:st}]);
       });
     });
     const stColor={repair:[154,91,0],parts:[200,55,45],done:[43,122,75]};
     doc.autoTable({
       startY:y+1, margin:{left:M,right:M,top:14,bottom:16},
-      head:[["S.NO","PLATE NO","DOOR NO","MODEL","VEHICLE","PROBLEM","STATUS"]],
+      head:[["S.NO","PLATE NO","DOOR NO","MODEL","VEHICLE","PROBLEM","PARTS REQ. DATE","STATUS"]],
       body, theme:"grid", showHead:"everyPage",
       styles:{fontSize:8.5,cellPadding:1.8,valign:"middle",halign:"center",lineColor:[190,190,190],lineWidth:0.2,textColor:[22,33,62],fillColor:false},
       headStyles:{fillColor:cream,textColor:navy,fontStyle:"bold",fontSize:8},
-      columnStyles:{0:{cellWidth:11},1:{cellWidth:24,fontStyle:"bold"},2:{cellWidth:19},3:{cellWidth:16},4:{cellWidth:31},6:{cellWidth:32}},
+      columnStyles:{0:{cellWidth:12},1:{cellWidth:22,fontStyle:"bold"},2:{cellWidth:18},3:{cellWidth:15},4:{cellWidth:24},6:{cellWidth:22},7:{cellWidth:28}},
       willDrawPage:()=>drawWatermark(),
       didParseCell:d=>{
         if(d.section!=="body")return;
         const raw=d.row.raw; const last=raw[raw.length-1]; const st=last&&last._st;
         if(!st)return;
-        if(d.column.index===6){d.cell.styles.textColor=stColor[st];d.cell.styles.fontStyle="bold";}
-        if(st==="parts"&&d.column.index===5)d.cell.styles.textColor=stColor.parts;
+        if(d.column.index===7){d.cell.styles.textColor=stColor[st];d.cell.styles.fontStyle="bold";}
+        if(st==="parts"&&(d.column.index===5||d.column.index===6))d.cell.styles.textColor=stColor.parts;
+        if(d.column.index===6&&st==="parts")d.cell.styles.fontStyle="bold";
       }
     });
     const c=counts(state.entries);

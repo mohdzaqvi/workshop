@@ -18,6 +18,8 @@ input[type=date],input[type=time]{min-width:0;max-width:100%}
 <script id="zTrJs">(function(){
 "use strict";
 var D={
+"Parts req. date":"تاريخ طلب القطع","today":"اليوم",
+"Spare parts request date":"تاريخ طلب قطع الغيار","Parts requested":"طلب القطع","Requested today":"طُلبت اليوم","Show all":"عرض الكل","Filter by status":"تصفية حسب الحالة","Status":"الحالة","Section":"القسم",
 "Monthly report":"التقرير الشهري","Monthly report opened":"تم فتح التقرير الشهري","Monthly workshop report":"تقرير الورشة الشهري","Month report made by itself from the daily reports, with charts, PDF and Excel.":"تقرير شهري يُعدّ تلقائياً من التقارير اليومية مع رسوم بيانية وPDF وExcel.",
 "Previous month":"الشهر السابق","Next month":"الشهر التالي","Vehicles in the workshop each day":"المركبات في الورشة كل يوم","Vehicles by section":"المركبات حسب القسم","Most common problems":"أكثر المشاكل تكراراً","Status at month end":"الحالة في نهاية الشهر","Longest in the workshop":"الأطول بقاءً في الورشة",
 "All vehicles this month":"كل مركبات هذا الشهر","Search plate, door, vehicle or problem":"ابحث برقم اللوحة أو الباب أو المركبة أو المشكلة","Days = number of daily reports the vehicle was in. Vehicles that are not in the last report of the month count as completed.":"الأيام = عدد التقارير اليومية التي ظهرت فيها المركبة. المركبات غير الموجودة في آخر تقرير للشهر تُحسب مكتملة.",
@@ -130,6 +132,8 @@ var D={
 "Enter the job order number.":"أدخل رقم أمر العمل.","Delete this task and its spare parts?":"حذف هذه المهمة وقطع غيارها؟","Close without saving the changes?":"الإغلاق بدون حفظ التغييرات؟","This job card has changes that are not saved. Leave without saving?":"في بطاقة العمل تغييرات غير محفوظة. المغادرة بدون حفظ؟"
 };
 var T={
+"{n} days":"{n} يوم","{n} day":"{n} يوم",
+"Waiting {n} day":"بانتظار {n} يوم","Waiting {n} days":"بانتظار {n} يوم","Showing {n} of {n} vehicles":"عرض {n} من {n} مركبة","All sections · {n}":"كل الأقسام · {n}","All · {n}":"الكل · {n}",
 "{n} daily reports":"{n} تقارير يومية","▲ {n} more than last month":"▲ {n} أكثر من الشهر الماضي","▼ {n} fewer than last month":"▼ {n} أقل من الشهر الماضي",
 "{n} vehicles":"{n} مركبة","Showing {n} of {n}":"عرض {n} من {n}",
 "{n} shown":"{n} معروض","{n} drivers":"{n} سائق","{n} on duty":"{n} في الدوام","{n} orders":"{n} طلبات","{n} order":"{n} طلب","{n} uniform · {n} shoes":"{n} زي · {n} حذاء","Paper: {n} of {n} places filled":"الورقة: {n} من {n} أماكن ممتلئة",
@@ -139,6 +143,7 @@ var T={
 "{n} uniform":"{n} زي","{n} shoes":"{n} حذاء","{n} people":"{n} أشخاص","{n} on duty":"{n} في الدوام","{n} order":"{n} طلب","Last: in old list (no date)":"آخر مرة: في القائمة القديمة (بدون تاريخ)","Last: never given":"آخر مرة: لم يُسلّم أبداً"
 };
 var P=[
+[/^Req\. (\d\d\.\d\d\.\d{4})(?: · (\d+) days?| · today)?$/,function(m){return "طُلبت "+m[1]+(m[2]?" · "+m[2]+" يوم":(/today$/.test(m[0])?" · اليوم":""));}],
 [/^(January|February|March|April|May|June|July|August|September|October|November|December) (\d{4})$/,function(m){return {January:"يناير",February:"فبراير",March:"مارس",April:"أبريل",May:"مايو",June:"يونيو",July:"يوليو",August:"أغسطس",September:"سبتمبر",October:"أكتوبر",November:"نوفمبر",December:"ديسمبر"}[m[1]]+" "+m[2];}],
 [/^No daily reports in (.+)$/,function(m){return "لا توجد تقارير يومية في "+tr(m[1]);}],
 [/^Month so far — up to (.+)$/,function(m){return "الشهر حتى الآن — حتى "+m[1];}],
@@ -958,6 +963,7 @@ function build(ym){
       if(e.section)v.sections.add(e.section);
       if(e.problem)v.problems.add(e.problem);
       if(e.note)v.notes.add(e.note);
+      if(e.partsDate&&(!v.partsDate||e.partsDate<v.partsDate))v.partsDate=e.partsDate;
       v.days.add(r.date);if(st==="parts")v.partsDays.add(r.date);
       if(r.date>=v.last){v.last=r.date;v.status=st;}
       if(r.date<v.first)v.first=r.date;
@@ -1072,7 +1078,7 @@ function renderTable(){
   const list=filtered();
   if(!list.length){$("vtable").innerHTML=`<div class="empty" style="border:0;padding:28px"><b>Nothing matches</b>Clear the search or pick “All sections”.</div>`;return;}
   $("vtable").innerHTML=`<table class="vt"><thead><tr><th>#</th><th>Plate no.</th><th>Door no.</th><th>Vehicle</th><th>Section</th><th>Problem</th><th>First day</th><th>Last day</th><th>Days</th><th>Status</th></tr></thead><tbody>`+
-    list.map((v,i)=>`<tr><td class="mut c-hide-m">${i+1}</td><td class="pl">${esc(v.plate)}</td><td class="c-wide mut" data-l="${esc(L("Door no."))}">${esc(v.door||"—")}</td><td class="c-wide">${esc([v.vehicle,v.model].filter(Boolean).join(" "))}</td><td class="c-wide">${esc(v.sections.map(secName).join(", "))}</td><td class="c-wide">${esc(v.problems.join(", "))}${v.notes.length?`<div class="mut">${esc(v.notes.join(" · "))}</div>`:""}</td><td class="c-wide mut" data-l="${esc(L("First day"))}">${esc(dmy(v.first))}</td><td class="c-wide mut" data-l="${esc(L("Last day"))}">${esc(dmy(v.last))}</td><td class="num c-days">${v.days}</td><td class="c-st"><span class="st ${v.end}">${esc(STATUS[v.end])}</span></td></tr>`).join("")+`</tbody></table>`;
+    list.map((v,i)=>`<tr><td class="mut c-hide-m">${i+1}</td><td class="pl">${esc(v.plate)}</td><td class="c-wide mut" data-l="${esc(L("Door no."))}">${esc(v.door||"—")}</td><td class="c-wide">${esc([v.vehicle,v.model].filter(Boolean).join(" "))}</td><td class="c-wide">${esc(v.sections.map(secName).join(", "))}</td><td class="c-wide">${esc(v.problems.join(", "))}${v.notes.length?`<div class="mut">${esc(v.notes.join(" · "))}</div>`:""}</td><td class="c-wide mut" data-l="${esc(L("First day"))}">${esc(dmy(v.first))}</td><td class="c-wide mut" data-l="${esc(L("Last day"))}">${esc(dmy(v.last))}</td><td class="num c-days">${v.days}</td><td class="c-st"><span class="st ${v.end}">${esc(STATUS[v.end])}</span>${v.partsDate?`<div class="mut" style="font-size:11.5px;margin-top:3px">${esc(L("Parts requested"))} ${esc(dmy(v.partsDate))}</div>`:""}</td></tr>`).join("")+`</tbody></table>`;
 }
 $("secChips").addEventListener("click",e=>{const b=e.target.closest("[data-s]");if(!b)return;state.sec=b.dataset.s;renderChips(state.data);renderTable();});
 $("q").addEventListener("input",e=>{state.q=e.target.value.trim();renderTable();});
@@ -1142,7 +1148,7 @@ $("pdfBtn").addEventListener("click",async()=>{
     doc.text("ALL VEHICLES — "+monthName(state.ym).toUpperCase()+"  ("+D.vehicles.length+")",M+4,y2+6.2);
     const stCol={done:[43,122,75],repair:[154,91,0],parts:[200,55,45]};
     doc.autoTable({startY:y2+12,margin:{left:M,right:M,top:6+lhH+6,bottom:22},head:[["#","Plate no.","Door","Vehicle","Section","Problem","First","Last","Days","Status"]],
-      body:D.vehicles.map((v,i)=>[i+1,v.plate,v.door,[v.vehicle,v.model].filter(Boolean).join(" "),v.sections.map(secName).join(", "),[v.problems.join(", "),v.notes.join(" · ")].filter(Boolean).join(" — "),dmy(v.first).slice(0,5),dmy(v.last).slice(0,5),v.days,STATUS[v.end]]),
+      body:D.vehicles.map((v,i)=>[i+1,v.plate,v.door,[v.vehicle,v.model].filter(Boolean).join(" "),v.sections.map(secName).join(", "),[v.problems.join(", "),v.notes.join(" · ")].filter(Boolean).join(" — "),dmy(v.first).slice(0,5),dmy(v.last).slice(0,5),v.days,STATUS[v.end]+(v.partsDate?"\nParts req. "+dmy(v.partsDate):"")]),
       theme:"grid",styles:{fontSize:7.3,cellPadding:1.3,lineColor:[228,225,214],lineWidth:0.2,textColor:[22,33,62],valign:"middle"},headStyles:{fillColor:[243,226,174],textColor:[19,33,75],fontStyle:"bold"},alternateRowStyles:{fillColor:[251,251,248]},
       columnStyles:{0:{cellWidth:7,halign:"center"},1:{cellWidth:25,fontStyle:"bold"},2:{cellWidth:18},6:{cellWidth:11},7:{cellWidth:11},8:{cellWidth:10,halign:"center",fontStyle:"bold"},9:{cellWidth:23}},
       didParseCell:d=>{if(d.section==="body"&&d.column.index===9){const v=D.vehicles[d.row.index];d.cell.styles.textColor=stCol[v.end];d.cell.styles.fontStyle="bold";}},
@@ -1197,12 +1203,12 @@ $("xlBtn").addEventListener("click",async()=>{
     img(chartImage(cfgStat,440,280),{col:3.4,row:after+17},{width:440,height:280});
     // Vehicles
     const v=wb.addWorksheet("Vehicles",{views:[{state:"frozen",ySplit:11,showGridLines:false}]});
-    v.columns=[{width:5},{width:14},{width:10},{width:18},{width:20},{width:30},{width:28},{width:12},{width:12},{width:7},{width:20}];
-    title(v,"ALL VEHICLES — "+monthName(state.ym).toUpperCase(),11);
-    hdr(v.addRow(["#","Plate no.","Door no.","Vehicle","Section","Problem","Details","First day","Last day","Days","Status at month end"]));
-    D.vehicles.forEach((x,i)=>{const r=v.addRow([i+1,x.plate,x.door,[x.vehicle,x.model].filter(Boolean).join(" "),x.sections.map(secName).join(", "),x.problems.join(", "),x.notes.join(" · "),dmy(x.first),dmy(x.last),x.days,STATUS[x.end]]);body(r,[1,8,9,10]);
+    v.columns=[{width:5},{width:14},{width:10},{width:18},{width:20},{width:30},{width:28},{width:12},{width:12},{width:7},{width:20},{width:16}];
+    title(v,"ALL VEHICLES — "+monthName(state.ym).toUpperCase(),12);
+    hdr(v.addRow(["#","Plate no.","Door no.","Vehicle","Section","Problem","Details","First day","Last day","Days","Status at month end","Parts requested"]));
+    D.vehicles.forEach((x,i)=>{const r=v.addRow([i+1,x.plate,x.door,[x.vehicle,x.model].filter(Boolean).join(" "),x.sections.map(secName).join(", "),x.problems.join(", "),x.notes.join(" · "),dmy(x.first),dmy(x.last),x.days,STATUS[x.end],x.partsDate?dmy(x.partsDate):""]);body(r,[1,8,9,10,12]);
       r.getCell(11).font={name:"Arial",size:10,bold:true,color:{argb:{done:"FF2B7A4B",repair:"FF9A5B00",parts:"FFC8372D"}[x.end]}};});
-    v.autoFilter={from:{row:11,column:1},to:{row:11,column:11}};
+    v.autoFilter={from:{row:11,column:1},to:{row:11,column:12}};
     // Daily
     const d=wb.addWorksheet("Day by day",{views:[{showGridLines:false}]});
     d.columns=[{width:14},{width:10},{width:10},{width:16},{width:20},{width:14}];
