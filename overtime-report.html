@@ -18,6 +18,14 @@ input[type=date],input[type=time]{min-width:0;max-width:100%}
 <script id="zTrJs">(function(){
 "use strict";
 var D={
+"Accident report":"تقرير حادث","Accident report opened":"تم فتح تقرير الحادث","Accident report: date, time, road, how it happened, driver name and code, vehicle, photos.":"تقرير حادث: التاريخ والوقت والطريق وكيف وقع الحادث واسم السائق ورقمه والمركبة والصور.",
+"New report":"تقرير جديد","New accident report":"تقرير حادث جديد","When & where":"متى وأين","Accident date":"تاريخ الحادث","Accident time":"وقت الحادث","Road / place":"الطريق / المكان","City / area":"المدينة / المنطقة","What happened":"ماذا حدث","How did it happen?":"كيف وقع الحادث؟",
+"Damage to our vehicle":"الأضرار في مركبتنا","Injury":"الإصابات","No injury":"لا توجد إصابات","Driver injured":"السائق مصاب","Other person injured":"شخص آخر مصاب","Who was hurt and how":"من أصيب وكيف","Other vehicle (if any)":"المركبة الأخرى (إن وجدت)","Najm / police report no.":"رقم تقرير نجم / الشرطة",
+"Photos (optional)":"الصور (اختياري)","Photo 1":"صورة 1","Photo 2":"صورة 2","Report preview":"معاينة التقرير","Saved reports":"التقارير المحفوظة","Search ref, plate, driver, code or road":"ابحث بالرقم المرجعي أو اللوحة أو السائق أو الرقم الوظيفي أو الطريق","Search reports":"بحث في التقارير",
+"No reports yet":"لا توجد تقارير بعد","Fill a new report and press “Save & PDF”. Every saved report shows here.":"املأ تقريراً جديداً واضغط «حفظ و PDF». كل تقرير محفوظ يظهر هنا.","Clear the search to see all reports.":"امسح البحث لعرض كل التقارير.","Report deleted":"تم حذف التقرير",
+"Choose the accident date.":"اختر تاريخ الحادث.","Enter the accident time.":"أدخل وقت الحادث.","Enter the road or place.":"أدخل الطريق أو المكان.","Write how the accident happened.":"اكتب كيف وقع الحادث.","Driver filled from Vehicle issued / Duty paper. Change it if someone else was driving.":"تم تعبئة السائق من تسليم المركبات / ورقة الدوام. غيّره إذا كان شخص آخر يقود.",
+"Optional":"اختياري",
+"This one had an accident":"تعرضت هذه لحادث",
 "Replacement request":"طلب استبدال","Replacement request opened":"تم فتح طلب الاستبدال","Request letter to move a part (like an axle) from one trailer to another, with 2 photos.":"خطاب طلب نقل قطعة (مثل المحور) من مقطورة إلى أخرى، مع صورتين.",
 "Replacement request letter":"خطاب طلب استبدال","New replacement request":"طلب استبدال جديد","Vehicle type":"نوع المركبة","Part to replace":"القطعة المطلوب استبدالها","Axle":"المحور","Differential":"الدفرنس","Suspension":"المساعدات","Write the part, e.g. Suspension":"اكتب القطعة، مثال: المساعدات",
 "1 · Part comes from":"1 · القطعة تؤخذ من","2 · Part goes to (needs the part)":"2 · القطعة تركب في (تحتاج القطعة)","Its problem":"المشكلة فيها","Trailer no.":"رقم المقطورة","Truck no.":"رقم الشاحنة","Vehicle no.":"رقم المركبة","Equipment no.":"رقم المعدة",
@@ -163,6 +171,7 @@ var T={
 "{n} uniform":"{n} زي","{n} shoes":"{n} حذاء","{n} people":"{n} أشخاص","{n} on duty":"{n} في الدوام","{n} order":"{n} طلب","Last: in old list (no date)":"آخر مرة: في القائمة القديمة (بدون تاريخ)","Last: never given":"آخر مرة: لم يُسلّم أبداً"
 };
 var P=[
+[/^Delete report (.+)\?$/,function(m){return "حذف التقرير "+m[1]+"؟";}],
 [/^Photo (\d) · (.+)$/,function(m){return "صورة "+m[1]+" · "+tr(m[2]);}],
 [/^Known (trailer|truck|vehicle|car|pick up|actros|howo|tanker|bus)(?: · (.+))?$/i,function(m){return "مركبة معروفة"+(m[2]?" · "+m[2]:"");}],
 [/^Enter the (.+) no\. the part comes from\.$/,function(){return "أدخل رقم المركبة التي تؤخذ منها القطعة.";}],

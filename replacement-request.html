@@ -18,6 +18,14 @@ input[type=date],input[type=time]{min-width:0;max-width:100%}
 <script id="zTrJs">(function(){
 "use strict";
 var D={
+"Accident report":"تقرير حادث","Accident report opened":"تم فتح تقرير الحادث","Accident report: date, time, road, how it happened, driver name and code, vehicle, photos.":"تقرير حادث: التاريخ والوقت والطريق وكيف وقع الحادث واسم السائق ورقمه والمركبة والصور.",
+"New report":"تقرير جديد","New accident report":"تقرير حادث جديد","When & where":"متى وأين","Accident date":"تاريخ الحادث","Accident time":"وقت الحادث","Road / place":"الطريق / المكان","City / area":"المدينة / المنطقة","What happened":"ماذا حدث","How did it happen?":"كيف وقع الحادث؟",
+"Damage to our vehicle":"الأضرار في مركبتنا","Injury":"الإصابات","No injury":"لا توجد إصابات","Driver injured":"السائق مصاب","Other person injured":"شخص آخر مصاب","Who was hurt and how":"من أصيب وكيف","Other vehicle (if any)":"المركبة الأخرى (إن وجدت)","Najm / police report no.":"رقم تقرير نجم / الشرطة",
+"Photos (optional)":"الصور (اختياري)","Photo 1":"صورة 1","Photo 2":"صورة 2","Report preview":"معاينة التقرير","Saved reports":"التقارير المحفوظة","Search ref, plate, driver, code or road":"ابحث بالرقم المرجعي أو اللوحة أو السائق أو الرقم الوظيفي أو الطريق","Search reports":"بحث في التقارير",
+"No reports yet":"لا توجد تقارير بعد","Fill a new report and press “Save & PDF”. Every saved report shows here.":"املأ تقريراً جديداً واضغط «حفظ و PDF». كل تقرير محفوظ يظهر هنا.","Clear the search to see all reports.":"امسح البحث لعرض كل التقارير.","Report deleted":"تم حذف التقرير",
+"Choose the accident date.":"اختر تاريخ الحادث.","Enter the accident time.":"أدخل وقت الحادث.","Enter the road or place.":"أدخل الطريق أو المكان.","Write how the accident happened.":"اكتب كيف وقع الحادث.","Driver filled from Vehicle issued / Duty paper. Change it if someone else was driving.":"تم تعبئة السائق من تسليم المركبات / ورقة الدوام. غيّره إذا كان شخص آخر يقود.",
+"Optional":"اختياري",
+"This one had an accident":"تعرضت هذه لحادث",
 "Replacement request":"طلب استبدال","Replacement request opened":"تم فتح طلب الاستبدال","Request letter to move a part (like an axle) from one trailer to another, with 2 photos.":"خطاب طلب نقل قطعة (مثل المحور) من مقطورة إلى أخرى، مع صورتين.",
 "Replacement request letter":"خطاب طلب استبدال","New replacement request":"طلب استبدال جديد","Vehicle type":"نوع المركبة","Part to replace":"القطعة المطلوب استبدالها","Axle":"المحور","Differential":"الدفرنس","Suspension":"المساعدات","Write the part, e.g. Suspension":"اكتب القطعة، مثال: المساعدات",
 "1 · Part comes from":"1 · القطعة تؤخذ من","2 · Part goes to (needs the part)":"2 · القطعة تركب في (تحتاج القطعة)","Its problem":"المشكلة فيها","Trailer no.":"رقم المقطورة","Truck no.":"رقم الشاحنة","Vehicle no.":"رقم المركبة","Equipment no.":"رقم المعدة",
@@ -163,6 +171,7 @@ var T={
 "{n} uniform":"{n} زي","{n} shoes":"{n} حذاء","{n} people":"{n} أشخاص","{n} on duty":"{n} في الدوام","{n} order":"{n} طلب","Last: in old list (no date)":"آخر مرة: في القائمة القديمة (بدون تاريخ)","Last: never given":"آخر مرة: لم يُسلّم أبداً"
 };
 var P=[
+[/^Delete report (.+)\?$/,function(m){return "حذف التقرير "+m[1]+"؟";}],
 [/^Photo (\d) · (.+)$/,function(m){return "صورة "+m[1]+" · "+tr(m[2]);}],
 [/^Known (trailer|truck|vehicle|car|pick up|actros|howo|tanker|bus)(?: · (.+))?$/i,function(m){return "مركبة معروفة"+(m[2]?" · "+m[2]:"");}],
 [/^Enter the (.+) no\. the part comes from\.$/,function(){return "أدخل رقم المركبة التي تؤخذ منها القطعة.";}],
@@ -498,6 +507,7 @@ html[dir=rtl] .prevbox{border-left:0;border-right:4px solid var(--gold);padding-
         <div class="field"><label for="fFrom">Trailer / vehicle no.</label><input id="fFrom" class="plate-in" list="dlPlate" placeholder="ZMT-047" maxlength="20"></div>
         <div class="field"><label for="fFromCond">Its problem</label><input id="fFromCond" list="dlCond" placeholder="Chassis damaged"></div>
       </div>
+      <label class="check"><input type="checkbox" id="fAcc"><span>This one had an accident</span></label>
       <div class="hint" id="fromHint"></div>
 
       <div class="sect side-b">2 · Part goes to (needs the part)</div>
@@ -34173,7 +34183,7 @@ $("partChips").addEventListener("click",e=>{const b=e.target.closest("[data-v]")
 function partName(){return state.part==="Other"?($("fPartOther").value.trim()||"Part"):state.part;}
 function blank(){
   state.id=null;state.type="Trailer";state.part="Axle";setImg(1,"");setImg(2,"");
-  ["fFrom","fTo","fFromCond","fToCond","fNote","fPartOther"].forEach(id=>$(id).value="");
+  ["fFrom","fTo","fFromCond","fToCond","fNote","fPartOther"].forEach(id=>$(id).value="");$("fAcc").checked=false;
   $("fDate").value=todayISO();$("fRef").value=nextRef();$("formTitle").textContent="New replacement request";
   $("formErr").textContent="";$("fromHint").textContent="";$("toHint").textContent="";
   renderChips();preview();
@@ -34181,12 +34191,12 @@ function blank(){
 function read(){
   return {id:state.id||uid(),ref:$("fRef").value.trim(),date:$("fDate").value||todayISO(),type:state.type,part:partName(),
     from:tidyNo($("fFrom").value),fromCond:$("fFromCond").value.trim(),to:tidyNo($("fTo").value),toCond:$("fToCond").value.trim(),
-    note:$("fNote").value.trim(),img1:state.img1,img2:state.img2};
+    note:$("fNote").value.trim(),acc:$("fAcc").checked,img1:state.img1,img2:state.img2};
 }
 function load(l){
   state.id=l.id;state.type=TYPES.includes(l.type)?l.type:"Trailer";state.part=PARTS.includes(l.part)?l.part:"Other";
   $("fDate").value=l.date;$("fRef").value=l.ref;$("fFrom").value=l.from;$("fFromCond").value=l.fromCond||"";$("fTo").value=l.to;$("fToCond").value=l.toCond||"";
-  $("fNote").value=l.note||"";$("fPartOther").value=PARTS.includes(l.part)?"":l.part;setImg(1,l.img1||"");setImg(2,l.img2||"");
+  $("fNote").value=l.note||"";$("fAcc").checked=!!l.acc;$("fPartOther").value=PARTS.includes(l.part)?"":l.part;setImg(1,l.img1||"");setImg(2,l.img2||"");
   $("formTitle").textContent="Edit "+l.ref;$("formErr").textContent="";renderChips();preview();
 }
 function vehHint(inp,hint){const f=findVeh(inp.value);hint.textContent=f?("Known "+low(f.type||"vehicle")+(f.name?" · "+f.name:"")):"";}
@@ -34194,6 +34204,7 @@ $("fFrom").addEventListener("input",()=>{vehHint($("fFrom"),$("fromHint"));previ
 $("fTo").addEventListener("input",()=>{vehHint($("fTo"),$("toHint"));preview();});
 ["fFrom","fTo"].forEach(id=>$(id).addEventListener("change",()=>{if($(id).value.trim())$(id).value=tidyNo($(id).value);preview();}));
 ["fDate","fRef","fFromCond","fToCond","fNote","fPartOther"].forEach(id=>$(id).addEventListener("input",preview));
+$("fAcc").addEventListener("change",preview);
 $("newBtn").addEventListener("click",()=>{blank();$("fFrom").focus();});
 
 /* ---------- photos (made smaller so they fit on the phone and online) ---------- */
@@ -34210,15 +34221,20 @@ document.querySelectorAll("[data-rm]").forEach(b=>b.addEventListener("click",()=
 function parts(l){
   const T=l.type.toLowerCase(),P=l.part,p=l.part.toLowerCase();
   const tl=T==="trailer"?"trailer box No.":T+" No.";
+  const Tl=tl.charAt(0).toUpperCase()+tl.slice(1);
   const from=l.from||"________",to=l.to||"________";
   const subject="Request for "+P+" Replacement – "+l.type+" "+to+" (from "+l.type+" "+from+")";
+  const its=c=>{const m=low(c).match(/^(.+?)\s+(?:is\s+)?damaged$/);return m?["its "+m[1]+" is damaged",1]:[low(c),1];};
   const p1=[["This is to inform you that the "+p+" of "+tl+" ",0],[to,1],[" is damaged",0]];
   if(l.toCond&&!low(l.toCond).includes(p))p1.push([" (",0],[low(l.toCond),1],[")",0]);
-  p1.push([". "+tl.charAt(0).toUpperCase()+tl.slice(1)+" ",0],[from,1],[" is also damaged",0]);
-  if(l.fromCond)p1.push([" (",0],[low(l.fromCond),1],[")",0]);
-  p1.push([", but its "+p+" is in good condition.",0]);
+  p1.push([". "+Tl+" ",0],[from,1]);
+  if(l.acc){p1.push([" met with an ",0],["accident",1]);if(l.fromCond)p1.push([" and ",0],its(l.fromCond));}
+  else if(l.fromCond)p1.push([" — ",0],its(l.fromCond));
+  else p1.push([" is out of service",0]);
+  p1.push([", but its "+p+" is in ",0],["good condition",1],[".",0]);
   const p2=[["Therefore, we kindly request your approval to ",0],["remove the "+p+" from "+T+" "+from,1],[" and ",0],["fit it on "+T+" "+to,1],[", so that "+T+" "+to+" can return to work.",0]];
-  const rows=[[to,l.toCond||(P+" damaged"),P+" will be fitted (receives)"],[from,l.fromCond||"Damaged",P+" will be removed (gives)"]];
+  const fc=(l.acc?"Accident":"")+(l.acc&&l.fromCond?" – ":"")+(l.fromCond||(l.acc?"":"Out of service"));
+  const rows=[[to,l.toCond||(P+" damaged"),P+" will be fitted (receives)"],[from,fc+" ("+p+" in good condition)",P+" will be removed (gives)"]];
   return {subject,paras:[p1,p2],rows};
 }
 
@@ -34287,10 +34303,11 @@ async function makePdf(l){
     words.forEach(([t,b])=>{doc.setFont("helvetica",b?"bold":"normal");const tw=wNoKern(t);if(/^\s+$/.test(t)&&!line.length)return;if(lw+tw>w&&line.length&&!/^\s+$/.test(t))flush();if(/^\s+$/.test(t)&&!line.length)return;line.push([t,b]);lw+=tw;});if(line.length)flush();};
   L.paras.forEach(p=>{rich(p,M,CW,5.4);y+=2.4;});
   // table
-  const cw=[40,58,CW-98];const th=7.5;
-  const rowY=(cells,yy,hdr,i)=>{let x=M;cells.forEach((t,j)=>{if(hdr)doc.setFillColor(243,226,174);else doc.setFillColor(i?235:252,i?246:236,i?239:234);doc.rect(x,yy,cw[j],th,"F");doc.setDrawColor(185,188,198);doc.setLineWidth(0.25);doc.rect(x,yy,cw[j],th,"S");
-    doc.setFont("helvetica",hdr||j===0?"bold":"normal");doc.setFontSize(9.6);doc.setTextColor(hdr?19:22,hdr?33:33,hdr?75:62);doc.text(doc.splitTextToSize(String(t),cw[j]-4)[0],x+2,yy+5);x+=cw[j];});};
-  y+=1;rowY([l.type+" No.","Condition","Action"],y,true);y+=th;L.rows.forEach((r,i)=>{rowY(r,y,false,i);y+=th;});y+=5;
+  const cw=[34,64,CW-98];
+  const rowY=(cells,yy,hdr,i)=>{doc.setFontSize(9.6);const ls=cells.map((t,j)=>{doc.setFont("helvetica",hdr||j===0?"bold":"normal");return doc.splitTextToSize(String(t),cw[j]-4);});const h=Math.max(...ls.map(a=>a.length))*4.3+3.4;let x=M;
+    cells.forEach((t,j)=>{if(hdr)doc.setFillColor(243,226,174);else doc.setFillColor(i?235:252,i?246:236,i?239:234);doc.rect(x,yy,cw[j],h,"F");doc.setDrawColor(185,188,198);doc.setLineWidth(0.25);doc.rect(x,yy,cw[j],h,"S");
+      doc.setFont("helvetica",hdr||j===0?"bold":"normal");doc.setTextColor(hdr?19:22,33,hdr?75:62);doc.text(ls[j],x+2,yy+4.9);x+=cw[j];});return h;};
+  y+=1;y+=rowY([l.type+" No.","Condition","Action"],y,true);L.rows.forEach((r,i)=>{y+=rowY(r,y,false,i);});y+=5;
   doc.setFontSize(10.5);doc.setTextColor(22,33,62);
   if(l.note){rich([["Remark: ",1],[l.note,0]],M,CW,5.4);y+=1.5;}
   // photos
@@ -34380,7 +34397,7 @@ function renderHist(){
   $("histCount").textContent=letters.length;
   if(!letters.length){$("hList").innerHTML=`<div class="empty"><b>No letters yet</b>Fill a new letter and press “Save & PDF”. Every saved letter shows here.</div>`;return;}
   if(!list.length){$("hList").innerHTML=`<div class="empty"><b>Nothing matches</b>Clear the search to see all letters.</div>`;return;}
-  $("hList").innerHTML=list.map(l=>`<div class="hrow" data-id="${esc(l.id)}"><span class="ref">${esc(l.ref)}<div class="mut">${esc(dmy(l.date))}</div></span><span><b>${esc(l.part)}</b><div class="mut">${(l.img1?1:0)+(l.img2?1:0)} photo(s)</div></span><span class="pl">${esc(l.from)} → ${esc(l.to)}</span><span class="mut">${esc(l.fromCond)}${l.fromCond&&l.toCond?" · ":""}${esc(l.toCond)}</span><span class="acts"><button type="button" class="icon" data-a="edit" aria-label="Edit ${esc(l.ref)}">${IC_EDIT}</button><button type="button" class="icon" data-a="pdf" aria-label="PDF for ${esc(l.ref)}">${IC_PDF}</button><button type="button" class="icon" data-a="del" aria-label="Delete ${esc(l.ref)}">${IC_DEL}</button></span></div>`).join("");
+  $("hList").innerHTML=list.map(l=>`<div class="hrow" data-id="${esc(l.id)}"><span class="ref">${esc(l.ref)}<div class="mut">${esc(dmy(l.date))}</div></span><span><b>${esc(l.part)}</b><div class="mut">${(l.img1?1:0)+(l.img2?1:0)} photo(s)</div></span><span class="pl">${esc(l.from)} → ${esc(l.to)}</span><span class="mut">${l.acc?"Accident · ":""}${esc(l.fromCond)}${l.fromCond&&l.toCond?" · ":""}${esc(l.toCond)}</span><span class="acts"><button type="button" class="icon" data-a="edit" aria-label="Edit ${esc(l.ref)}">${IC_EDIT}</button><button type="button" class="icon" data-a="pdf" aria-label="PDF for ${esc(l.ref)}">${IC_PDF}</button><button type="button" class="icon" data-a="del" aria-label="Delete ${esc(l.ref)}">${IC_DEL}</button></span></div>`).join("");
 }
 $("hq").addEventListener("input",e=>{state.hq=e.target.value.trim();renderHist();});
 $("hList").addEventListener("click",async e=>{

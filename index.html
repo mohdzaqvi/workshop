@@ -4,6 +4,14 @@
 <script id="zTrJs">(function(){
 "use strict";
 var D={
+"Accident report":"تقرير حادث","Accident report opened":"تم فتح تقرير الحادث","Accident report: date, time, road, how it happened, driver name and code, vehicle, photos.":"تقرير حادث: التاريخ والوقت والطريق وكيف وقع الحادث واسم السائق ورقمه والمركبة والصور.",
+"New report":"تقرير جديد","New accident report":"تقرير حادث جديد","When & where":"متى وأين","Accident date":"تاريخ الحادث","Accident time":"وقت الحادث","Road / place":"الطريق / المكان","City / area":"المدينة / المنطقة","What happened":"ماذا حدث","How did it happen?":"كيف وقع الحادث؟",
+"Damage to our vehicle":"الأضرار في مركبتنا","Injury":"الإصابات","No injury":"لا توجد إصابات","Driver injured":"السائق مصاب","Other person injured":"شخص آخر مصاب","Who was hurt and how":"من أصيب وكيف","Other vehicle (if any)":"المركبة الأخرى (إن وجدت)","Najm / police report no.":"رقم تقرير نجم / الشرطة",
+"Photos (optional)":"الصور (اختياري)","Photo 1":"صورة 1","Photo 2":"صورة 2","Report preview":"معاينة التقرير","Saved reports":"التقارير المحفوظة","Search ref, plate, driver, code or road":"ابحث بالرقم المرجعي أو اللوحة أو السائق أو الرقم الوظيفي أو الطريق","Search reports":"بحث في التقارير",
+"No reports yet":"لا توجد تقارير بعد","Fill a new report and press “Save & PDF”. Every saved report shows here.":"املأ تقريراً جديداً واضغط «حفظ و PDF». كل تقرير محفوظ يظهر هنا.","Clear the search to see all reports.":"امسح البحث لعرض كل التقارير.","Report deleted":"تم حذف التقرير",
+"Choose the accident date.":"اختر تاريخ الحادث.","Enter the accident time.":"أدخل وقت الحادث.","Enter the road or place.":"أدخل الطريق أو المكان.","Write how the accident happened.":"اكتب كيف وقع الحادث.","Driver filled from Vehicle issued / Duty paper. Change it if someone else was driving.":"تم تعبئة السائق من تسليم المركبات / ورقة الدوام. غيّره إذا كان شخص آخر يقود.",
+"Optional":"اختياري",
+"This one had an accident":"تعرضت هذه لحادث",
 "Replacement request":"طلب استبدال","Replacement request opened":"تم فتح طلب الاستبدال","Request letter to move a part (like an axle) from one trailer to another, with 2 photos.":"خطاب طلب نقل قطعة (مثل المحور) من مقطورة إلى أخرى، مع صورتين.",
 "Replacement request letter":"خطاب طلب استبدال","New replacement request":"طلب استبدال جديد","Vehicle type":"نوع المركبة","Part to replace":"القطعة المطلوب استبدالها","Axle":"المحور","Differential":"الدفرنس","Suspension":"المساعدات","Write the part, e.g. Suspension":"اكتب القطعة، مثال: المساعدات",
 "1 · Part comes from":"1 · القطعة تؤخذ من","2 · Part goes to (needs the part)":"2 · القطعة تركب في (تحتاج القطعة)","Its problem":"المشكلة فيها","Trailer no.":"رقم المقطورة","Truck no.":"رقم الشاحنة","Vehicle no.":"رقم المركبة","Equipment no.":"رقم المعدة",
@@ -149,6 +157,7 @@ var T={
 "{n} uniform":"{n} زي","{n} shoes":"{n} حذاء","{n} people":"{n} أشخاص","{n} on duty":"{n} في الدوام","{n} order":"{n} طلب","Last: in old list (no date)":"آخر مرة: في القائمة القديمة (بدون تاريخ)","Last: never given":"آخر مرة: لم يُسلّم أبداً"
 };
 var P=[
+[/^Delete report (.+)\?$/,function(m){return "حذف التقرير "+m[1]+"؟";}],
 [/^Photo (\d) · (.+)$/,function(m){return "صورة "+m[1]+" · "+tr(m[2]);}],
 [/^Known (trailer|truck|vehicle|car|pick up|actros|howo|tanker|bus)(?: · (.+))?$/i,function(m){return "مركبة معروفة"+(m[2]?" · "+m[2]:"");}],
 [/^Enter the (.+) no\. the part comes from\.$/,function(){return "أدخل رقم المركبة التي تؤخذ منها القطعة.";}],
@@ -530,7 +539,7 @@ document.addEventListener("DOMContentLoaded",function(){lbl();var b=document.get
       <div class="lh"><div class="ic" id="lockIc"></div><div><b id="lockTitle"></b><small>Enter the password for this section</small></div></div>
       <form id="lockForm" autocomplete="off">
         <label for="pwIn">Password</label>
-        <div class="pw"><input id="pwIn" type="password" inputmode="text" autocomplete="off" aria-describedby="pwErr"><button type="button" id="pwEye" aria-label="Show password"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M2 12s3.5-7 10-7 10 7 10 7-3.5 7-10 7S2 12 2 12z"/><circle cx="12" cy="12" r="3"/></svg></button></div>
+        <div class="pw"><input id="pwIn" type="password" inputmode="text" autocomplete="off" autocapitalize="none" autocorrect="off" spellcheck="false" aria-describedby="pwErr"><button type="button" id="pwEye" aria-label="Show password"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M2 12s3.5-7 10-7 10 7 10 7-3.5 7-10 7S2 12 2 12z"/><circle cx="12" cy="12" r="3"/></svg></button></div>
         <div class="err" id="pwErr" aria-live="assertive"></div>
         <button type="submit" class="btn gold">Open</button>
         <span class="hint">Stays open until you press “Lock all” or close the browser.</span>
@@ -552,6 +561,7 @@ const I={
  gate:'<path d="M4 21V5l8-3 8 3v16"/><path d="M9 21v-6h6v6"/><path d="M9 9h6"/>',
  duty:'<rect x="4" y="3" width="16" height="18" rx="2"/><path d="M8 8h8M8 12h8M8 16h5"/><path d="m15 16 1.5 1.5L19 15"/>',
  uni:'<path d="M8 3 4 6l2 4 2-1v12h8V9l2 1 2-4-4-3c-.6 1.7-2.2 3-4 3S8.6 4.7 8 3z"/>',
+ crash:'<path d="M12 3 2 20h20z"/><path d="M12 10v4"/><path d="M12 17h.01"/>',
  swap:'<path d="M7 4 3 8l4 4"/><path d="M3 8h14"/><path d="m17 20 4-4-4-4"/><path d="M21 16H7"/>',
  clock:'<circle cx="12" cy="12" r="9"/><path d="M12 7v5l3 2"/>',
  perm:'<path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><path d="M14 2v6h6"/><path d="m9 15 2 2 4-4"/>',
@@ -574,10 +584,11 @@ const APPS=[
     {id:"handover-letter",file:"handover-letter.html",name:"Handover letter",icon:"letter",desc:"Vehicle handover letter: enter the driver name, code and site, and print it in PDF or Word."},
     {id:"overtime-report",file:"overtime-report.html",name:"Overtime",icon:"clock",desc:"Overtime breakdown report: employees, out and in time, basic and O.T hours, with Excel."},
     {id:"permission-letter",file:"permission-letter.html",name:"Permission letter",icon:"perm",desc:"Hours permission letter for an employee, ready to print on the letterhead."},
-    {id:"replacement-request",file:"replacement-request.html",name:"Replacement request",icon:"swap",desc:"Request letter to move a part (like an axle) from one trailer to another, with 2 photos."}
+    {id:"replacement-request",file:"replacement-request.html",name:"Replacement request",icon:"swap",desc:"Request letter to move a part (like an axle) from one trailer to another, with 2 photos."},
+    {id:"accident-report",file:"accident-report.html",name:"Accident report",icon:"crash",desc:"Accident report: date, time, road, how it happened, driver name and code, vehicle, photos."}
 ];
 /* default passwords (stored as SHA-256 hashes, never as plain text) */
-const DEFAULT_HASH={"daily-report": "4d068637d1b8fdb711a9d2ab4d6ccd3e7a4516cf072e2694bd819d65dbbf15a5", "vehicle-issued": "b3967a7b1cb233aa1c25cec6dfcd69bb58a964bd94bf1008dbff7e66ca8b4984", "vehicle-return": "01cc2c10b5c976f4a35f63229cff374b23d2c9240c5b55b57295e2b68a251a34", "gate-pass": "c954e0b5fa94893c0dcbc3aee93880e1d0444ca42cfd6e5e62ea49bf75961674", "duty-paper": "66e6ca16cfd3f4fa462bc8045ac31da03e899bf4e8607933c621aaabc915e33d", "uniform-record": "ebdb6a25368f573118a9b7be6d11da24f6c4b7a7b3078134c48cf8244b1a229a", "admin": "281ca050785b651fe5673576f80b80f21fed955b026b9c097ff827a97c259d92", "replacement-request": "07fc2481d25840d46202d423b2b594247792548bdbcd7cd79d0d8881fdede713", "overtime-report": "1b82a5fb78eaa3df6a0404338f0adbcaccdfa632c5b162858027fa05249f4f47", "permission-letter": "dc6974246df63b683d76a0f7997768d52385d84285ddd249c35ba16bf02ac55e", "handover-letter": "2d5af1664fa610df0197e1b8f7711394c147134e06bc5b2ef5fe2be63dc91e21", "monthly-report": "6a8ee30aabb0dfbf32dfc5999d3ea4b04e869131b7bcd8798faef8eacf51f60a", "job-card": "816066fe01b49123910a9f2def50bac52cdbcf52eddf4263b7bb43d38412762a"};
+const DEFAULT_HASH={"daily-report": "4d068637d1b8fdb711a9d2ab4d6ccd3e7a4516cf072e2694bd819d65dbbf15a5", "vehicle-issued": "b3967a7b1cb233aa1c25cec6dfcd69bb58a964bd94bf1008dbff7e66ca8b4984", "vehicle-return": "01cc2c10b5c976f4a35f63229cff374b23d2c9240c5b55b57295e2b68a251a34", "gate-pass": "c954e0b5fa94893c0dcbc3aee93880e1d0444ca42cfd6e5e62ea49bf75961674", "duty-paper": "66e6ca16cfd3f4fa462bc8045ac31da03e899bf4e8607933c621aaabc915e33d", "uniform-record": "ebdb6a25368f573118a9b7be6d11da24f6c4b7a7b3078134c48cf8244b1a229a", "admin": "281ca050785b651fe5673576f80b80f21fed955b026b9c097ff827a97c259d92", "accident-report": "00be5dd9377172615d1da633225f83ce188135a5e65a0ba0923d0e8b9a570ee5", "replacement-request": "07fc2481d25840d46202d423b2b594247792548bdbcd7cd79d0d8881fdede713", "overtime-report": "1b82a5fb78eaa3df6a0404338f0adbcaccdfa632c5b162858027fa05249f4f47", "permission-letter": "dc6974246df63b683d76a0f7997768d52385d84285ddd249c35ba16bf02ac55e", "handover-letter": "2d5af1664fa610df0197e1b8f7711394c147134e06bc5b2ef5fe2be63dc91e21", "monthly-report": "6a8ee30aabb0dfbf32dfc5999d3ea4b04e869131b7bcd8798faef8eacf51f60a", "job-card": "816066fe01b49123910a9f2def50bac52cdbcf52eddf4263b7bb43d38412762a"};
 
 /* ---- SHA-256 (plain JS, works everywhere) ---- */
 function sha256(ascii){
@@ -669,10 +680,10 @@ let adminOk=false;
 function renderAdmin(){
   if(!adminOk){
     $("admin").innerHTML=`<div class="lockbox" style="margin:30px auto"><div class="lh"><div class="ic">${ic("gate")}</div><div><b>Passwords</b><small>Enter the admin password</small></div></div>
-      <form id="admForm" autocomplete="off"><label for="admIn">Admin password</label><div class="pw"><input id="admIn" type="password" autocomplete="off"></div><div class="err" id="admErr"></div><button type="submit" class="btn navy">Open settings</button></form></div>`;
+      <form id="admForm" autocomplete="off"><label for="admIn">Admin password</label><div class="pw"><input id="admIn" type="password" autocomplete="off" autocapitalize="none" autocorrect="off" spellcheck="false"></div><div class="err" id="admErr"></div><button type="submit" class="btn navy">Open settings</button></form></div>`;
     setTimeout(()=>{const i=$("admIn");if(i)i.focus();},30);
     $("admForm").addEventListener("submit",e=>{e.preventDefault();
-      if(hashPw("admin",$("admIn").value)===hashFor("admin")){adminOk=true;renderAdmin();}else{$("admErr").textContent="Wrong admin password.";$("admIn").select();}});
+      const av=$("admIn").value,ah=hashFor("admin");if(hashPw("admin",av)===ah||hashPw("admin",av.toLowerCase())===ah){adminOk=true;renderAdmin();}else{$("admErr").textContent="Wrong admin password.";$("admIn").select();}});
     return;
   }
   const rows=APPS.concat([{id:"admin",name:"Admin (this page)",desc:"Needed to change passwords"}]);
@@ -701,15 +712,15 @@ let tt=null;function toast(m){$("toast").textContent=m;$("toast").classList.add(
 
 /* ================= shared data: sync localStorage with a Firebase Realtime Database ================= */
 const DEFAULT_DB="https://zoman-workshop-default-rtdb.europe-west1.firebasedatabase.app";
-const SYNC_PREFIX=["wr:","vi:","vr:","gp:","dp:","uf:","jc:","hl:","rr:","ot_","hub:pw"];
-const KEY_APP={"wr:":"daily-report","vi:":"vehicle-issued","vr:":"vehicle-return","gp:":"gate-pass","dp:":"duty-paper","uf:":"uniform-record","jc:":"job-card","hl:":"handover-letter","ot_":"overtime-report","rr:":"replacement-request"};
+const SYNC_PREFIX=["wr:","vi:","vr:","gp:","dp:","uf:","jc:","hl:","rr:","acc:","ot_","hub:pw"];
+const KEY_APP={"wr:":"daily-report","vi:":"vehicle-issued","vr:":"vehicle-return","gp:":"gate-pass","dp:":"duty-paper","uf:":"uniform-record","jc:":"job-card","hl:":"handover-letter","ot_":"overtime-report","rr:":"replacement-request","acc:":"accident-report"};
 const isSyncKey=k=>!!k&&SYNC_PREFIX.some(p=>k.indexOf(p)===0);
 const appOfKey=k=>{for(const p in KEY_APP)if(k.indexOf(p)===0)return KEY_APP[p];return null;};
 let syncCfg=lsGet("hub:sync",null);
 const devId=(()=>{let d=lsGet("hub:dev",null);if(!d){d=Math.random().toString(36).slice(2,10);lsSet("hub:dev",d);}return d;})();
 let meta=lsGet("hub:syncmeta",{})||{};
 let pending=new Set(lsGet("hub:pending",[])||[]);
-const APP_VERSION="29.10.2026-3";let lastRecv=0,lastSent=0,lastErr="";
+const APP_VERSION="29.10.2026-6";let lastRecv=0,lastSent=0,lastErr="";
 let remote={},lastApplied={},es=null,flushTimer=null,retryTimer=null,syncState="off",syncMsg="";
 const saveMeta=()=>lsSet("hub:syncmeta",meta);
 const savePending=()=>lsSet("hub:pending",[...pending]);
@@ -827,7 +838,7 @@ async function initialSync(){
   const seen=new Set();
   Object.keys(all).forEach(ek=>{
     const key=dec(ek),rec=all[ek];
-    if(!isRec(rec)){if(rec&&typeof rec==="object"&&/^(wr|vi|vr|gp|dp|uf|jc|hl|rr):|^ot_/.test(ek))fetch(baseUrl()+"/"+encodeURIComponent(ek)+".json",{method:"DELETE"}).catch(()=>{});return;}
+    if(!isRec(rec)){if(rec&&typeof rec==="object"&&/^(wr|vi|vr|gp|dp|uf|jc|hl|rr|acc):|^ot_/.test(ek))fetch(baseUrl()+"/"+encodeURIComponent(ek)+".json",{method:"DELETE"}).catch(()=>{});return;}
     seen.add(key);if(!isSyncKey(key))return;remote[key]=rec;
     const lv=localStorage.getItem(key),rv=rec.v==null?null:rec.v,t=+rec.t||0;
     if(!(key in meta)){
@@ -930,6 +941,8 @@ function renderHomeBanner(){
 }
 $("homeSyncGo").addEventListener("click",async()=>{const ok=await connect(DEFAULT_DB,$("homeSyncPw").value,$("homeSyncErr"));if(ok){toast("This device is now sharing data");renderHomeBanner();}});
 $("syncPill").addEventListener("click",()=>{location.hash="passwords";});
+/* one-time: admin password back to the default (zoman@2026) on every device */
+if(lsGet("hub:adminreset",0)<1){const l=local();l.admin=DEFAULT_HASH.admin;lsSet("hub:pw",l);if(syncCfg){pending.add("hub:pw");savePending();}lsSet("hub:adminreset",1);}
 renderSyncPill();renderHomeBanner();
 if(syncCfg)startSync();
 {const vl=$("verLine");if(vl)vl.textContent="Version "+APP_VERSION;}
