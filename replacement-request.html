@@ -18,6 +18,11 @@ input[type=date],input[type=time]{min-width:0;max-width:100%}
 <script id="zTrJs">(function(){
 "use strict";
 var D={
+"Accident report with damage list, photos, and the repair & handover report after the workshop fixes it.":"تقرير حادث مع قائمة الأضرار والصور، وتقرير الإصلاح والتسليم بعد إصلاح الورشة.",
+"Damage to our vehicle (add each item)":"الأضرار في مركبتنا (أضف كل بند)","e.g. Front bumper":"مثال: الصدام الأمامي","Damaged item":"البند المتضرر","No damage added yet.":"لم تتم إضافة أضرار بعد.","Remove item":"حذف البند",
+"Repaired":"تم الإصلاح","Replaced":"تم الاستبدال","Painted":"تم الدهان","Pending":"معلق","Repair & handover":"الإصلاح والتسليم","Vehicle repaired in the workshop and handed over":"تم إصلاح المركبة في الورشة وتسليمها",
+"Came to workshop":"دخلت الورشة","Job card no.":"رقم بطاقة العمل","Repair finished":"انتهى الإصلاح","Handover date":"تاريخ التسليم","Other work done (optional)":"أعمال أخرى منجزة (اختياري)","e.g. Wheel alignment done and vehicle road tested":"مثال: تمت ضبط الزوايا وتجربة المركبة على الطريق",
+"Handed over to":"سُلّمت إلى","Same driver as in the accident":"نفس السائق في الحادث","Choose the handover date.":"اختر تاريخ التسليم.","Enter who receives the vehicle.":"أدخل من يستلم المركبة.","Enter the emp code of who receives the vehicle.":"أدخل الرقم الوظيفي لمن يستلم المركبة.",
 "Accident report":"تقرير حادث","Accident report opened":"تم فتح تقرير الحادث","Accident report: date, time, road, how it happened, driver name and code, vehicle, photos.":"تقرير حادث: التاريخ والوقت والطريق وكيف وقع الحادث واسم السائق ورقمه والمركبة والصور.",
 "New report":"تقرير جديد","New accident report":"تقرير حادث جديد","When & where":"متى وأين","Accident date":"تاريخ الحادث","Accident time":"وقت الحادث","Road / place":"الطريق / المكان","City / area":"المدينة / المنطقة","What happened":"ماذا حدث","How did it happen?":"كيف وقع الحادث؟",
 "Damage to our vehicle":"الأضرار في مركبتنا","Injury":"الإصابات","No injury":"لا توجد إصابات","Driver injured":"السائق مصاب","Other person injured":"شخص آخر مصاب","Who was hurt and how":"من أصيب وكيف","Other vehicle (if any)":"المركبة الأخرى (إن وجدت)","Najm / police report no.":"رقم تقرير نجم / الشرطة",
@@ -171,6 +176,9 @@ var T={
 "{n} uniform":"{n} زي","{n} shoes":"{n} حذاء","{n} people":"{n} أشخاص","{n} on duty":"{n} في الدوام","{n} order":"{n} طلب","Last: in old list (no date)":"آخر مرة: في القائمة القديمة (بدون تاريخ)","Last: never given":"آخر مرة: لم يُسلّم أبداً"
 };
 var P=[
+[/^Filled from job card (.+)\.$/,function(m){return "تمت التعبئة من بطاقة العمل "+m[1]+".";}],
+[/^Damaged item (\d+)$/,function(m){return "البند المتضرر "+m[1];}],
+[/^Handed over (\d\d\/\d\d\/\d{4})$/,function(m){return "سُلّمت "+m[1];}],
 [/^Delete report (.+)\?$/,function(m){return "حذف التقرير "+m[1]+"؟";}],
 [/^Photo (\d) · (.+)$/,function(m){return "صورة "+m[1]+" · "+tr(m[2]);}],
 [/^Known (trailer|truck|vehicle|car|pick up|actros|howo|tanker|bus)(?: · (.+))?$/i,function(m){return "مركبة معروفة"+(m[2]?" · "+m[2]:"");}],

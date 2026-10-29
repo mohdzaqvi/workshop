@@ -18,6 +18,11 @@ input[type=date],input[type=time]{min-width:0;max-width:100%}
 <script id="zTrJs">(function(){
 "use strict";
 var D={
+"Accident report with damage list, photos, and the repair & handover report after the workshop fixes it.":"تقرير حادث مع قائمة الأضرار والصور، وتقرير الإصلاح والتسليم بعد إصلاح الورشة.",
+"Damage to our vehicle (add each item)":"الأضرار في مركبتنا (أضف كل بند)","e.g. Front bumper":"مثال: الصدام الأمامي","Damaged item":"البند المتضرر","No damage added yet.":"لم تتم إضافة أضرار بعد.","Remove item":"حذف البند",
+"Repaired":"تم الإصلاح","Replaced":"تم الاستبدال","Painted":"تم الدهان","Pending":"معلق","Repair & handover":"الإصلاح والتسليم","Vehicle repaired in the workshop and handed over":"تم إصلاح المركبة في الورشة وتسليمها",
+"Came to workshop":"دخلت الورشة","Job card no.":"رقم بطاقة العمل","Repair finished":"انتهى الإصلاح","Handover date":"تاريخ التسليم","Other work done (optional)":"أعمال أخرى منجزة (اختياري)","e.g. Wheel alignment done and vehicle road tested":"مثال: تمت ضبط الزوايا وتجربة المركبة على الطريق",
+"Handed over to":"سُلّمت إلى","Same driver as in the accident":"نفس السائق في الحادث","Choose the handover date.":"اختر تاريخ التسليم.","Enter who receives the vehicle.":"أدخل من يستلم المركبة.","Enter the emp code of who receives the vehicle.":"أدخل الرقم الوظيفي لمن يستلم المركبة.",
 "Accident report":"تقرير حادث","Accident report opened":"تم فتح تقرير الحادث","Accident report: date, time, road, how it happened, driver name and code, vehicle, photos.":"تقرير حادث: التاريخ والوقت والطريق وكيف وقع الحادث واسم السائق ورقمه والمركبة والصور.",
 "New report":"تقرير جديد","New accident report":"تقرير حادث جديد","When & where":"متى وأين","Accident date":"تاريخ الحادث","Accident time":"وقت الحادث","Road / place":"الطريق / المكان","City / area":"المدينة / المنطقة","What happened":"ماذا حدث","How did it happen?":"كيف وقع الحادث؟",
 "Damage to our vehicle":"الأضرار في مركبتنا","Injury":"الإصابات","No injury":"لا توجد إصابات","Driver injured":"السائق مصاب","Other person injured":"شخص آخر مصاب","Who was hurt and how":"من أصيب وكيف","Other vehicle (if any)":"المركبة الأخرى (إن وجدت)","Najm / police report no.":"رقم تقرير نجم / الشرطة",
@@ -171,6 +176,9 @@ var T={
 "{n} uniform":"{n} زي","{n} shoes":"{n} حذاء","{n} people":"{n} أشخاص","{n} on duty":"{n} في الدوام","{n} order":"{n} طلب","Last: in old list (no date)":"آخر مرة: في القائمة القديمة (بدون تاريخ)","Last: never given":"آخر مرة: لم يُسلّم أبداً"
 };
 var P=[
+[/^Filled from job card (.+)\.$/,function(m){return "تمت التعبئة من بطاقة العمل "+m[1]+".";}],
+[/^Damaged item (\d+)$/,function(m){return "البند المتضرر "+m[1];}],
+[/^Handed over (\d\d\/\d\d\/\d{4})$/,function(m){return "سُلّمت "+m[1];}],
 [/^Delete report (.+)\?$/,function(m){return "حذف التقرير "+m[1]+"؟";}],
 [/^Photo (\d) · (.+)$/,function(m){return "صورة "+m[1]+" · "+tr(m[2]);}],
 [/^Known (trailer|truck|vehicle|car|pick up|actros|howo|tanker|bus)(?: · (.+))?$/i,function(m){return "مركبة معروفة"+(m[2]?" · "+m[2]:"");}],
@@ -475,7 +483,20 @@ html[dir=rtl] .prevbox{border-left:0;border-right:4px solid var(--gold);padding-
 .paper .psec{font-weight:700;color:#13214B;text-transform:uppercase;font-size:13.5px;border-bottom:2px solid #F3E2AE;margin:12px 0 4px;padding-bottom:2px}
 .paper .phow{background:#FBF8EE;border:1px solid #B9BCC6;padding:8px 12px;margin:4px 0 10px;min-height:40px;text-align:justify}
 .paper .ptab th{font-weight:700}
-#fHow{direction:ltr;text-align:left}
+#fHow,#hWork{direction:ltr;text-align:left}
+.dmg{display:grid;gap:6px}
+.drow{display:grid;grid-template-columns:minmax(0,1fr) auto auto;gap:6px;align-items:center}
+.drow input,.drow select{height:40px;border:1px solid var(--line);border-radius:8px;background:var(--surface2);padding:0 10px;min-width:0}
+.drow select{width:120px}
+.dx{width:40px;height:40px;border:1px solid var(--line);background:#fff;border-radius:8px;color:var(--err);font-weight:900}
+.dmgadd{display:grid;grid-template-columns:minmax(0,1fr) auto;gap:6px}
+.dmgadd input{height:44px;border:1px solid var(--line);border-radius:8px;background:#fff;padding:0 12px;min-width:0}
+.dmgempty{color:var(--muted);font-size:13px;font-weight:600}
+.linkbtn.navyl{color:var(--head)}
+#pages .paper{margin-bottom:18px}
+.paper .pcond{border:1.5px solid #2B7A4B;background:#E3F3E8;color:#1F5E39;font-weight:700;border-radius:6px;padding:7px 12px;margin:10px 0}
+.paper .pcond.warn{border-color:#C8372D;background:#FCECEA;color:#9B2C22}
+@media (max-width:760px){.drow{grid-template-columns:minmax(0,1fr) auto}.drow select{grid-column:1;width:100%}.drow .dx{grid-column:2;grid-row:1}}
 </style>
 </head>
 <body>
@@ -524,12 +545,37 @@ html[dir=rtl] .prevbox{border-left:0;border-right:4px solid var(--gold);padding-
 
       <div class="sect">What happened</div>
       <div class="field"><label for="fHow">How did it happen?</label><textarea id="fHow" rows="5" placeholder="e.g. A car from the right side hit the trailer while it was turning at the signal."></textarea></div>
-      <div class="field"><label for="fDamage">Damage to our vehicle</label><input id="fDamage" placeholder="e.g. Front bumper and right door damaged"></div>
+      <div class="field"><span class="lab">Damage to our vehicle (add each item)</span>
+        <div class="dmg" id="dmgList"></div>
+        <div class="dmgadd"><input id="dmgNew" list="dlDmg" placeholder="e.g. Front bumper" aria-label="Damaged item"><button type="button" class="btn" id="dmgAdd">+ Add</button></div>
+      </div>
       <div class="field"><span class="lab" id="injLab">Injury</span><div class="chips" id="injChips" role="group" aria-labelledby="injLab"></div>
         <input id="fInjNote" placeholder="Who was hurt and how" hidden></div>
       <div class="grid2">
         <div class="field"><label for="fOther">Other vehicle (if any)</label><input id="fOther" placeholder="e.g. Private car 1234 ABC"></div>
         <div class="field"><label for="fNajm">Najm / police report no.</label><input id="fNajm" placeholder="Optional"></div>
+      </div>
+
+      <div class="sect">Repair &amp; handover</div>
+      <label class="check"><input type="checkbox" id="hoOn"><span>Vehicle repaired in the workshop and handed over</span></label>
+      <div class="prevbox" id="hoBox" hidden>
+        <div class="grid2">
+          <div class="field"><label for="hInDate">Came to workshop</label><input id="hInDate" type="date"></div>
+          <div class="field"><label for="hJob">Job card no.</label><input id="hJob" list="dlJob" placeholder="JO-2026/10/0001"></div>
+        </div>
+        <div class="grid2">
+          <div class="field"><label for="hDone">Repair finished</label><input id="hDone" type="date"></div>
+          <div class="field"><label for="hDate">Handover date</label><input id="hDate" type="date"></div>
+        </div>
+        <div class="field"><label for="hWork">Other work done (optional)</label><textarea id="hWork" rows="3" placeholder="e.g. Wheel alignment done and vehicle road tested"></textarea></div>
+        <span class="lab">Handed over to</span>
+        <div class="grid2">
+          <div class="field"><label for="hCode">Emp code</label><input id="hCode" inputmode="numeric" list="dlCode"></div>
+          <div class="field"><label for="hName">Driver name</label><input id="hName" list="dlName"></div>
+        </div>
+        <div class="field"><label for="hSite">Working at (site)</label><input id="hSite" list="dlSite" placeholder="Qatif"></div>
+        <button type="button" class="linkbtn navyl" id="hSame">Same driver as in the accident</button>
+        <div class="hint" id="hHint"></div>
       </div>
 
       <div class="sect">Photos (optional)</div>
@@ -554,7 +600,7 @@ html[dir=rtl] .prevbox{border-left:0;border-right:4px solid var(--gold);padding-
   </div>
   <div class="card">
     <div class="card-head"><h2>Report preview</h2></div>
-    <div class="pvwrap" id="pvWrap"><div id="pvBox" data-notr><div class="paper" id="paper"></div></div></div>
+    <div class="pvwrap" id="pvWrap"><div id="pvBox" data-notr><div id="pages"><div class="paper" id="paper"></div><div class="paper" id="paper2" hidden></div></div></div></div>
   </div>
  </div>
 </section>
@@ -568,7 +614,7 @@ html[dir=rtl] .prevbox{border-left:0;border-right:4px solid var(--gold);padding-
 </section>
 </main>
 
-<datalist id="dlPlate"></datalist><datalist id="dlCode"></datalist><datalist id="dlName"></datalist><datalist id="dlRoad"></datalist><datalist id="dlCity"></datalist>
+<datalist id="dlPlate"></datalist><datalist id="dlCode"></datalist><datalist id="dlName"></datalist><datalist id="dlRoad"></datalist><datalist id="dlCity"></datalist><datalist id="dlDmg"></datalist><datalist id="dlJob"></datalist><datalist id="dlSite"></datalist>
 <div class="toast" id="toast" role="status"><span id="toastMsg"></span></div>
 
 <script>/** @license
@@ -34162,7 +34208,8 @@ const nice=s=>String(s||"").toLowerCase().replace(/\b[a-z]/g,c=>c.toUpperCase())
 function lsGet(k,d){try{const v=localStorage.getItem(k);return v?JSON.parse(v):d;}catch(e){return d;}}
 function lsSet(k,v){try{localStorage.setItem(k,JSON.stringify(v));return true;}catch(e){toast("Could not save on this device. Storage may be full — delete old reports with photos.");return false;}}
 let reps=lsGet(KEY,[])||[];
-const state={id:null,inj:"No injury",img1:"",img2:"",hq:""};
+const state={id:null,inj:"No injury",img1:"",img2:"",hq:"",dmg:[]};
+const ACTS=["Repaired","Replaced","Painted","Pending"];
 
 /* ---------- people, plates and roads from the other sections ---------- */
 let P={};
@@ -34190,6 +34237,10 @@ function fillLists(){
   const pl=new Set(reps.map(r=>r.plate));if(window.zFleet)zFleet.list.forEach(o=>pl.add(o.plate));$("dlPlate").innerHTML=opt([...pl].filter(Boolean));
   const roads=new Set(["Dammam – Khobar Highway","King Fahd Road","Dhahran – Jubail Highway","Abu Hadriyah Road","Riyadh – Dammam Highway","Dammam – Qatif Road","King Saud Street","Prince Mohammed bin Fahd Road","Inside site","Inside workshop"]);reps.forEach(r=>r.road&&roads.add(r.road));
   $("dlRoad").innerHTML=opt([...roads]);
+  $("dlDmg").innerHTML=opt(["Front bumper","Rear bumper","Headlight","Tail light","Windshield","Side mirror","Door","Bonnet","Fender","Radiator","Grille","Chassis","Axle","Tyre","Wheel rim","Body side panel","Cabin","Trailer body","Fuel tank","Mud guard"]);
+  const jobs=(lsGet("jc:jobs",[])||[]).filter(Boolean);const pk=window.zFleet?zFleet.key($("fPlate").value||""):"";
+  $("dlJob").innerHTML=opt(jobs.slice().sort((a,b)=>((window.zFleet&&zFleet.key(b.plate||"")===pk)-(window.zFleet&&zFleet.key(a.plate||"")===pk))||String(b.dateIn||"").localeCompare(String(a.dateIn||""))).map(j=>j.jobNo).filter(Boolean).slice(0,80));
+  const sites=new Set(["QATIF","DAMMAM","AL-KHOBAR","JUBAIL","HEAD OFFICE"]);(lsGet("dp:roster",[])||[]).forEach(d=>d&&d.site&&sites.add(up(d.site)));(lsGet("hl:letters",[])||[]).forEach(l=>l&&l.site&&sites.add(up(l.site)));reps.forEach(r=>r.ho&&r.ho.site&&sites.add(up(r.ho.site)));$("dlSite").innerHTML=opt([...sites]);
   const cities=new Set(["Dammam","Al-Khobar","Dhahran","Qatif","Jubail","Ras Tanura","Abqaiq","Hofuf","Riyadh"]);reps.forEach(r=>r.city&&cities.add(r.city));$("dlCity").innerHTML=opt([...cities]);
 }
 
@@ -34197,23 +34248,53 @@ function fillLists(){
 function nextRef(){const y=new Date().getFullYear();let n=0;reps.forEach(r=>{const m=String(r.ref||"").match(/^AR-(\d{4})-(\d+)$/);if(m&&+m[1]===y)n=Math.max(n,+m[2]);});return "AR-"+y+"-"+String(n+1).padStart(4,"0");}
 function renderInj(){$("injChips").innerHTML=INJ.map(x=>`<button type="button" class="chip" data-v="${x}" aria-pressed="${state.inj===x}">${x}</button>`).join("");$("fInjNote").hidden=state.inj==="No injury";}
 $("injChips").addEventListener("click",e=>{const b=e.target.closest("[data-v]");if(!b)return;state.inj=b.dataset.v;renderInj();preview();if(state.inj!=="No injury")$("fInjNote").focus();});
-const F=["fDate","fTime","fRoad","fCity","fRef","fPlate","fVeh","fDoor","fCode","fName","fHow","fDamage","fInjNote","fOther","fNajm"];
+const F=["fDate","fTime","fRoad","fCity","fRef","fPlate","fVeh","fDoor","fCode","fName","fHow","fInjNote","fOther","fNajm","hInDate","hJob","hDone","hDate","hWork","hCode","hName","hSite","dmgNew"];
+function renderDmg(){
+  const on=$("hoOn").checked;
+  $("dmgList").innerHTML=state.dmg.length?state.dmg.map((d,i)=>`<div class="drow" data-i="${i}"><input class="dtx" value="${esc(d.item)}" aria-label="Damaged item ${i+1}"><select class="dact" aria-label="Work done" ${on?"":"hidden"}>${ACTS.map(a=>`<option value="${a}" ${d.action===a?"selected":""}>${a}</option>`).join("")}</select><button type="button" class="dx" aria-label="Remove item">✕</button></div>`).join(""):`<div class="dmgempty">No damage added yet.</div>`;
+}
+function addDmg(){const v=$("dmgNew").value.trim();if(!v)return;v.split(/\s*[,;]\s*/).filter(Boolean).forEach(x=>state.dmg.push({item:x,action:/chassis|axle|windshield|headlight|tail light|mirror|tyre|rim|radiator/i.test(x)?"Replaced":"Repaired"}));$("dmgNew").value="";renderDmg();preview();$("dmgNew").focus();}
+$("dmgAdd").addEventListener("click",addDmg);
+$("dmgNew").addEventListener("keydown",e=>{if(e.key==="Enter"){e.preventDefault();addDmg();}});
+$("dmgList").addEventListener("input",e=>{const r=e.target.closest(".drow");if(!r)return;const i=+r.dataset.i;if(e.target.classList.contains("dtx"))state.dmg[i].item=e.target.value;preview();});
+$("dmgList").addEventListener("change",e=>{const r=e.target.closest(".drow");if(!r)return;const i=+r.dataset.i;if(e.target.classList.contains("dact"))state.dmg[i].action=e.target.value;preview();});
+$("dmgList").addEventListener("click",e=>{const b=e.target.closest(".dx");if(!b)return;state.dmg.splice(+b.closest(".drow").dataset.i,1);renderDmg();preview();});
+function jobFor(plate,after){
+  if(!window.zFleet||!plate)return null;const k=zFleet.key(plate);
+  return (lsGet("jc:jobs",[])||[]).filter(j=>j&&j.plate&&zFleet.key(j.plate)===k&&(!after||String(j.dateIn||"").slice(0,10)>=after)).sort((a,b)=>String(a.dateIn||"").localeCompare(String(b.dateIn||"")))[0]||null;
+}
+$("hoOn").addEventListener("change",()=>{
+  const on=$("hoOn").checked;$("hoBox").hidden=!on;renderDmg();
+  if(on){const j=jobFor($("fPlate").value,$("fDate").value);$("hHint").textContent="";
+    if(j){if(!$("hJob").value)$("hJob").value=j.jobNo||"";if(!$("hInDate").value&&j.dateIn)$("hInDate").value=String(j.dateIn).slice(0,10);if(!$("hDone").value&&j.dateOut)$("hDone").value=String(j.dateOut).slice(0,10);$("hHint").textContent="Filled from job card "+(j.jobNo||"")+".";}
+    if(!$("hDate").value)$("hDate").value=$("hDone").value||todayISO();
+    if(!$("hCode").value&&!$("hName").value){$("hCode").value=$("fCode").value;$("hName").value=$("fName").value;}
+  }
+  preview();
+});
+$("hSame").addEventListener("click",()=>{$("hCode").value=$("fCode").value;$("hName").value=$("fName").value;preview();});
+$("hCode").addEventListener("input",()=>{const c=$("hCode").value.replace(/\D/g,"");if($("hCode").value!==c)$("hCode").value=c;if(P[c])$("hName").value=P[c];preview();});
+["hInDate","hJob","hDone","hDate","hWork","hName","hSite"].forEach(id=>$(id).addEventListener("input",preview));
 function blank(){
-  state.id=null;state.inj="No injury";setImg(1,"");setImg(2,"");
+  state.id=null;state.inj="No injury";state.dmg=[];setImg(1,"");setImg(2,"");$("hoOn").checked=false;$("hoBox").hidden=true;$("hHint").textContent="";
   F.forEach(id=>$(id).value="");$("fDate").value=todayISO();$("fRef").value=nextRef();
   $("formTitle").textContent="New accident report";$("formErr").textContent="";$("plateHint").textContent="";$("codeHint").textContent="";
-  renderInj();preview();
+  renderInj();renderDmg();preview();
 }
 function read(){
   return {id:state.id||uid(),ref:$("fRef").value.trim(),date:$("fDate").value,time:$("fTime").value,road:$("fRoad").value.trim(),city:$("fCity").value.trim(),
     plate:up($("fPlate").value).replace(/\s+/g," "),vehicle:$("fVeh").value.trim(),door:up($("fDoor").value),code:$("fCode").value.replace(/\D/g,""),name:up($("fName").value),
-    how:$("fHow").value.trim(),damage:$("fDamage").value.trim(),inj:state.inj,injNote:$("fInjNote").value.trim(),other:$("fOther").value.trim(),najm:$("fNajm").value.trim(),
+    how:$("fHow").value.trim(),damages:state.dmg.filter(d=>d.item.trim()).map(d=>({item:d.item.trim(),action:d.action||"Repaired"})),
+    ho:{on:$("hoOn").checked,inDate:$("hInDate").value,job:$("hJob").value.trim(),done:$("hDone").value,date:$("hDate").value,work:$("hWork").value.trim(),code:$("hCode").value.replace(/\D/g,""),name:up($("hName").value),site:up($("hSite").value)},inj:state.inj,injNote:$("fInjNote").value.trim(),other:$("fOther").value.trim(),najm:$("fNajm").value.trim(),
     img1:state.img1,img2:state.img2,reportDate:todayISO()};
 }
 function load(r){
   state.id=r.id;state.inj=INJ.includes(r.inj)?r.inj:"No injury";
-  const map={fDate:"date",fTime:"time",fRoad:"road",fCity:"city",fRef:"ref",fPlate:"plate",fVeh:"vehicle",fDoor:"door",fCode:"code",fName:"name",fHow:"how",fDamage:"damage",fInjNote:"injNote",fOther:"other",fNajm:"najm"};
+  const map={fDate:"date",fTime:"time",fRoad:"road",fCity:"city",fRef:"ref",fPlate:"plate",fVeh:"vehicle",fDoor:"door",fCode:"code",fName:"name",fHow:"how",fInjNote:"injNote",fOther:"other",fNajm:"najm"};
   Object.entries(map).forEach(([id,k])=>$(id).value=r[k]||"");setImg(1,r.img1||"");setImg(2,r.img2||"");
+  state.dmg=(r.damages&&r.damages.length)?r.damages.map(d=>({...d})):(r.damage?[{item:r.damage,action:"Repaired"}]:[]);
+  const h=r.ho||{};$("hoOn").checked=!!h.on;$("hoBox").hidden=!h.on;$("hInDate").value=h.inDate||"";$("hJob").value=h.job||"";$("hDone").value=h.done||"";$("hDate").value=h.date||"";$("hWork").value=h.work||"";$("hCode").value=h.code||"";$("hName").value=h.name||"";$("hSite").value=h.site||"";$("hHint").textContent="";
+  renderDmg();
   $("formTitle").textContent="Edit "+r.ref;$("formErr").textContent="";renderInj();preview();
 }
 $("fPlate").addEventListener("input",()=>{
@@ -34225,7 +34306,7 @@ $("fPlate").addEventListener("input",()=>{
 $("fPlate").addEventListener("change",()=>{const el=$("fPlate"),f=window.zFleet&&zFleet.find(el.value);if(f)el.value=f.plate;else{const c=up(el.value).replace(/[\s-]/g,"");let m=c.match(/^(\d{1,4})([A-Z]{1,3})$/);if(m)el.value=m[1]+" "+m[2];else{m=c.match(/^([A-Z]{1,3})(\d{1,4})$/);if(m)el.value=m[2]+" "+m[1];else el.value=up(el.value);}}preview();});
 $("fVeh").addEventListener("input",()=>{$("fVeh").dataset.auto="";});
 $("fCode").addEventListener("input",()=>{const c=$("fCode").value.replace(/\D/g,"");if($("fCode").value!==c)$("fCode").value=c;$("codeHint").textContent="";if(P[c]){$("fName").value=P[c];$("codeHint").textContent="Name filled from the other sections.";}preview();});
-["fDate","fTime","fRoad","fCity","fRef","fVeh","fDoor","fName","fHow","fDamage","fInjNote","fOther","fNajm"].forEach(id=>$(id).addEventListener("input",preview));
+["fDate","fTime","fRoad","fCity","fRef","fVeh","fDoor","fName","fHow","fInjNote","fOther","fNajm"].forEach(id=>$(id).addEventListener("input",preview));
 $("newBtn").addEventListener("click",()=>{blank();$("fTime").focus();});
 
 /* ---------- photos ---------- */
@@ -34240,8 +34321,21 @@ function content(r){
   const info=[["Accident date",dmy(r.date)||"—"],["Accident time",t12(r.time)||"—"],["Road / place",where||"—"],["Vehicle plate no.",r.plate||"—"],["Vehicle",[r.vehicle,r.door?"Door "+r.door:""].filter(Boolean).join(" · ")||"—"],["Driver name",r.name||"—"],["Driver emp. code",r.code||"—"]];
   const intro="This is to report that our vehicle "+(r.plate||"________")+(r.vehicle?" ("+r.vehicle+")":"")+", driven by "+(r.name||"________")+" (Emp. Code: "+(r.code||"____")+"), had an accident on "+(dmy(r.date)||"__/__/____")+(r.time?" at "+t12(r.time):"")+(where?" on "+where:"")+".";
   const inj=r.inj==="No injury"?"No injury":r.inj+(r.injNote?" – "+r.injNote:"");
-  const extra=[["Damage to our vehicle",r.damage||"—"],["Injury",inj],["Other vehicle",r.other||"None"],["Najm / police report no.",r.najm||"—"]];
+  const dl=(r.damages||[]).map(d=>d.item).join(", ")||r.damage||"—";
+  const extra=[["Damage to our vehicle",dl],["Injury",inj],["Other vehicle",r.other||"None"],["Najm / police report no.",r.najm||"—"]];
   return {intro,info,how:r.how||"—",extra};
+}
+function hoContent(r){
+  const h=r.ho||{},d=(r.damages&&r.damages.length)?r.damages:(r.damage?[{item:r.damage,action:"Repaired"}]:[]);
+  const pend=d.filter(x=>x.action==="Pending").length;
+  const veh=(r.plate||"________")+(r.vehicle?" ("+r.vehicle+")":"");
+  const who=(h.name||"________")+" (Emp. Code: "+(h.code||"____")+")";
+  const intro="With reference to accident report "+r.ref+" dated "+(dmy(r.date)||"__/__/____")+", vehicle "+veh+" came to the workshop"+(h.inDate?" on "+dmy(h.inDate):"")+(h.job?" (Job card "+h.job+")":"")+". "+(d.length?"The accident damages listed below have been repaired"+(pend?", except the items marked Pending":""):"The accident damage has been repaired")+(h.done?" on "+dmy(h.done):"")+", and the vehicle is now handed over to "+who+(h.site?", working at "+h.site:"")+".";
+  const rows=d.map((x,i)=>[String(i+1),x.item,x.action==="Pending"?"—":x.action,x.action==="Pending"?"Pending":"Done"]);
+  const det=[["Came to workshop",dmy(h.inDate)||"—"],["Job card no.",h.job||"—"],["Repair finished",dmy(h.done)||"—"],["Handover date",dmy(h.date)||"—"],["Handed over to",who],["Working at",h.site||"—"]];
+  const cond=pend?"Vehicle handed over. The pending items above will be completed later.":"Vehicle checked and tested in the workshop — GOOD WORKING CONDITION.";
+  const note="From the handover date, the driver is responsible for the vehicle. Any new damage or problem must be reported to the workshop immediately.";
+  return {intro,rows,det,cond,warn:!!pend,work:h.work||"",note};
 }
 
 /* ---------- preview ---------- */
@@ -34262,15 +34356,33 @@ function preview(){
    <div class="psg"><div class="t">WORKSHOP SUPERVISOR</div><div class="f">Name: <i></i><br>Signature: <i></i></div></div>
    <div class="psg"><div class="t">GENERAL MANAGER</div><div class="f">Name: <i></i><br>Signature: <i></i></div></div></div>
    <div class="pfoot"><span>Al-Zoman Workshop — Dammam</span><span>Accident Report · ${esc(r.plate)} · ${esc(dmy(r.date))}</span></div>`;
+  const p2=$("paper2");p2.hidden=!r.ho.on;
+  if(r.ho.on){const H=hoContent(r);
+    p2.innerHTML=`<img class="pwm" src="${WM_PNG}" alt=""><img class="plh" src="${LETTERHEAD}" alt="">
+     <div class="pband"><b>REPAIR &amp; HANDOVER REPORT</b><span>تقرير الإصلاح والتسليم</span></div>
+     <div class="pmeta"><span><b>Ref. No.:</b> ${esc(r.ref)}-H</span><span><b>Handover date:</b> ${esc(dmy(r.ho.date))}</span></div>
+     <div class="pto"><b>To:</b> GENERAL MANAGER, ZOMAN MOHD AL-HAJRI &amp; PARTNERS CO. CONT.</div>
+     <p>${esc(H.intro)}</p>
+     <div class="psec">Damage repaired</div>
+     <table class="ptab"><tr><th style="width:8%">#</th><th>Damaged item</th><th style="width:22%">Work done</th><th style="width:16%">Status</th></tr>${H.rows.length?H.rows.map(x=>`<tr class="${x[3]==="Done"?"rg":"rr"}"><td>${esc(x[0])}</td><td>${esc(x[1])}</td><td>${esc(x[2])}</td><td><b>${esc(x[3])}</b></td></tr>`).join(""):`<tr><td colspan="4">—</td></tr>`}</table>
+     ${H.work?`<div class="psec">Other work done</div><div class="phow">${esc(H.work).replace(/\n/g,"<br>")}</div>`:""}
+     <div class="psec">Handover details</div>${tbl(H.det)}
+     <div class="pcond${H.warn?" warn":""}">${H.warn?"":"✓ "}${esc(H.cond)}</div>
+     <p>${esc(H.note)}</p>
+     <div class="psigs"><div class="psg dr"><div class="t">RECEIVED BY — DRIVER</div><div class="f">Name: <b>${esc(r.ho.name)}</b><br>Emp. Code: <b>${esc(r.ho.code)}</b><br>Signature: <i></i></div></div>
+     <div class="psg"><div class="t">WORKSHOP SUPERVISOR</div><div class="f">Name: <i></i><br>Signature: <i></i></div></div>
+     <div class="psg"><div class="t">WORKSHOP ENGINEER</div><div class="f">Name: <i></i><br>Signature: <i></i></div></div></div>
+     <div class="pfoot"><span>Al-Zoman Workshop — Dammam</span><span>Repair &amp; Handover · ${esc(r.plate)} · ${esc(dmy(r.ho.date))}</span></div>`;}
   fit();
 }
-function fit(){const w=$("pvWrap").clientWidth-32,s=Math.min(1,w/794);$("paper").style.transform=`scale(${s})`;$("pvBox").style.width=794*s+"px";$("pvBox").style.height=$("paper").offsetHeight*s+"px";}
+function fit(){const w=$("pvWrap").clientWidth-32,s=Math.min(1,w/794);const pg=$("pages");pg.style.transformOrigin="top left";pg.style.transform=`scale(${s})`;pg.style.width="794px";$("pvBox").style.width=794*s+"px";$("pvBox").style.height=pg.offsetHeight*s+"px";}
 window.addEventListener("resize",fit);
 
 /* ---------- save ---------- */
 function save(){
   const r=read();
   const need=[["fDate",r.date,"Choose the accident date."],["fTime",r.time,"Enter the accident time."],["fRoad",r.road,"Enter the road or place."],["fPlate",r.plate,"Enter the plate number."],["fName",r.name,"Enter the driver name."],["fCode",r.code,"Enter the emp code."],["fHow",r.how,"Write how the accident happened."]];
+  if(r.ho.on)need.push(["hDate",r.ho.date,"Choose the handover date."],["hName",r.ho.name,"Enter who receives the vehicle."],["hCode",r.ho.code,"Enter the emp code of who receives the vehicle."]);
   for(const [id,v,msg] of need){if(!v){$("formErr").textContent=msg;$(id).focus();return null;}}
   if(reps.some(x=>x.ref===r.ref&&x.id!==r.id)){$("formErr").textContent="Ref. no. "+r.ref+" is already used.";$("fRef").focus();return null;}
   $("formErr").textContent="";r.updatedAt=Date.now();
@@ -34286,15 +34398,18 @@ async function makePdf(r){
   const {jsPDF}=window.jspdf;const doc=new jsPDF({unit:"mm",format:"a4"});
   const W=210,M=16,CW=W-2*M,C=content(r),LH=(CW+8)*197/1186;
   const head=()=>{doc.addImage(LETTERHEAD,"JPEG",M-4,6,CW+8,LH);try{doc.saveGraphicsState();doc.setGState(new doc.GState({opacity:0.07}));doc.addImage(WM_PNG,"PNG",(W-118)/2,95,118,120);doc.restoreGraphicsState();}catch(e){}};
-  const foot=()=>{doc.setDrawColor(232,163,23);doc.setLineWidth(0.5);doc.line(M,284,W-M,284);doc.setFont("helvetica","normal");doc.setFontSize(8);doc.setTextColor(107,114,128);doc.text("Al-Zoman Workshop — Dammam",M,288.5);doc.text("Accident Report · "+r.plate+" · "+dmy(r.date),W-M,288.5,{align:"right"});};
+  let footTxt="Accident Report · "+r.plate+" · "+dmy(r.date);
+  const foot=()=>{doc.setDrawColor(232,163,23);doc.setLineWidth(0.5);doc.line(M,284,W-M,284);doc.setFont("helvetica","normal");doc.setFontSize(8);doc.setTextColor(107,114,128);doc.text("Al-Zoman Workshop — Dammam",M,288.5);doc.text(footTxt,W-M,288.5,{align:"right"});};
+  const band=(en,ar)=>{doc.setFillColor(19,33,75);doc.roundedRect(M,y,CW,11,2,2,"F");doc.setFillColor(232,163,23);doc.rect(M,y+10,CW,1.3,"F");doc.setTextColor(255,255,255);doc.setFont("helvetica","bold");doc.setFontSize(13.5);doc.text(en,M+5,y+7.3);
+    try{const c=document.createElement("canvas");c.width=600;c.height=90;const x=c.getContext("2d");x.fillStyle="#E8A317";x.font="bold 54px Tahoma, Arial, sans-serif";x.textAlign="right";x.textBaseline="middle";x.direction="rtl";x.fillText(ar,590,48);doc.addImage(c.toDataURL("image/png"),"PNG",W-M-48,y+1.5,46,6.9);}catch(e){}};
+  const meta=(ref,lbl,dv)=>{doc.setTextColor(22,33,62);doc.setFontSize(10.2);doc.setFont("helvetica","bold");doc.text("Ref. No.:",M,y);doc.setFont("helvetica","normal");doc.text(ref,M+17,y);doc.text(dv,W-M,y,{align:"right"});doc.setFont("helvetica","bold");doc.text(lbl,W-M-doc.getTextWidth(dv)-1.5,y,{align:"right"});};
+  const sigs=(sy,defs)=>{const bw=(CW-10)/3;defs.forEach(([t,rows,g],i)=>{
+    const x=M+i*(bw+5);doc.setDrawColor(185,188,198);doc.setLineWidth(0.3);doc.roundedRect(x,sy,bw,36,1.5,1.5,"S");if(g)doc.setFillColor(232,163,23);else doc.setFillColor(19,33,75);doc.rect(x,sy,bw,7,"F");
+    doc.setFont("helvetica","bold");doc.setFontSize(8.3);g?doc.setTextColor(19,33,75):doc.setTextColor(255,255,255);doc.text(t,x+2.5,sy+4.8);doc.setTextColor(22,33,62);doc.setFontSize(9);let ry=sy+36-4-(rows.length-1)*6.2;
+    rows.forEach(([k,v])=>{doc.setFont("helvetica","normal");doc.text(k,x+2.5,ry);const kw=doc.getTextWidth(k)+1.5;if(v){doc.setFont("helvetica","bold");doc.text(String(v),x+2.5+kw,ry);}else{doc.setDrawColor(138,143,156);doc.line(x+2.5+kw,ry+0.6,x+bw-3,ry+0.6);}ry+=6.2;});});};
   const newPage=()=>{foot();doc.addPage();head();return 6+LH+8;};
   head();let y=6+LH+3;
-  doc.setFillColor(19,33,75);doc.roundedRect(M,y,CW,11,2,2,"F");doc.setFillColor(232,163,23);doc.rect(M,y+10,CW,1.3,"F");
-  doc.setTextColor(255,255,255);doc.setFont("helvetica","bold");doc.setFontSize(13.5);doc.text("ACCIDENT REPORT",M+5,y+7.3);
-  try{const c=document.createElement("canvas");c.width=600;c.height=90;const x=c.getContext("2d");x.fillStyle="#E8A317";x.font="bold 54px Tahoma, Arial, sans-serif";x.textAlign="right";x.textBaseline="middle";x.direction="rtl";x.fillText("تقرير حادث",590,48);doc.addImage(c.toDataURL("image/png"),"PNG",W-M-48,y+1.5,46,6.9);}catch(e){}
-  y+=17;doc.setTextColor(22,33,62);doc.setFontSize(10.2);
-  doc.setFont("helvetica","bold");doc.text("Ref. No.:",M,y);doc.setFont("helvetica","normal");doc.text(r.ref,M+17,y);
-  const dv=dmy(r.reportDate);doc.text(dv,W-M,y,{align:"right"});doc.setFont("helvetica","bold");doc.text("Report date:",W-M-doc.getTextWidth(dv)-1.5,y,{align:"right"});y+=6.5;
+  band("ACCIDENT REPORT","تقرير حادث");y+=17;meta(r.ref,"Report date:",dmy(r.reportDate));y+=6.5;
   doc.text("To:",M,y);doc.setFont("helvetica","normal");doc.text("GENERAL MANAGER, ZOMAN MOHD AL-HAJRI & PARTNERS CO. CONT.",M+7,y);y+=7;
   const il=doc.splitTextToSize(C.intro,CW);doc.text(il,M,y);y+=il.length*5+2;
   const sec=t=>{doc.setFont("helvetica","bold");doc.setFontSize(10);doc.setTextColor(19,33,75);doc.text(t.toUpperCase(),M,y);doc.setDrawColor(243,226,174);doc.setLineWidth(0.6);doc.line(M,y+1.3,W-M,y+1.3);y+=4;doc.setTextColor(22,33,62);};
@@ -34317,14 +34432,34 @@ async function makePdf(r){
       if(sz){const k=Math.min((bw-4)/sz.w,(bh-4)/sz.h),w=sz.w*k,h=sz.h*k;doc.addImage(imgs[i],"JPEG",x+(bw-w)/2,y+(bh-h)/2,w,h);}}
     y+=bh+5;}
   let sy=Math.max(y+2,284-40);if(sy+36>281){sy=newPage();}
-  const bw=(CW-10)/3;
-  [["DRIVER",[["Name:",r.name],["Emp. Code:",r.code],["Signature:",""]],1],["WORKSHOP SUPERVISOR",[["Name:",""],["Signature:",""]],0],["GENERAL MANAGER",[["Name:",""],["Signature:",""]],0]].forEach(([t,rows,g],i)=>{
-    const x=M+i*(bw+5);doc.setDrawColor(185,188,198);doc.setLineWidth(0.3);doc.roundedRect(x,sy,bw,36,1.5,1.5,"S");if(g)doc.setFillColor(232,163,23);else doc.setFillColor(19,33,75);doc.rect(x,sy,bw,7,"F");
-    doc.setFont("helvetica","bold");doc.setFontSize(8.3);g?doc.setTextColor(19,33,75):doc.setTextColor(255,255,255);doc.text(t,x+2.5,sy+4.8);doc.setTextColor(22,33,62);doc.setFontSize(9);let ry=sy+36-4-(rows.length-1)*6.2;
-    rows.forEach(([k,v])=>{doc.setFont("helvetica","normal");doc.text(k,x+2.5,ry);const kw=doc.getTextWidth(k)+1.5;if(v){doc.setFont("helvetica","bold");doc.text(String(v),x+2.5+kw,ry);}else{doc.setDrawColor(138,143,156);doc.line(x+2.5+kw,ry+0.6,x+bw-3,ry+0.6);}ry+=6.2;});});
-  foot();return doc;
+  sigs(sy,[["DRIVER",[["Name:",r.name],["Emp. Code:",r.code],["Signature:",""]],1],["WORKSHOP SUPERVISOR",[["Name:",""],["Signature:",""]],0],["GENERAL MANAGER",[["Name:",""],["Signature:",""]],0]]);
+  foot();
+  if(r.ho&&r.ho.on){
+    const H=hoContent(r);footTxt="Repair & Handover · "+r.plate+" · "+dmy(r.ho.date);
+    doc.addPage();head();y=6+LH+3;band("REPAIR & HANDOVER REPORT","تقرير الإصلاح والتسليم");y+=17;meta(r.ref+"-H","Handover date:",dmy(r.ho.date));y+=6.5;
+    doc.setFont("helvetica","bold");doc.text("To:",M,y);doc.setFont("helvetica","normal");doc.text("GENERAL MANAGER, ZOMAN MOHD AL-HAJRI & PARTNERS CO. CONT.",M+7,y);y+=7;
+    const il2=doc.splitTextToSize(H.intro,CW);doc.text(il2,M,y);y+=il2.length*5+2;
+    sec("Damage repaired");
+    const cw=[10,CW-10-36-26,36,26];
+    const row=(cells,hdr,ok)=>{doc.setFontSize(9.4);const ls=cells.map((c,j)=>{doc.setFont("helvetica",hdr||j===3?"bold":"normal");return doc.splitTextToSize(String(c),cw[j]-4);});const h=Math.max(...ls.map(a=>a.length))*4.1+3;if(y+h>238)y=newPage();let x=M;
+      cells.forEach((c,j)=>{if(hdr)doc.setFillColor(243,226,174);else if(ok)doc.setFillColor(235,246,239);else doc.setFillColor(252,236,234);doc.rect(x,y,cw[j],h,"F");doc.setDrawColor(185,188,198);doc.setLineWidth(0.25);doc.rect(x,y,cw[j],h,"S");
+        doc.setFont("helvetica",hdr||j===3?"bold":"normal");if(hdr)doc.setTextColor(19,33,75);else if(j===3)ok?doc.setTextColor(43,122,75):doc.setTextColor(200,55,45);else doc.setTextColor(22,33,62);doc.text(ls[j],x+2,y+4.5);x+=cw[j];});y+=h;};
+    row(["#","Damaged item","Work done","Status"],true);
+    if(H.rows.length)H.rows.forEach(x=>row(x,false,x[3]==="Done"));else row(["—","—","—","—"],false,true);
+    y+=6;doc.setTextColor(22,33,62);
+    if(H.work){sec("Other work done");doc.setFont("helvetica","normal");doc.setFontSize(10);const wl=doc.splitTextToSize(H.work,CW-6);const wh=wl.length*4.8+4;doc.setFillColor(251,248,238);doc.setDrawColor(185,188,198);doc.rect(M,y,CW,wh,"FD");doc.text(wl,M+3,y+5);y+=wh+5;}
+    sec("Handover details");table2(H.det);
+    doc.setFont("helvetica","bold");doc.setFontSize(10);const cl=doc.splitTextToSize(H.cond,CW-8);const ch=cl.length*5+4;
+    if(H.warn){doc.setFillColor(252,236,234);doc.setDrawColor(200,55,45);doc.setTextColor(155,44,34);}else{doc.setFillColor(227,243,232);doc.setDrawColor(43,122,75);doc.setTextColor(31,94,57);}
+    doc.setLineWidth(0.4);doc.roundedRect(M,y,CW,ch,1.5,1.5,"FD");doc.text(cl,M+4,y+5.4);y+=ch+5;
+    doc.setFont("helvetica","normal");doc.setTextColor(22,33,62);const nl=doc.splitTextToSize(H.note,CW);doc.text(nl,M,y);y+=nl.length*5;
+    let sy2=Math.max(y+4,284-40);if(sy2+36>281){sy2=newPage();}
+    sigs(sy2,[["RECEIVED BY — DRIVER",[["Name:",r.ho.name],["Emp. Code:",r.ho.code],["Signature:",""]],1],["WORKSHOP SUPERVISOR",[["Name:",""],["Signature:",""]],0],["WORKSHOP ENGINEER",[["Name:",""],["Signature:",""]],0]]);
+    foot();
+  }
+  return doc;
 }
-function fname(r,ext){return "Accident_Report_"+(r.plate||"").replace(/\s+/g,"")+"_"+(r.date||"")+"."+ext;}
+function fname(r,ext){return (r.ho&&r.ho.on?"Accident_Handover_Report_":"Accident_Report_")+(r.plate||"").replace(/\s+/g,"")+"_"+(r.date||"")+"."+ext;}
 function saveBlob(blob,name){try{const url=URL.createObjectURL(blob);const a=document.createElement("a");a.href=url;a.download=name;a.rel="noopener";document.body.appendChild(a);a.click();a.remove();setTimeout(()=>URL.revokeObjectURL(url),60000);return true;}catch(e){toast("Downloads are blocked here. Open the report from its published link.");return false;}}
 $("pdfBtn").addEventListener("click",async()=>{const r=save();if(!r)return;toast("Making PDF…");try{const d=await makePdf(r);if(saveBlob(d.output("blob"),fname(r,"pdf")))toast("PDF downloaded");}catch(err){console.error(err);toast("Could not make the PDF ("+(err&&err.message||"error")+").");}});
 
@@ -34332,7 +34467,7 @@ $("pdfBtn").addEventListener("click",async()=>{const r=save();if(!r)return;toast
 const b64=s=>{const bin=atob(s.split(",")[1]);const u=new Uint8Array(bin.length);for(let i=0;i<bin.length;i++)u[i]=bin.charCodeAt(i);return u;};
 async function makeDocx(r){
   const D=window.docx,C=content(r);
-  const {Document,Packer,Paragraph,TextRun,ImageRun,Table,TableRow,TableCell,WidthType,ShadingType,AlignmentType,BorderStyle,Header,Footer,HorizontalPositionRelativeFrom,VerticalPositionRelativeFrom,HorizontalPositionAlign,VerticalPositionAlign,TextWrappingType,TabStopType,VerticalAlign}=D;
+  const {Document,Packer,Paragraph,TextRun,ImageRun,Table,TableRow,TableCell,WidthType,ShadingType,AlignmentType,BorderStyle,Header,Footer,HorizontalPositionRelativeFrom,VerticalPositionRelativeFrom,HorizontalPositionAlign,VerticalPositionAlign,TextWrappingType,TabStopType,VerticalAlign,PageBreak}=D;
   const NAVY="13214B",GOLD="E8A317",CREAM="F3E2AE",GRAY="B9BCC6",F="Arial",W=10466;
   const t=(s,o={})=>new TextRun({text:s,font:F,size:o.size||20,bold:!!o.bold,color:o.color});
   const p=(runs,o={})=>new Paragraph({children:runs,spacing:{before:o.b||0,after:o.a==null?100:o.a,line:270},alignment:o.al,shading:o.sh,border:o.border,tabStops:o.tabs});
@@ -34341,10 +34476,11 @@ async function makeDocx(r){
   const cell=(children,w,o={})=>new TableCell({children,width:{size:w,type:WidthType.DXA},borders:o.borders||borders,shading:o.fill?{type:ShadingType.CLEAR,color:"auto",fill:o.fill}:undefined,margins:{top:60,bottom:60,left:120,right:120},verticalAlign:o.va||VerticalAlign.CENTER});
   const header=new Header({children:[new Paragraph({alignment:AlignmentType.CENTER,children:[new ImageRun({type:"jpg",data:b64(LETTERHEAD),transformation:{width:690,height:115}})]}),
     new Paragraph({children:[new ImageRun({type:"png",data:b64(WM_FADED),transformation:{width:400,height:408},floating:{horizontalPosition:{relative:HorizontalPositionRelativeFrom.PAGE,align:HorizontalPositionAlign.CENTER},verticalPosition:{relative:VerticalPositionRelativeFrom.PAGE,align:VerticalPositionAlign.CENTER},behindDocument:true,wrap:{type:TextWrappingType.NONE}}})]})]});
-  const footer=new Footer({children:[new Paragraph({border:{top:{style:BorderStyle.SINGLE,size:8,color:GOLD,space:4}},tabStops:[{type:TabStopType.RIGHT,position:W}],children:[t("Al-Zoman Workshop — Dammam",{size:16,color:"6B7280"}),t("\tAccident Report · "+r.plate+" · "+dmy(r.date),{size:16,color:"6B7280"})]})]});
+  const footer=new Footer({children:[new Paragraph({border:{top:{style:BorderStyle.SINGLE,size:8,color:GOLD,space:4}},tabStops:[{type:TabStopType.RIGHT,position:W}],children:[t("Al-Zoman Workshop — Dammam",{size:16,color:"6B7280"}),t("\t"+(r.ho&&r.ho.on?"Accident & Handover Report · ":"Accident Report · ")+r.plate+" · "+dmy(r.date),{size:16,color:"6B7280"})]})]});
   const bandB={...noborders,bottom:{style:BorderStyle.SINGLE,size:24,color:GOLD}};
-  const band=new Table({width:{size:W,type:WidthType.DXA},columnWidths:[6966,3500],rows:[new TableRow({children:[cell([p([t("ACCIDENT REPORT",{size:30,bold:true,color:"FFFFFF"})],{a:0})],6966,{fill:NAVY,borders:bandB}),
-    cell([new Paragraph({alignment:AlignmentType.RIGHT,spacing:{after:0},children:[new TextRun({text:"تقرير حادث",font:F,size:26,bold:true,color:GOLD,rightToLeft:true})]})],3500,{fill:NAVY,borders:bandB})]})]});
+  const mkBand=(en,ar)=>new Table({width:{size:W,type:WidthType.DXA},columnWidths:[6966,3500],rows:[new TableRow({children:[cell([p([t(en,{size:30,bold:true,color:"FFFFFF"})],{a:0})],6966,{fill:NAVY,borders:bandB}),
+    cell([new Paragraph({alignment:AlignmentType.RIGHT,spacing:{after:0},children:[new TextRun({text:ar,font:F,size:26,bold:true,color:GOLD,rightToLeft:true})]})],3500,{fill:NAVY,borders:bandB})]})]});
+  const band=mkBand("ACCIDENT REPORT","تقرير حادث");
   const kv=rows=>{const cw=[1900,3333,1900,3333],out=[];for(let i=0;i<rows.length;i+=2){const pr=[rows[i],rows[i+1]];out.push(new TableRow({children:pr.flatMap((x,j)=>x?[cell([p([t(x[0],{bold:true,color:NAVY,size:18})],{a:0})],cw[j*2],{fill:CREAM}),cell([p([t(String(x[1]),{size:19})],{a:0})],cw[j*2+1])]:[cell([p([t("")],{a:0})],cw[j*2],{fill:CREAM}),cell([p([t("")],{a:0})],cw[j*2+1])])}));}
     return new Table({width:{size:W,type:WidthType.DXA},columnWidths:cw,rows:out});};
   const sec=s=>p([t(s.toUpperCase(),{bold:true,color:NAVY,size:19})],{b:160,a:60,border:{bottom:{style:BorderStyle.SINGLE,size:8,color:CREAM,space:2}}});
@@ -34366,6 +34502,24 @@ async function makeDocx(r){
     sig("DRIVER",[[t("Name: ",{size:18}),t(r.name,{size:18,bold:true})],[t("Emp. Code: ",{size:18}),t(r.code,{size:18,bold:true})],[t("Signature: ",{size:18}),ln()]],GOLD,NAVY),cell([p([t("")])],283,{borders:noborders}),
     sig("WORKSHOP SUPERVISOR",[[t("Name: ",{size:18}),ln()],[t("Signature: ",{size:18}),ln()]],NAVY,"FFFFFF"),cell([p([t("")])],283,{borders:noborders}),
     sig("GENERAL MANAGER",[[t("Name: ",{size:18}),ln()],[t("Signature: ",{size:18}),ln()]],NAVY,"FFFFFF")]})]}));
+  if(r.ho&&r.ho.on){const H=hoContent(r);
+    const dw=[700,5266,2500,2000];
+    children.push(new Paragraph({children:[new PageBreak()]}),mkBand("REPAIR & HANDOVER REPORT","تقرير الإصلاح والتسليم"),
+      p([t("Ref. No.: ",{bold:true,color:NAVY}),t(r.ref+"-H"),t("\tHandover date: ",{bold:true,color:NAVY}),t(dmy(r.ho.date))],{b:160,a:80,tabs:[{type:TabStopType.RIGHT,position:W}]}),
+      p([t("To: ",{bold:true}),t("GENERAL MANAGER, ZOMAN MOHD AL-HAJRI & PARTNERS CO. CONT.")],{a:100}),
+      p([t(H.intro)],{a:80,al:AlignmentType.JUSTIFIED}),sec("Damage repaired"),
+      new Table({width:{size:W,type:WidthType.DXA},columnWidths:dw,rows:[new TableRow({children:["#","Damaged item","Work done","Status"].map((h,i)=>cell([p([t(h,{bold:true,color:NAVY,size:19})],{a:0})],dw[i],{fill:CREAM}))}),
+        ...(H.rows.length?H.rows:[["—","—","—","—"]]).map(x=>new TableRow({children:x.map((v,i)=>cell([p([t(v,{size:19,bold:i===3,color:i===3?(x[3]==="Done"?"2B7A4B":"C8372D"):undefined})],{a:0})],dw[i],{fill:x[3]==="Pending"?"FCECEA":"EBF6EF"}))}))]}));
+    if(H.work)children.push(sec("Other work done"),new Table({width:{size:W,type:WidthType.DXA},columnWidths:[W],rows:[new TableRow({children:[cell(H.work.split("\n").map(l=>p([t(l)],{a:40})),W,{fill:"FBF8EE"})]})]}));
+    const cb={style:BorderStyle.SINGLE,size:8,color:H.warn?"C8372D":"2B7A4B"};
+    children.push(sec("Handover details"),kv(H.det),p([t("")],{a:80}),
+      new Table({width:{size:W,type:WidthType.DXA},columnWidths:[W],rows:[new TableRow({children:[cell([p([t((H.warn?"":"✓ ")+H.cond,{bold:true,color:H.warn?"9B2C22":"1F5E39"})],{a:0})],W,{fill:H.warn?"FCECEA":"E3F3E8",borders:{top:cb,bottom:cb,left:cb,right:cb}})]})]}),
+      p([t(H.note)],{b:120,a:300}),
+      new Table({width:{size:W,type:WidthType.DXA},columnWidths:[3300,283,3300,283,3300],rows:[new TableRow({children:[
+        sig("RECEIVED BY — DRIVER",[[t("Name: ",{size:18}),t(r.ho.name,{size:18,bold:true})],[t("Emp. Code: ",{size:18}),t(r.ho.code,{size:18,bold:true})],[t("Signature: ",{size:18}),ln()]],GOLD,NAVY),cell([p([t("")])],283,{borders:noborders}),
+        sig("WORKSHOP SUPERVISOR",[[t("Name: ",{size:18}),ln()],[t("Signature: ",{size:18}),ln()]],NAVY,"FFFFFF"),cell([p([t("")])],283,{borders:noborders}),
+        sig("WORKSHOP ENGINEER",[[t("Name: ",{size:18}),ln()],[t("Signature: ",{size:18}),ln()]],NAVY,"FFFFFF")]})]}));
+  }
   const doc=new Document({styles:{default:{document:{run:{font:F,size:20}}}},sections:[{properties:{page:{size:{width:11906,height:16838},margin:{top:2700,bottom:900,left:720,right:720,header:300,footer:350}}},headers:{default:header},footers:{default:footer},children}]});
   return await Packer.toBlob(doc);
 }
@@ -34377,11 +34531,11 @@ const IC_PDF='<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-
 const IC_DEL='<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 6h18"/><path d="M8 6V4h8v2"/><path d="M19 6l-1 14H6L5 6"/></svg>';
 function renderHist(){
   const q=state.hq.toLowerCase();
-  const list=reps.slice().sort((a,b)=>(b.date||"").localeCompare(a.date||"")||(b.updatedAt||0)-(a.updatedAt||0)).filter(r=>!q||[r.ref,r.plate,r.vehicle,r.name,r.code,r.road,r.city].join(" ").toLowerCase().includes(q));
+  const list=reps.slice().sort((a,b)=>(b.date||"").localeCompare(a.date||"")||(b.updatedAt||0)-(a.updatedAt||0)).filter(r=>!q||[r.ref,r.plate,r.vehicle,r.name,r.code,r.road,r.city,r.ho&&r.ho.name,r.ho&&r.ho.code,r.ho&&r.ho.job].join(" ").toLowerCase().includes(q));
   $("histCount").textContent=reps.length;
   if(!reps.length){$("hList").innerHTML=`<div class="empty"><b>No reports yet</b>Fill a new report and press “Save & PDF”. Every saved report shows here.</div>`;return;}
   if(!list.length){$("hList").innerHTML=`<div class="empty"><b>Nothing matches</b>Clear the search to see all reports.</div>`;return;}
-  $("hList").innerHTML=list.map(r=>`<div class="hrow" data-id="${esc(r.id)}"><span class="ref">${esc(r.ref)}<div class="mut">${esc(dmy(r.date))} · ${esc(t12(r.time))}</div></span><span class="pl">${esc(r.plate)}</span><span><b>${esc(r.name)}</b> · ${esc(r.code)}<div class="mut">${esc(r.inj)}</div></span><span class="mut">${esc([r.road,r.city].filter(Boolean).join(", "))}</span><span class="acts"><button type="button" class="icon" data-a="edit" aria-label="Edit ${esc(r.ref)}">${IC_EDIT}</button><button type="button" class="icon" data-a="pdf" aria-label="PDF for ${esc(r.ref)}">${IC_PDF}</button><button type="button" class="icon" data-a="del" aria-label="Delete ${esc(r.ref)}">${IC_DEL}</button></span></div>`).join("");
+  $("hList").innerHTML=list.map(r=>`<div class="hrow" data-id="${esc(r.id)}"><span class="ref">${esc(r.ref)}<div class="mut">${esc(dmy(r.date))} · ${esc(t12(r.time))}</div></span><span class="pl">${esc(r.plate)}</span><span><b>${esc(r.name)}</b> · ${esc(r.code)}<div class="mut">${esc(r.inj)}${r.ho&&r.ho.on?" · Handed over "+esc(dmy(r.ho.date)):""}</div></span><span class="mut">${esc([r.road,r.city].filter(Boolean).join(", "))}</span><span class="acts"><button type="button" class="icon" data-a="edit" aria-label="Edit ${esc(r.ref)}">${IC_EDIT}</button><button type="button" class="icon" data-a="pdf" aria-label="PDF for ${esc(r.ref)}">${IC_PDF}</button><button type="button" class="icon" data-a="del" aria-label="Delete ${esc(r.ref)}">${IC_DEL}</button></span></div>`).join("");
 }
 $("hq").addEventListener("input",e=>{state.hq=e.target.value.trim();renderHist();});
 $("hList").addEventListener("click",async e=>{const b=e.target.closest("[data-a]");if(!b)return;const id=b.closest("[data-id]").dataset.id;const r=reps.find(x=>x.id===id);if(!r)return;

@@ -4,6 +4,11 @@
 <script id="zTrJs">(function(){
 "use strict";
 var D={
+"Accident report with damage list, photos, and the repair & handover report after the workshop fixes it.":"تقرير حادث مع قائمة الأضرار والصور، وتقرير الإصلاح والتسليم بعد إصلاح الورشة.",
+"Damage to our vehicle (add each item)":"الأضرار في مركبتنا (أضف كل بند)","e.g. Front bumper":"مثال: الصدام الأمامي","Damaged item":"البند المتضرر","No damage added yet.":"لم تتم إضافة أضرار بعد.","Remove item":"حذف البند",
+"Repaired":"تم الإصلاح","Replaced":"تم الاستبدال","Painted":"تم الدهان","Pending":"معلق","Repair & handover":"الإصلاح والتسليم","Vehicle repaired in the workshop and handed over":"تم إصلاح المركبة في الورشة وتسليمها",
+"Came to workshop":"دخلت الورشة","Job card no.":"رقم بطاقة العمل","Repair finished":"انتهى الإصلاح","Handover date":"تاريخ التسليم","Other work done (optional)":"أعمال أخرى منجزة (اختياري)","e.g. Wheel alignment done and vehicle road tested":"مثال: تمت ضبط الزوايا وتجربة المركبة على الطريق",
+"Handed over to":"سُلّمت إلى","Same driver as in the accident":"نفس السائق في الحادث","Choose the handover date.":"اختر تاريخ التسليم.","Enter who receives the vehicle.":"أدخل من يستلم المركبة.","Enter the emp code of who receives the vehicle.":"أدخل الرقم الوظيفي لمن يستلم المركبة.",
 "Accident report":"تقرير حادث","Accident report opened":"تم فتح تقرير الحادث","Accident report: date, time, road, how it happened, driver name and code, vehicle, photos.":"تقرير حادث: التاريخ والوقت والطريق وكيف وقع الحادث واسم السائق ورقمه والمركبة والصور.",
 "New report":"تقرير جديد","New accident report":"تقرير حادث جديد","When & where":"متى وأين","Accident date":"تاريخ الحادث","Accident time":"وقت الحادث","Road / place":"الطريق / المكان","City / area":"المدينة / المنطقة","What happened":"ماذا حدث","How did it happen?":"كيف وقع الحادث؟",
 "Damage to our vehicle":"الأضرار في مركبتنا","Injury":"الإصابات","No injury":"لا توجد إصابات","Driver injured":"السائق مصاب","Other person injured":"شخص آخر مصاب","Who was hurt and how":"من أصيب وكيف","Other vehicle (if any)":"المركبة الأخرى (إن وجدت)","Najm / police report no.":"رقم تقرير نجم / الشرطة",
@@ -157,6 +162,9 @@ var T={
 "{n} uniform":"{n} زي","{n} shoes":"{n} حذاء","{n} people":"{n} أشخاص","{n} on duty":"{n} في الدوام","{n} order":"{n} طلب","Last: in old list (no date)":"آخر مرة: في القائمة القديمة (بدون تاريخ)","Last: never given":"آخر مرة: لم يُسلّم أبداً"
 };
 var P=[
+[/^Filled from job card (.+)\.$/,function(m){return "تمت التعبئة من بطاقة العمل "+m[1]+".";}],
+[/^Damaged item (\d+)$/,function(m){return "البند المتضرر "+m[1];}],
+[/^Handed over (\d\d\/\d\d\/\d{4})$/,function(m){return "سُلّمت "+m[1];}],
 [/^Delete report (.+)\?$/,function(m){return "حذف التقرير "+m[1]+"؟";}],
 [/^Photo (\d) · (.+)$/,function(m){return "صورة "+m[1]+" · "+tr(m[2]);}],
 [/^Known (trailer|truck|vehicle|car|pick up|actros|howo|tanker|bus)(?: · (.+))?$/i,function(m){return "مركبة معروفة"+(m[2]?" · "+m[2]:"");}],
@@ -585,7 +593,7 @@ const APPS=[
     {id:"overtime-report",file:"overtime-report.html",name:"Overtime",icon:"clock",desc:"Overtime breakdown report: employees, out and in time, basic and O.T hours, with Excel."},
     {id:"permission-letter",file:"permission-letter.html",name:"Permission letter",icon:"perm",desc:"Hours permission letter for an employee, ready to print on the letterhead."},
     {id:"replacement-request",file:"replacement-request.html",name:"Replacement request",icon:"swap",desc:"Request letter to move a part (like an axle) from one trailer to another, with 2 photos."},
-    {id:"accident-report",file:"accident-report.html",name:"Accident report",icon:"crash",desc:"Accident report: date, time, road, how it happened, driver name and code, vehicle, photos."}
+    {id:"accident-report",file:"accident-report.html",name:"Accident report",icon:"crash",desc:"Accident report with damage list, photos, and the repair & handover report after the workshop fixes it."}
 ];
 /* default passwords (stored as SHA-256 hashes, never as plain text) */
 const DEFAULT_HASH={"daily-report": "4d068637d1b8fdb711a9d2ab4d6ccd3e7a4516cf072e2694bd819d65dbbf15a5", "vehicle-issued": "b3967a7b1cb233aa1c25cec6dfcd69bb58a964bd94bf1008dbff7e66ca8b4984", "vehicle-return": "01cc2c10b5c976f4a35f63229cff374b23d2c9240c5b55b57295e2b68a251a34", "gate-pass": "c954e0b5fa94893c0dcbc3aee93880e1d0444ca42cfd6e5e62ea49bf75961674", "duty-paper": "66e6ca16cfd3f4fa462bc8045ac31da03e899bf4e8607933c621aaabc915e33d", "uniform-record": "ebdb6a25368f573118a9b7be6d11da24f6c4b7a7b3078134c48cf8244b1a229a", "admin": "281ca050785b651fe5673576f80b80f21fed955b026b9c097ff827a97c259d92", "accident-report": "00be5dd9377172615d1da633225f83ce188135a5e65a0ba0923d0e8b9a570ee5", "replacement-request": "07fc2481d25840d46202d423b2b594247792548bdbcd7cd79d0d8881fdede713", "overtime-report": "1b82a5fb78eaa3df6a0404338f0adbcaccdfa632c5b162858027fa05249f4f47", "permission-letter": "dc6974246df63b683d76a0f7997768d52385d84285ddd249c35ba16bf02ac55e", "handover-letter": "2d5af1664fa610df0197e1b8f7711394c147134e06bc5b2ef5fe2be63dc91e21", "monthly-report": "6a8ee30aabb0dfbf32dfc5999d3ea4b04e869131b7bcd8798faef8eacf51f60a", "job-card": "816066fe01b49123910a9f2def50bac52cdbcf52eddf4263b7bb43d38412762a"};
@@ -720,7 +728,7 @@ let syncCfg=lsGet("hub:sync",null);
 const devId=(()=>{let d=lsGet("hub:dev",null);if(!d){d=Math.random().toString(36).slice(2,10);lsSet("hub:dev",d);}return d;})();
 let meta=lsGet("hub:syncmeta",{})||{};
 let pending=new Set(lsGet("hub:pending",[])||[]);
-const APP_VERSION="29.10.2026-6";let lastRecv=0,lastSent=0,lastErr="";
+const APP_VERSION="29.10.2026-7";let lastRecv=0,lastSent=0,lastErr="";
 let remote={},lastApplied={},es=null,flushTimer=null,retryTimer=null,syncState="off",syncMsg="";
 const saveMeta=()=>lsSet("hub:syncmeta",meta);
 const savePending=()=>lsSet("hub:pending",[...pending]);
