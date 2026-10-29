@@ -18,6 +18,20 @@ input[type=date],input[type=time]{min-width:0;max-width:100%}
 <script id="zTrJs">(function(){
 "use strict";
 var D={
+"Overtime":"العمل الإضافي","Overtime opened":"تم فتح العمل الإضافي","Overtime breakdown report: employees, out and in time, basic and O.T hours, with Excel.":"تقرير العمل الإضافي: الموظفون ووقت الخروج والدخول والساعات الأساسية والإضافية مع Excel.",
+"Permission letter":"خطاب استئذان","Permission letter opened":"تم فتح خطاب الاستئذان","Hours permission letter for an employee, ready to print on the letterhead.":"خطاب استئذان بالساعات لموظف، جاهز للطباعة على ورق الشركة.",
+"OVERTIME BREAKDOWN REPORT":"تقرير العمل الإضافي","Prepared By":"أعده","Step 1 — Employee List (Code → Name → Work)":"الخطوة 1 — قائمة الموظفين (الرقم ← الاسم ← العمل)","Code (e.g. 7950)":"الرقم (مثال: 7950)","Name (e.g. Enter Name)":"الاسم","Work / Occupation (e.g. Electrical Work)":"العمل / المهنة (مثال: أعمال كهرباء)",
+"+ Add":"+ إضافة","Code":"الرقم","Work / Occupation":"العمل / المهنة","Step 2 — Add Overtime Entry":"الخطوة 2 — إضافة عمل إضافي","Name (auto)":"الاسم (تلقائي)","Work (auto, editable)":"العمل (تلقائي، قابل للتعديل)","Out Time":"وقت الخروج","In Time":"وقت الدخول","Basic (hrs)":"الأساسي (ساعات)","O.T (hrs)":"الإضافي (ساعات)",
+"+ Add to Report":"+ إضافة إلى التقرير","⬇ Download Excel":"⬇ تنزيل Excel","Clear All Entries":"مسح كل السجلات","🖨️ Print / Save as PDF":"🖨️ طباعة / حفظ PDF","Workshop Supervisor:":"مشرف الورشة:","Auto-fill":"تعبئة تلقائية","e.g. 7950":"مثال: 7950","e.g. DAMMAM":"مثال: الدمام",
+"⚠ Ye Code employee list me nahi hai — Step 1 me pehle add karo.":"⚠ هذا الرقم غير موجود في قائمة الموظفين — أضفه أولاً في الخطوة 1.","Code, Name aur Work teeno bharo.":"املأ الرقم والاسم والعمل.","Sab fields bharo — Date, Code, Site, Out Time, In Time zaroori hai.":"املأ كل الحقول — التاريخ والرقم والموقع ووقت الخروج والدخول مطلوبة.","Saari entries delete karni hain?":"حذف كل السجلات؟","Pehle kam se kam ek entry add karo.":"أضف سجلاً واحداً على الأقل أولاً.",
+"📄 Permission Letter Generator — Zoman Mohd Al-Hajri & Partners Co.":"📄 إنشاء خطاب استئذان — شركة زومان محمد الهاجري وشركاه","Employee Details":"بيانات الموظف","Employee Name":"اسم الموظف","Employee Code":"الرقم الوظيفي","Section / Department":"القسم / الإدارة","Hours Required":"الساعات المطلوبة","Reason":"السبب","Generate Letter":"إنشاء الخطاب","🖨️ Print":"🖨️ طباعة",
+"e.g. Nasimuddin":"مثال: نسيم الدين","e.g. 2183":"مثال: 2183","e.g. Denting":"مثال: السمكرة","e.g. 4":"مثال: 4","e.g. Health Checkup":"مثال: فحص طبي",
+"Vehicle handover letter":"خطاب تسليم مركبة","Handover letter":"خطاب التسليم","Handover letter opened":"تم فتح خطاب التسليم","Vehicle handover letter: enter the driver name, code and site, and print it in PDF or Word.":"خطاب تسليم مركبة: أدخل اسم السائق والرقم الوظيفي والموقع واطبعه PDF أو Word.",
+"New letter":"خطاب جديد","New handover letter":"خطاب تسليم جديد","Ref. no.":"الرقم المرجعي","Gear box":"القير","AC":"المكيف","Write the problem, e.g. Radiator":"اكتب المشكلة، مثال: الرديتر","Driver (vehicle in-charge)":"السائق (المسؤول عن المركبة)",
+"Emp code":"الرقم الوظيفي","Working at (site)":"يعمل في (الموقع)","Previous driver has left service":"السائق السابق ترك العمل","Previous driver code":"الرقم الوظيفي للسائق السابق","Previous driver name":"اسم السائق السابق","Instructions on the letter":"التعليمات في الخطاب","One instruction on each line":"تعليمة واحدة في كل سطر",
+"Use the standard instructions":"استخدام التعليمات القياسية","Word":"Word","Save & PDF":"حفظ و PDF","Letter preview":"معاينة الخطاب","Saved letters":"الخطابات المحفوظة","Search ref, plate, driver, code or site":"ابحث بالرقم المرجعي أو اللوحة أو السائق أو الرقم الوظيفي أو الموقع","Search letters":"بحث في الخطابات",
+"No letters yet":"لا توجد خطابات بعد","Fill a new letter and press “Save & PDF”. Every saved letter shows here.":"املأ خطاباً جديداً واضغط «حفظ و PDF». كل خطاب محفوظ يظهر هنا.","Clear the search to see all letters.":"امسح البحث لعرض كل الخطابات.","Name filled from the other sections.":"تم تعبئة الاسم من الأقسام الأخرى.",
+"Enter the emp code.":"أدخل الرقم الوظيفي.","Enter where the driver works.":"أدخل مكان عمل السائق.","Enter the previous driver name.":"أدخل اسم السائق السابق.","Making Word file…":"جارٍ إنشاء ملف Word…","Word file downloaded":"تم تنزيل ملف Word","Letter deleted":"تم حذف الخطاب","Known vehicle":"مركبة معروفة",
 "Parts req. date":"تاريخ طلب القطع","today":"اليوم",
 "Spare parts request date":"تاريخ طلب قطع الغيار","Parts requested":"طلب القطع","Requested today":"طُلبت اليوم","Show all":"عرض الكل","Filter by status":"تصفية حسب الحالة","Status":"الحالة","Section":"القسم",
 "Monthly report":"التقرير الشهري","Monthly report opened":"تم فتح التقرير الشهري","Monthly workshop report":"تقرير الورشة الشهري","Month report made by itself from the daily reports, with charts, PDF and Excel.":"تقرير شهري يُعدّ تلقائياً من التقارير اليومية مع رسوم بيانية وPDF وExcel.",
@@ -143,6 +157,12 @@ var T={
 "{n} uniform":"{n} زي","{n} shoes":"{n} حذاء","{n} people":"{n} أشخاص","{n} on duty":"{n} في الدوام","{n} order":"{n} طلب","Last: in old list (no date)":"آخر مرة: في القائمة القديمة (بدون تاريخ)","Last: never given":"آخر مرة: لم يُسلّم أبداً"
 };
 var P=[
+[/^✓ Mil gaya: (.+) — (.*)$/,function(m){return "✓ تم العثور: "+m[1]+(m[2]?" — "+m[2]:"");}],
+[/^Known vehicle · (.+)$/,function(m){return "مركبة معروفة · "+m[1].replace(/^Door /,"باب ");}],
+[/^Delete letter (.+)\?$/,function(m){return "حذف الخطاب "+m[1]+"؟";}],
+[/^PDF for (.+)$/,function(m){return "PDF لـ "+m[1];}],
+[/^Ref\. no\. (.+) is already used\.$/,function(m){return "الرقم المرجعي "+m[1]+" مستخدم.";}],
+[/^Could not make the Word file \((.+)\)\.$/,function(m){return "تعذّر إنشاء ملف Word ("+m[1]+").";}],
 [/^Req\. (\d\d\.\d\d\.\d{4})(?: · (\d+) days?| · today)?$/,function(m){return "طُلبت "+m[1]+(m[2]?" · "+m[2]+" يوم":(/today$/.test(m[0])?" · اليوم":""));}],
 [/^(January|February|March|April|May|June|July|August|September|October|November|December) (\d{4})$/,function(m){return {January:"يناير",February:"فبراير",March:"مارس",April:"أبريل",May:"مايو",June:"يونيو",July:"يوليو",August:"أغسطس",September:"سبتمبر",October:"أكتوبر",November:"نوفمبر",December:"ديسمبر"}[m[1]]+" "+m[2];}],
 [/^No daily reports in (.+)$/,function(m){return "لا توجد تقارير يومية في "+tr(m[1]);}],
