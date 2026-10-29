@@ -8,6 +8,11 @@ document.addEventListener("DOMContentLoaded",function(){fix(document);try{new Mu
 <script id="zTrJs">(function(){
 "use strict";
 var D={
+"Replacement request":"طلب استبدال","Replacement request opened":"تم فتح طلب الاستبدال","Request letter to move a part (like an axle) from one trailer to another, with 2 photos.":"خطاب طلب نقل قطعة (مثل المحور) من مقطورة إلى أخرى، مع صورتين.",
+"Replacement request letter":"خطاب طلب استبدال","New replacement request":"طلب استبدال جديد","Vehicle type":"نوع المركبة","Part to replace":"القطعة المطلوب استبدالها","Axle":"المحور","Differential":"الدفرنس","Suspension":"المساعدات","Write the part, e.g. Suspension":"اكتب القطعة، مثال: المساعدات",
+"1 · Part comes from":"1 · القطعة تؤخذ من","2 · Part goes to (needs the part)":"2 · القطعة تركب في (تحتاج القطعة)","Its problem":"المشكلة فيها","Trailer no.":"رقم المقطورة","Truck no.":"رقم الشاحنة","Vehicle no.":"رقم المركبة","Equipment no.":"رقم المعدة",
+"Photos (attach with the letter)":"الصور (ترفق مع الخطاب)","Tap to add photo":"اضغط لإضافة صورة","Remove photo":"حذف الصورة","part comes from":"القطعة تؤخذ منها","part goes to":"القطعة تركب فيها","Extra remark (optional)":"ملاحظة إضافية (اختياري)",
+"Search ref, trailer no. or part":"ابحث بالرقم المرجعي أو رقم المقطورة أو القطعة","The two numbers are the same.":"الرقمان متطابقان.","Choose a photo (JPG or PNG).":"اختر صورة (JPG أو PNG).","Could not read this photo.":"تعذّرت قراءة هذه الصورة.","Truck":"شاحنة","Vehicle":"مركبة","Equipment":"معدة",
 "Overtime":"العمل الإضافي","Overtime opened":"تم فتح العمل الإضافي","Overtime breakdown report: employees, out and in time, basic and O.T hours, with Excel.":"تقرير العمل الإضافي: الموظفون ووقت الخروج والدخول والساعات الأساسية والإضافية مع Excel.",
 "Permission letter":"خطاب استئذان","Permission letter opened":"تم فتح خطاب الاستئذان","Hours permission letter for an employee, ready to print on the letterhead.":"خطاب استئذان بالساعات لموظف، جاهز للطباعة على ورق الشركة.",
 "OVERTIME BREAKDOWN REPORT":"تقرير العمل الإضافي","Prepared By":"أعده","Step 1 — Employee List (Code → Name → Work)":"الخطوة 1 — قائمة الموظفين (الرقم ← الاسم ← العمل)","Code (e.g. 7950)":"الرقم (مثال: 7950)","Name (e.g. Enter Name)":"الاسم","Work / Occupation (e.g. Electrical Work)":"العمل / المهنة (مثال: أعمال كهرباء)",
@@ -136,6 +141,7 @@ var D={
 "Enter the job order number.":"أدخل رقم أمر العمل.","Delete this task and its spare parts?":"حذف هذه المهمة وقطع غيارها؟","Close without saving the changes?":"الإغلاق بدون حفظ التغييرات؟","This job card has changes that are not saved. Leave without saving?":"في بطاقة العمل تغييرات غير محفوظة. المغادرة بدون حفظ؟"
 };
 var T={
+"{n} photo(s)":"{n} صورة",
 "{n} days":"{n} يوم","{n} day":"{n} يوم",
 "Waiting {n} day":"بانتظار {n} يوم","Waiting {n} days":"بانتظار {n} يوم","Showing {n} of {n} vehicles":"عرض {n} من {n} مركبة","All sections · {n}":"كل الأقسام · {n}","All · {n}":"الكل · {n}",
 "{n} daily reports":"{n} تقارير يومية","▲ {n} more than last month":"▲ {n} أكثر من الشهر الماضي","▼ {n} fewer than last month":"▼ {n} أقل من الشهر الماضي",
@@ -147,6 +153,10 @@ var T={
 "{n} uniform":"{n} زي","{n} shoes":"{n} حذاء","{n} people":"{n} أشخاص","{n} on duty":"{n} في الدوام","{n} order":"{n} طلب","Last: in old list (no date)":"آخر مرة: في القائمة القديمة (بدون تاريخ)","Last: never given":"آخر مرة: لم يُسلّم أبداً"
 };
 var P=[
+[/^Photo (\d) · (.+)$/,function(m){return "صورة "+m[1]+" · "+tr(m[2]);}],
+[/^Known (trailer|truck|vehicle|car|pick up|actros|howo|tanker|bus)(?: · (.+))?$/i,function(m){return "مركبة معروفة"+(m[2]?" · "+m[2]:"");}],
+[/^Enter the (.+) no\. the part comes from\.$/,function(){return "أدخل رقم المركبة التي تؤخذ منها القطعة.";}],
+[/^Enter the (.+) no\. that needs the part\.$/,function(){return "أدخل رقم المركبة التي تحتاج القطعة.";}],
 [/^✓ Mil gaya: (.+) — (.*)$/,function(m){return "✓ تم العثور: "+m[1]+(m[2]?" — "+m[2]:"");}],
 [/^Known vehicle · (.+)$/,function(m){return "مركبة معروفة · "+m[1].replace(/^Door /,"باب ");}],
 [/^Delete letter (.+)\?$/,function(m){return "حذف الخطاب "+m[1]+"؟";}],

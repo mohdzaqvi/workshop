@@ -4,6 +4,11 @@
 <script id="zTrJs">(function(){
 "use strict";
 var D={
+"Replacement request":"طلب استبدال","Replacement request opened":"تم فتح طلب الاستبدال","Request letter to move a part (like an axle) from one trailer to another, with 2 photos.":"خطاب طلب نقل قطعة (مثل المحور) من مقطورة إلى أخرى، مع صورتين.",
+"Replacement request letter":"خطاب طلب استبدال","New replacement request":"طلب استبدال جديد","Vehicle type":"نوع المركبة","Part to replace":"القطعة المطلوب استبدالها","Axle":"المحور","Differential":"الدفرنس","Suspension":"المساعدات","Write the part, e.g. Suspension":"اكتب القطعة، مثال: المساعدات",
+"1 · Part comes from":"1 · القطعة تؤخذ من","2 · Part goes to (needs the part)":"2 · القطعة تركب في (تحتاج القطعة)","Its problem":"المشكلة فيها","Trailer no.":"رقم المقطورة","Truck no.":"رقم الشاحنة","Vehicle no.":"رقم المركبة","Equipment no.":"رقم المعدة",
+"Photos (attach with the letter)":"الصور (ترفق مع الخطاب)","Tap to add photo":"اضغط لإضافة صورة","Remove photo":"حذف الصورة","part comes from":"القطعة تؤخذ منها","part goes to":"القطعة تركب فيها","Extra remark (optional)":"ملاحظة إضافية (اختياري)",
+"Search ref, trailer no. or part":"ابحث بالرقم المرجعي أو رقم المقطورة أو القطعة","The two numbers are the same.":"الرقمان متطابقان.","Choose a photo (JPG or PNG).":"اختر صورة (JPG أو PNG).","Could not read this photo.":"تعذّرت قراءة هذه الصورة.","Truck":"شاحنة","Vehicle":"مركبة","Equipment":"معدة",
 "Overtime":"العمل الإضافي","Overtime opened":"تم فتح العمل الإضافي","Overtime breakdown report: employees, out and in time, basic and O.T hours, with Excel.":"تقرير العمل الإضافي: الموظفون ووقت الخروج والدخول والساعات الأساسية والإضافية مع Excel.",
 "Permission letter":"خطاب استئذان","Permission letter opened":"تم فتح خطاب الاستئذان","Hours permission letter for an employee, ready to print on the letterhead.":"خطاب استئذان بالساعات لموظف، جاهز للطباعة على ورق الشركة.",
 "OVERTIME BREAKDOWN REPORT":"تقرير العمل الإضافي","Prepared By":"أعده","Step 1 — Employee List (Code → Name → Work)":"الخطوة 1 — قائمة الموظفين (الرقم ← الاسم ← العمل)","Code (e.g. 7950)":"الرقم (مثال: 7950)","Name (e.g. Enter Name)":"الاسم","Work / Occupation (e.g. Electrical Work)":"العمل / المهنة (مثال: أعمال كهرباء)",
@@ -132,6 +137,7 @@ var D={
 "Enter the job order number.":"أدخل رقم أمر العمل.","Delete this task and its spare parts?":"حذف هذه المهمة وقطع غيارها؟","Close without saving the changes?":"الإغلاق بدون حفظ التغييرات؟","This job card has changes that are not saved. Leave without saving?":"في بطاقة العمل تغييرات غير محفوظة. المغادرة بدون حفظ؟"
 };
 var T={
+"{n} photo(s)":"{n} صورة",
 "{n} days":"{n} يوم","{n} day":"{n} يوم",
 "Waiting {n} day":"بانتظار {n} يوم","Waiting {n} days":"بانتظار {n} يوم","Showing {n} of {n} vehicles":"عرض {n} من {n} مركبة","All sections · {n}":"كل الأقسام · {n}","All · {n}":"الكل · {n}",
 "{n} daily reports":"{n} تقارير يومية","▲ {n} more than last month":"▲ {n} أكثر من الشهر الماضي","▼ {n} fewer than last month":"▼ {n} أقل من الشهر الماضي",
@@ -143,6 +149,10 @@ var T={
 "{n} uniform":"{n} زي","{n} shoes":"{n} حذاء","{n} people":"{n} أشخاص","{n} on duty":"{n} في الدوام","{n} order":"{n} طلب","Last: in old list (no date)":"آخر مرة: في القائمة القديمة (بدون تاريخ)","Last: never given":"آخر مرة: لم يُسلّم أبداً"
 };
 var P=[
+[/^Photo (\d) · (.+)$/,function(m){return "صورة "+m[1]+" · "+tr(m[2]);}],
+[/^Known (trailer|truck|vehicle|car|pick up|actros|howo|tanker|bus)(?: · (.+))?$/i,function(m){return "مركبة معروفة"+(m[2]?" · "+m[2]:"");}],
+[/^Enter the (.+) no\. the part comes from\.$/,function(){return "أدخل رقم المركبة التي تؤخذ منها القطعة.";}],
+[/^Enter the (.+) no\. that needs the part\.$/,function(){return "أدخل رقم المركبة التي تحتاج القطعة.";}],
 [/^✓ Mil gaya: (.+) — (.*)$/,function(m){return "✓ تم العثور: "+m[1]+(m[2]?" — "+m[2]:"");}],
 [/^Known vehicle · (.+)$/,function(m){return "مركبة معروفة · "+m[1].replace(/^Door /,"باب ");}],
 [/^Delete letter (.+)\?$/,function(m){return "حذف الخطاب "+m[1]+"؟";}],
@@ -542,6 +552,7 @@ const I={
  gate:'<path d="M4 21V5l8-3 8 3v16"/><path d="M9 21v-6h6v6"/><path d="M9 9h6"/>',
  duty:'<rect x="4" y="3" width="16" height="18" rx="2"/><path d="M8 8h8M8 12h8M8 16h5"/><path d="m15 16 1.5 1.5L19 15"/>',
  uni:'<path d="M8 3 4 6l2 4 2-1v12h8V9l2 1 2-4-4-3c-.6 1.7-2.2 3-4 3S8.6 4.7 8 3z"/>',
+ swap:'<path d="M7 4 3 8l4 4"/><path d="M3 8h14"/><path d="m17 20 4-4-4-4"/><path d="M21 16H7"/>',
  clock:'<circle cx="12" cy="12" r="9"/><path d="M12 7v5l3 2"/>',
  perm:'<path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><path d="M14 2v6h6"/><path d="m9 15 2 2 4-4"/>',
  letter:'<rect x="3" y="5" width="18" height="14" rx="2"/><path d="m3 7 9 6 9-6"/>',
@@ -562,10 +573,11 @@ const APPS=[
     {id:"monthly-report",file:"monthly-report.html",name:"Monthly report",icon:"chart",desc:"Month report made by itself from the daily reports, with charts, PDF and Excel."},
     {id:"handover-letter",file:"handover-letter.html",name:"Handover letter",icon:"letter",desc:"Vehicle handover letter: enter the driver name, code and site, and print it in PDF or Word."},
     {id:"overtime-report",file:"overtime-report.html",name:"Overtime",icon:"clock",desc:"Overtime breakdown report: employees, out and in time, basic and O.T hours, with Excel."},
-    {id:"permission-letter",file:"permission-letter.html",name:"Permission letter",icon:"perm",desc:"Hours permission letter for an employee, ready to print on the letterhead."}
+    {id:"permission-letter",file:"permission-letter.html",name:"Permission letter",icon:"perm",desc:"Hours permission letter for an employee, ready to print on the letterhead."},
+    {id:"replacement-request",file:"replacement-request.html",name:"Replacement request",icon:"swap",desc:"Request letter to move a part (like an axle) from one trailer to another, with 2 photos."}
 ];
 /* default passwords (stored as SHA-256 hashes, never as plain text) */
-const DEFAULT_HASH={"daily-report": "4d068637d1b8fdb711a9d2ab4d6ccd3e7a4516cf072e2694bd819d65dbbf15a5", "vehicle-issued": "b3967a7b1cb233aa1c25cec6dfcd69bb58a964bd94bf1008dbff7e66ca8b4984", "vehicle-return": "01cc2c10b5c976f4a35f63229cff374b23d2c9240c5b55b57295e2b68a251a34", "gate-pass": "c954e0b5fa94893c0dcbc3aee93880e1d0444ca42cfd6e5e62ea49bf75961674", "duty-paper": "66e6ca16cfd3f4fa462bc8045ac31da03e899bf4e8607933c621aaabc915e33d", "uniform-record": "ebdb6a25368f573118a9b7be6d11da24f6c4b7a7b3078134c48cf8244b1a229a", "admin": "281ca050785b651fe5673576f80b80f21fed955b026b9c097ff827a97c259d92", "overtime-report": "1b82a5fb78eaa3df6a0404338f0adbcaccdfa632c5b162858027fa05249f4f47", "permission-letter": "dc6974246df63b683d76a0f7997768d52385d84285ddd249c35ba16bf02ac55e", "handover-letter": "2d5af1664fa610df0197e1b8f7711394c147134e06bc5b2ef5fe2be63dc91e21", "monthly-report": "6a8ee30aabb0dfbf32dfc5999d3ea4b04e869131b7bcd8798faef8eacf51f60a", "job-card": "816066fe01b49123910a9f2def50bac52cdbcf52eddf4263b7bb43d38412762a"};
+const DEFAULT_HASH={"daily-report": "4d068637d1b8fdb711a9d2ab4d6ccd3e7a4516cf072e2694bd819d65dbbf15a5", "vehicle-issued": "b3967a7b1cb233aa1c25cec6dfcd69bb58a964bd94bf1008dbff7e66ca8b4984", "vehicle-return": "01cc2c10b5c976f4a35f63229cff374b23d2c9240c5b55b57295e2b68a251a34", "gate-pass": "c954e0b5fa94893c0dcbc3aee93880e1d0444ca42cfd6e5e62ea49bf75961674", "duty-paper": "66e6ca16cfd3f4fa462bc8045ac31da03e899bf4e8607933c621aaabc915e33d", "uniform-record": "ebdb6a25368f573118a9b7be6d11da24f6c4b7a7b3078134c48cf8244b1a229a", "admin": "281ca050785b651fe5673576f80b80f21fed955b026b9c097ff827a97c259d92", "replacement-request": "07fc2481d25840d46202d423b2b594247792548bdbcd7cd79d0d8881fdede713", "overtime-report": "1b82a5fb78eaa3df6a0404338f0adbcaccdfa632c5b162858027fa05249f4f47", "permission-letter": "dc6974246df63b683d76a0f7997768d52385d84285ddd249c35ba16bf02ac55e", "handover-letter": "2d5af1664fa610df0197e1b8f7711394c147134e06bc5b2ef5fe2be63dc91e21", "monthly-report": "6a8ee30aabb0dfbf32dfc5999d3ea4b04e869131b7bcd8798faef8eacf51f60a", "job-card": "816066fe01b49123910a9f2def50bac52cdbcf52eddf4263b7bb43d38412762a"};
 
 /* ---- SHA-256 (plain JS, works everywhere) ---- */
 function sha256(ascii){
@@ -689,15 +701,15 @@ let tt=null;function toast(m){$("toast").textContent=m;$("toast").classList.add(
 
 /* ================= shared data: sync localStorage with a Firebase Realtime Database ================= */
 const DEFAULT_DB="https://zoman-workshop-default-rtdb.europe-west1.firebasedatabase.app";
-const SYNC_PREFIX=["wr:","vi:","vr:","gp:","dp:","uf:","jc:","hl:","ot_","hub:pw"];
-const KEY_APP={"wr:":"daily-report","vi:":"vehicle-issued","vr:":"vehicle-return","gp:":"gate-pass","dp:":"duty-paper","uf:":"uniform-record","jc:":"job-card","hl:":"handover-letter","ot_":"overtime-report"};
+const SYNC_PREFIX=["wr:","vi:","vr:","gp:","dp:","uf:","jc:","hl:","rr:","ot_","hub:pw"];
+const KEY_APP={"wr:":"daily-report","vi:":"vehicle-issued","vr:":"vehicle-return","gp:":"gate-pass","dp:":"duty-paper","uf:":"uniform-record","jc:":"job-card","hl:":"handover-letter","ot_":"overtime-report","rr:":"replacement-request"};
 const isSyncKey=k=>!!k&&SYNC_PREFIX.some(p=>k.indexOf(p)===0);
 const appOfKey=k=>{for(const p in KEY_APP)if(k.indexOf(p)===0)return KEY_APP[p];return null;};
 let syncCfg=lsGet("hub:sync",null);
 const devId=(()=>{let d=lsGet("hub:dev",null);if(!d){d=Math.random().toString(36).slice(2,10);lsSet("hub:dev",d);}return d;})();
 let meta=lsGet("hub:syncmeta",{})||{};
 let pending=new Set(lsGet("hub:pending",[])||[]);
-const APP_VERSION="29.10.2026-2";let lastRecv=0,lastSent=0,lastErr="";
+const APP_VERSION="29.10.2026-3";let lastRecv=0,lastSent=0,lastErr="";
 let remote={},lastApplied={},es=null,flushTimer=null,retryTimer=null,syncState="off",syncMsg="";
 const saveMeta=()=>lsSet("hub:syncmeta",meta);
 const savePending=()=>lsSet("hub:pending",[...pending]);
@@ -815,7 +827,7 @@ async function initialSync(){
   const seen=new Set();
   Object.keys(all).forEach(ek=>{
     const key=dec(ek),rec=all[ek];
-    if(!isRec(rec)){if(rec&&typeof rec==="object"&&/^(wr|vi|vr|gp|dp|uf|jc|hl):|^ot_/.test(ek))fetch(baseUrl()+"/"+encodeURIComponent(ek)+".json",{method:"DELETE"}).catch(()=>{});return;}
+    if(!isRec(rec)){if(rec&&typeof rec==="object"&&/^(wr|vi|vr|gp|dp|uf|jc|hl|rr):|^ot_/.test(ek))fetch(baseUrl()+"/"+encodeURIComponent(ek)+".json",{method:"DELETE"}).catch(()=>{});return;}
     seen.add(key);if(!isSyncKey(key))return;remote[key]=rec;
     const lv=localStorage.getItem(key),rv=rec.v==null?null:rec.v,t=+rec.t||0;
     if(!(key in meta)){
